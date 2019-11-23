@@ -846,28 +846,29 @@ def StaffHome():
     dafault_flights = cursor.fetchall() 
     cursor.close()
 
-    # # view top 5 booking agents by last month ticket sales
-    # cursor = conn.cursor()
-    # query1 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN booking_agent WHERE ticket_id WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
-    # cursor.execute(query1.format(airline))
-    # agents_month = cursor.fetchall() 
-    # cursor.close()
+    # view top 5 booking agents by last month ticket sales
+    cursor = conn.cursor()
+    query1 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent  WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
+    cursor.execute(query1.format(airline))
+    agents_month = cursor.fetchall() 
+    cursor.close()
+    print(agents_month)
 
     # # view top 5 booking agents by last year ticket sales
-    # cursor = conn.cursor()
-    # query2 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN booking_agent WHERE ticket_id WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
-    # cursor.execute(query2.format(airline))
-    # agents_year = cursor.fetchall() 
-    # cursor.close()
+    cursor = conn.cursor()
+    query2 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
+    cursor.execute(query2.format(airline))
+    agents_year = cursor.fetchall() 
+    cursor.close()
 
-    # # view top 5 booking agents by last year commission
-    # cursor = conn.cursor()
-    # query3 = "SELECT email, booking_agent_id, sum(price) * 0.1 as commission FROM ticket NATURAL JOIN flight NATURAL JOIN purchases NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY sum(price) * 0.1 DESC LIMIT 5"
-    # cursor.execute(query3.format(airline))
-    # agents_comm = cursor.fetchall() 
-    # cursor.close()
+    # view top 5 booking agents by last year commission
+    cursor = conn.cursor()
+    query3 = "SELECT email, booking_agent_id, sum(price) * 0.1 as commission FROM ticket NATURAL JOIN flight NATURAL JOIN purchases NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY sum(price) * 0.1 DESC LIMIT 5"
+    cursor.execute(query3.format(airline))
+    agents_comm = cursor.fetchall() 
+    cursor.close()
 
-    # # view the most frequent customer and his/her flights
+    # view the most frequent customer and his/her flights
     # cursor = conn.cursor()
     # query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
     # cursor.execute(query4.format(airline))
@@ -936,7 +937,7 @@ def StaffHome():
     # cursor.close()
 
 
-    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights  )
+    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm )
 
 
 @app.route('/ViewFlightsByDates',methods = ["POST"])
@@ -969,7 +970,7 @@ def ViewCustomersForFlight():
 
     req = json.loads(request.data)
     flight_num = req['flight_num']
-    cursor = conn.cursor
+    cursor = conn.cursor()
     query = 'SELECT customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\''
     cursor.execute(query.format(airline, flight_num))
     data = cursor.fetchall()

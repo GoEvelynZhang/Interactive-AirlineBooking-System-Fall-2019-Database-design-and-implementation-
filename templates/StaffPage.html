@@ -6,6 +6,16 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
     <style>
+        #month_num,#year_num{
+            display:inline-block;
+            position:relative;
+        }
+        #month_num{
+            left:23%;
+        }
+        #year_num{
+            left:30%;
+        }
         #table_view_purchase {
                 border: 1px solid rgb(255, 255, 254);
                 padding-left: 10px;
@@ -18,10 +28,10 @@
             }
             th,
             td {
-                padding-left: 20px;
-                padding-right: 20px;
-                padding-top: 15px;
-                padding-bottom: 15px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
                 color: white;
                 text-align: center;
 
@@ -88,6 +98,23 @@
             left: 23%;
             color: #FFC107;
         
+        }
+        h3{
+            color: #FFC107;
+            left: 17%;
+            position:relative;
+
+        }
+        h5{
+            color: #FFC107;
+          
+            position:relative;
+
+        }
+        #by_ticket_num,#by_commission{
+            color: #FFC107;
+          position:relative;
+          left:22%;
         }
 
        
@@ -210,7 +237,7 @@
                    
                      console.log(result);
                      var inner_html =
-                        "<style>th,td{padding-left: 20px;padding-right :20px; padding-top : 10px;padding-bottom : 10px;}</style><th>Airline</th><th>Flight Num</th><th>Depart Air</th><th>Depart Time</th><th>Arrival Air</th><th>Arrival Time</th><th>Status</th><th>Check Customer</th>";
+                        "<style>th,td{text-align: center;padding-left: 10px;padding-right :10px; padding-top : 10px;padding-bottom : 10px;}</style><th>Airline</th><th>Flight Num</th><th>Depart Air</th><th>Depart Time</th><th>Arrival Air</th><th>Arrival Time</th><th>Status</th><th>Check Customer</th>";
                     // for (i)
                     console.log(result);
                     for (var i = 0; i < result.length; i++) {
@@ -220,7 +247,7 @@
                                 inner_html += "<td>" + result[i][j].toString() + "</td>";
 
                             } else {
-                                inner_html += "<td>" + "       " + "</td>";
+                                inner_html += "<td>" + "" + "</td>";
                             }
 
                         }
@@ -238,32 +265,101 @@
         </script>
 
         <div class = "create_new_flight">
-            <h3 id="create_new_flight">Create_new_flight</h3>
+            <h3 id="create_new_flight">Create New Flight</h3>
 
 
         </div>
         <div class = "change_flight_status">
+            <h3 id="change_flight_status">Change Flight Status</h3>
 
         </div>
         <div class = "add_plane">
+            <h3 id="add_plane">Add Planes</h3>
 
         </div>
         <div class = "add_airport">
+            <h3 id="add_airport">Add Airports</h3>
 
         </div>
         <div class = "view_booking_agent">
+            <h3 id="view_booking_agent">View Top Booking Agents</h3>
+            <h4 id = "by_ticket_num"> By Ticket Number</h4>
+            <div id = "month_num">
+                <h5  id = "last_month">Last Month:</h5>
+                <table>
+                    <th>Agent_email</th>
+                    <th>Agent ID</th>
+                    <th>Ticket Num</th>
+                    {% for line in agents_month %}
+                        <tr>
+                            <td>{{line[0]}}</td>
+                            <td>{{line[1]}}</td>
+                            <td>{{line[2]}}</td>
+                           
+                          
+        
+                        </tr>
+                        {% endfor %}
+                    
+                </table>
+            </div>
+            <div id = "year_num">
+                <h5  id = "last_year">Last Year:</h5>
+                <table>
+                        <th>Agent_email</th>
+                        <th>Agent ID</th>
+                        <th>Ticket Num</th>
+                        {% for line in agents_year %}
+                            <tr>
+                                <td>{{line[0]}}</td>
+                                <td>{{line[1]}}</td>
+                                <td>{{line[2]}}</td>
+                               
+                              
+            
+                            </tr>
+                            {% endfor %}
+                        
+                    </table>
+            </div>
+            <h4 id = "by_commission"> By Commission</h4>
+               
+            <div id = "year_num">
+                    <h5  id = "last_year">Last Year:</h5>
+                    <table>
+                            <th>Agent_email</th>
+                            <th>Agent ID</th>
+                            <th>Ticket Num</th>
+                            {% for line in agents_comm %}
+                                <tr>
+                                    <td>{{line[0]}}</td>
+                                    <td>{{line[1]}}</td>
+                                    <td>{{line[2]}}</td>
+                                   
+                                  
+                
+                                </tr>
+                                {% endfor %}
+                            
+                        </table>
+                </div>
+            
 
         </div>
         <div class = "view_freq_customer">
+            <h3 id="view_freq_customer">View Top Customers</h3>
 
         </div>
         <div class = "view_report">
+            <h3 id="view_report">View Total Report</h3>
 
         </div>
         <div class ="revenue_comparison">
+            <h3 id="revenue_comparison">Compare Revenue Source</h3>
 
         </div> 
         <div class = "top_destination">
+            <h3 id="top_destination">View Top Destination</h3>
 
         </div>
 
