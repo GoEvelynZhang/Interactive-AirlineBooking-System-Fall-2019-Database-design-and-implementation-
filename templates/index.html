@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .status_section1,
+        .status_section2 {
+            position: relative;
+            left: 8%;
+            display: inline-block;
+            padding-right: 15px;
+        }
+
+        h4 {
+            color: white;
+            font-size: 10px;
+        }
+
+        button {
+            border-radius: 7;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+    <title>Flight Ticket Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,300,400italic,600,600italic,700,700italic,800,800italic'
+        rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords"
+        content="Flight Ticket Booking  Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+</head>
+
+<body>
+
+    <section class="w3layouts-header py-2">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-gradient-secondary">
+       
+                <button class="navbar-toggler ml-md-auto" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav ml-lg-auto text-center">
+                        {% with message = get_flashed_messages() %}
+                        {% if not message %}
+                        <li class="nav-item mr-3">
+
+                            <a class="nav-link" style = "color:black;" href="/CustomerLogIn">Customer</a>
+                        </li>
+                        <li class="nav-item mr-3">
+                            <a class="nav-link"  style = "color:black;" href="/StaffLogIn">Airline Staff</a>
+                        </li>
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link"  style = "color:black;" href="/AgentLogIn">Book Agent</a>
+                        </li>
+
+                        {% endif %}
+                        {% if message %}
+                        <li class="nav-item mr-3">
+
+                            <a class="nav-link" href="/HomeDirect">{{username}}</a>
+                        </li>
+                        <li class="nav-item mr-3">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+
+
+
+                        {% endif %}
+                        {% endwith %}
+                    </ul>
+                </div>
+
+            </nav>
+        </header>
+    </section>
+    <h1>Flight Ticket Booking</h1>
+    <div class="main-agileinfo">
+        <div class="sap_tabs">
+            <div id="horizontalTab">
+                <ul class="resp-tabs-list">
+                    <li class="resp-tab-item"><span>Search Flight</span></li>
+                    <li class="resp-tab-item"><span>Flight Status</span></li>
+
+                </ul>
+                <div class="clearfix"> </div>
+                <div class="resp-tabs-container">
+                    <div class="tab-1 resp-tab-content roundtrip">
+                        <form id="searchForm">
+                            <div class="from">
+                                <h3>From</h3>
+                                <input type="text" name="from" class="city1" placeholder="Type Departure City">
+                            </div>
+                            <div class="to">
+                                <h3>To</h3>
+                                <input type="text" name="to" class="city2" placeholder="Type Destination City">
+                            </div>
+                            <br>
+                            <div class="from">
+                                <h3>From</h3>
+                                <input type="text" name="froma" class="airport1" placeholder="Type Departure Airport">
+                            </div>
+                            <div class="to">
+                                <h3>To</h3>
+                                <input type="text" name="toa" class="airport2" placeholder="Type Destination Airport">
+                            </div>
+                            <div class="clear"></div>
+                            <div class="date">
+                                <div class="depart">
+                                    <h3>Depart Date</h3>
+                                    <!-- <input id="datepicker" class="date" name="date" type="text" placeholder="mm/dd/yyyy'> -->
+                                    <input class="date" id="datepicker"  name="flightdate" type="text"
+                                    placeholder="mm/dd/yyyy" >
+
+                                </div>
+
+                             
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="numofppl">
+
+
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <input type=submit id="searchBtn" value="Search Flights"></input>
+                        </form>
+                    </div>
+                    <div class="tab-1 resp-tab-content oneway">
+                        <form id="SearchStatus" action="#" method="post">
+                            <div class="status_section1">
+                                <h3>Flight Number</h3>
+                                <input type="text" name="toa" style='width: 250px;' id="pick_flight_num"
+                                    class="airport2" placeholder="Type Destination Airport" required=''>
+                            </div>
+
+                            <div class="status_section2">
+
+                                <h3>Depart Date</h3>
+                                <input class="date" id="depart_date" style='width: 250px;' name="Text" type="text"
+                                    value="mm/dd/yyyy" onfocus="this.value = '';"
+                                    onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}">
+                            </div>
+
+
+                            <div class="status_section2">
+                                <h3>Arrival Date</h3>
+                                <input class="date" id="arrive_date" style='width: 250px;' name="Text" type="text"
+                                    value="mm/dd/yyyy" onfocus="this.value = '';"
+                                    onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}">
+
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="numofppl">
+
+
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <input type="submit" id='button_search_status' value="Search Flights">
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Purchase Comfirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirmation_message">
+                    Confirm Your Purchase of the Ticket
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" id="ConfirmButton" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- model 2 booking -->
+  
+
+    <div class="modal fade" id="exampleModalContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Booking</h5>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+                </div>
+                <div class="modal-body">
+                    <form id="message_box">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Customer to Book:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <!-- <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div> -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <button type="button" id="BookingConfirmButton" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model 2 book -->
+    <div class="footer-w3l">
+        <p class="agileinfo"> &copy; 2019 Flight Ticket Booking . All Rights Reserved | Designed by <a
+                href="albert.nyu.edu">Yuxin Zhang</a></p>
+    </div>
+    <!--script for portfolio-->
+    <script src="/static/js/jquery.min.js"> </script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function toPurchase(type, i) {
+            if (type == "purchase") {
+                // check if logged in as a customer, otherwise, alert
+                fetch("/ConfirmCustomerLog", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify({"status":"check"})
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            result = result["data"];
+                            console.log(result);
+                           
+                        
+                if (result === "wrong_identity"){
+                    alert("Please check your logged-in identity");
+                }
+                else if(result === "not_logIn"){
+                    alert("Please log in first for purchasing");
+                }
+                else {
+                console.log(type, i);
+                document.getElementById("ConfirmButton").onclick = Confirm_on_click;
+
+                function Confirm_on_click(e) {
+                    e.preventDefault();
+                    var infor = data[i];
+                    console.log(infor);
+                    fetch("/ConfirmTicketPurchase", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(infor)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            document.getElementById("confirmation_message").innerHTML = result.toString();
+
+                        });
+
+                }  $('#exampleModalCenter').modal('show');            }
+
+                
+            })} else {
+                fetch("/ConfirmAgentLog", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify({"status":"check"})
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            result = result["data"];
+                            console.log(result);
+                           
+                        
+                if (result === "wrong_identity"){
+                    alert("Please check your logged-in identity");
+                }
+                else if(result === "not_logIn"){
+                    alert("Please log in first for purchasing");
+                }
+                else{
+                console.log(type, i);
+                document.getElementById("BookingConfirmButton").onclick = booking_onfirm_on_click;
+
+                function booking_onfirm_on_click(e) {
+                    e.preventDefault();
+                    var infor = data[i];
+
+                    infor.push(document.getElementById("recipient-name").value);
+                    console.log(infor);
+                    fetch("/BookingConfirmTicketPurchase", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(infor)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            document.getElementById("message_box").innerHTML = result;
+
+                        });
+
+
+
+
+
+                }
+
+                $('#exampleModalContent').modal('show');}
+            })
+
+
+
+
+            }
+        }
+        $(document).ready(function () {
+            $('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true // 100% fit in a container
+            });
+        });
+        document.getElementById('searchBtn').onclick = function btnClick(e) {
+            e.preventDefault();
+            var f = document.getElementById('searchForm');
+            if (!f.checkValidity()) {
+                return;
+            }
+            var formData = new FormData(f);
+            var data = {};
+            formData.forEach((v, k) => data[k] = v);
+            console.log(data);
+            if (data["flightdate"] === ''){
+                alert("Please fill out the date for the flight!");
+            }
+
+            if ((data["from"] === "" && data["froma"] === "") || (data["to"] === "" && data["toa"] === "")) {
+                alert("Must fill out at least one departure and one arrival infor");
+            };
+
+            fetch("/searchTicket", {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                .then(resp => resp.json())
+                .then(result => {
+                    console.log(result);
+                    var data = result.data;
+                    window.data = data;
+                    if (data.length) {
+                        var inner_html =
+                            "<style>h4{color:white;}th,td{color:white;padding-left:5px; padding-right: 5px;}th{font-size:20px;}table{padding-left:5px;padding-right:5px;}</style>" +
+                            "<a href = '/'>Back to Search</a><br><br><table style = 'overflow:auto'><th>Airline</th><th>Flight</th><th>Depart</th><th>Arrival</th><th>Depart_Time</th><th>Arrive_Time</th><th>Price</th><th></th><th></th>";
+                        for (var i = 0; i < data.length; i++) {
+                            var current = data[i];
+                            inner_html += "<tr>"
+                            for (var j = 0; j < current.length; j++) {
+                                inner_html += "<td>" + current[j] + "</td>";
+                            }
+                            inner_html += "<td><button type='button' onclick='toPurchase(\"purchase\"," + i +
+                                ")'>Purchase</button></td><td><button type='button' onclick='toPurchase(\"book\"," +
+                                i + ")'>Booking</button></td>" + "</tr>";
+                            // inner_html  = inner_html+ "<h4>"+data[i].toString()+"</h4><br>"
+                        }
+                        inner_html += "</table>{% if error %}alert({{error}}){% endif %} ";
+                    } else {
+                        inner_html =
+                            "<style>h3{color:white;}</style><a href = '/'>Back to Search</a><h3>OOPS! No result for your search !</h3>"
+
+                    }
+
+
+
+                    document.getElementById('searchForm').innerHTML = inner_html;
+                })
+
+        }
+
+        // click on the search flight status
+        document.getElementById('button_search_status').onclick = search_status_click;
+
+        function search_status_click(e) {
+            e.preventDefault();
+            var flight_num = document.getElementById("pick_flight_num").value;
+            var depart_date = document.getElementById("depart_date").value;
+            var arrive_date = document.getElementById("arrive_date").value;
+            var data = {
+                "flight_num": flight_num,
+                "depart_date": depart_date,
+                "arrive_date": arrive_date
+            };
+
+            // console.log(data);
+
+            if (flight_num == '') {
+                alert("Must fill out the flight number ");
+            } else {
+                console.log(data);
+                fetch("/searchFlightStatus", {
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    })
+                    .then(resp => resp.json())
+                    .then(result => {
+                        console.log(result);
+                        if (result.length) {
+                            var inner_html =
+                                "<style>h4{color:white;}th,td{color:white;padding-left:5px; padding-right: 5px;padding-top:5px;padding-bottom:5px;}table{padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px;ç}</style>" +
+                                "<a href = '/'>Back to Search</a><table><th>Airline</th><th>Flight</th><th>Depart</th><th>Arrival</th><th>Depart_Time</th><th>Arrive_Time</th><th>Status</th>";
+                            for (var i = 0; i < result.length; i++) {
+                                var current = result[i];
+                                inner_html += "<tr>"
+                                for (var j = 0; j < current.length; j++) {
+                                    inner_html += "<td>" + current[j] + "</td>";
+                                }
+
+                                // inner_html  = inner_html+ "<h4>"+data[i].toString()+"</h4><br>"
+                            }
+                            inner_html += "</table>{% if error %}alert({{error}}){% endif %} ";
+                        } else {
+                            inner_html =
+                                "<style>h3{color:white;}</style><a href = '/'>Back to Search</a><h3>OOPS! No result for your search !</h3>"
+
+                        }
+                        document.getElementById('SearchStatus').innerHTML = inner_html;
+
+
+
+                    });
+
+
+            }
+        }
+        // end of the search for flight status
+    </script>
+    <!--//script for portfolio-->
+    <!-- Calendar -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />
+
+    <!-- <script src="/static/js/jquery-ui.js"></script> -->
+    <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
+    <script>
+        $(function () {
+            $("#datepicker,#datepicker1,#datepicker2,#datepicker3,#depart_date,#arrive_date").datepicker();
+        });
+    </script>
+    <!-- //Calendar -->
+    <!--quantity-->
+    <script>
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+        });
+
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+        });
+    </script>
+    <!--//quantity-->
+    <!--load more-->
+    <script>
+        $(document).ready(function () {
+            size_li = $("#myList li").size();
+            x = 1;
+            $('#myList li:lt(' + x + ')').show();
+            $('#loadMore').click(function () {
+                x = (x + 1 <= size_li) ? x + 1 : size_li;
+                $('#myList li:lt(' + x + ')').show();
+            });
+            $('#showLess').click(function () {
+                x = (x - 1 < 0) ? 1 : x - 1;
+                $('#myList li').not(':lt(' + x + ')').hide();
+            });
+        });
+    </script>
+    <!-- //load-more -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,533 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,300,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Flight Ticket Booking  Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> -->
+    <script src="/static/js/jquery.min.js"> </script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <style>
+        .tick {
+            stroke: rgb(255, 255, 254);
+        }
+
+        path,
+        line {
+            stroke: rgb(255, 255, 254);
+        }
+
+        text {
+            stroke: rgb(255, 255, 254);
+        }
+
+
+        #title_view_flight {
+            position: relative;
+            left: 17%;
+            display: inline-block;
+            color: #FFC107;
+
+        }
+        .view_my_flight{
+            position:relative;
+            top: 27px;
+        }
+
+        #title_purchase_ticket {
+            position: relative;
+            left: 17%;
+            color: #FFC107;
+        }
+
+        #SpendingTrack {
+            position: relative;
+            left: 17%;
+            display: inline-block;
+            color: #FFC107;
+        }
+
+        .date1 {
+            display: inline-block;
+            position: relative;
+            left: 24%;
+
+
+        }
+
+        h4 {
+            position: relative;
+            left: 20%;
+            color: #FFC107;
+        }
+
+        /* #choose_day_start{
+            position:relative;
+            left: 42%;
+            display: inline-block;
+        } */
+        /* #choose_day_end{
+            position:relative;
+            left: 46%;
+            display: inline-block;
+        } */
+        .date {
+            display: inline-block;
+            position: relative;
+            left: 23%;
+            color: #FFC107;
+        }
+
+        h1 {
+            font-size: 18px;
+            position: relative;
+            left: 42%;
+
+            color: #FFC107;
+        }
+
+        #table_view_purchase {
+            position: relative;
+            left: 16%;
+            color: rgb(255, 255, 254);
+            border: cornsilk;
+        }
+
+        #background {
+            background: url('/static/img/1.jpg') no-repeat 0px 0px;
+            top: 0%;
+            left: 0%;
+            right: 0%;
+            bottom: 0%;
+            position: fixed;
+        }
+
+
+        #holder {
+            position: relative;
+            background-color: rgba(3, 3, 3, 0.57);
+            left: 13%;
+            width: 1000px;
+            border-radius: 8px;
+
+        }
+
+        #logout {
+            position: fixed;
+            left: 10px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="background"></div>
+
+    <!-- <form action="/post" method="POST"> -->
+    <a href="/CustomeHomeLogOut" id="logout">Logout</a>
+    <div id="holder">
+        <h1 style="top:30px;">Welcome {{username}}</h1>
+        <!-- <input type="text" name = "blog" placeholder="your post" required/> </br>
+    <input type="submit" value = Post />
+</form> -->
+
+        <style type="text/css">
+            #table_view_purchase {
+                border: 1px solid rgb(255, 255, 254);
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+
+            th,
+            td {
+                padding-left: 30px;
+                padding-right: 30px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+
+            }
+
+            #graph_monthly_spending {
+                position: relative;
+                left: 19%;
+            }
+        </style>
+        <div class="view_my_flight"  action='/CustomerHome' method="GET">
+        <h3 id="title_view_flight">View my flight</h3>
+
+        <div class="date">
+            <div id="choose_day_start">
+                <h5>Day Start</h5>
+                <input id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                    onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
+            </div>
+        </div>
+        <div class="date">
+            <div id="choose_day_end">
+                <h5>Day End</h5>
+                <input id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                    onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
+            </div>
+        </div>
+        <div class="date">
+            <div id="choose_day_end">
+                <h5>Source city</h5>
+                <input type="text" size="10" id="Source_City" name="SourceCity" placeholder="Source city" />
+            </div>
+        </div>
+        <div class="date">
+            <div id="choose_day_end">
+                <h5 style="color: #FFC107;">Source Airport</h5>
+                <input type="text" size="10" id="Source_Airport" name="SourceAirport" placeholder="Source Airport" />
+            </div>
+        </div>
+        <div class="date">
+            <div id="choose_day_end">
+                <h5 style="color: #FFC107;">Dest City</h5>
+                <input type="text" size="10" id="Dest_City" name="DestinationAirport" placeholder="Dest City" />
+            </div>
+        </div>
+        <div class="date">
+            <div id="choose_day_end">
+                <h5 style="color: #FFC107;">Dest Airport</h5>
+                <input type="text" size="10" id="Dest_Airport" name="DestinationAirport" placeholder="Dest Airport" />
+            </div>
+        </div>
+
+        <div style="height:300px;overflow:auto;">
+            <table id="table_view_purchase">
+                <th>Ticket ID</th>
+                <th>Airline Name</th>
+                <th>Booking Agent ID</th>
+                <th>Date</th>
+
+                {% for line in posts %}
+                <tr>
+                    <td>{{line[0]}}</td>
+                    <td>{{line[1]}}</td>
+                    <td>10000{{line[2]}}</td>
+                    <td>{{line[3]}}</td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+        <div class="Purchase Ticket">
+            <h3  id="title_purchase_ticket"><a style="color: #FFC107;" href="/CustomerPurchase">Purchase Ticket</a></h3>
+        </div>
+
+        <div class="Spending Track" action='/CustomerSpending' method="POST">
+            <h3 id="SpendingTrack">My Spending</h3>
+            <div class="date1">
+                <div id="choose_day_start">
+                    <h5 style="color: #FFC107;">Day Start</h5>
+                    <input id="date_start" size='10' name="Text1" type="text" value="mm/dd/yyyy"
+                        onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
+                        required="">
+                </div>
+            </div>
+            <div class="date1">
+                <div id="choose_day_end">
+                    <h5 style="color: #FFC107;">Day End</h5>
+                    <input id="date_end" size='10' name="Text2" type="text" value="mm/dd/yyyy"
+                        onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
+                        required="">
+                </div>
+            </div>
+
+            <h4 id="TotalSpending" style="color: #FFC107;">Total Spending : {{total_spending}} RMB</h4>
+
+            <h4 style="color: #FFC107;">Monthly Spending:</h4>
+            <div id="graph_monthly_spending"></div>
+        </div>
+
+
+    </div>
+    <script>
+        // document.getElementById("datepicker1").onchange = btnClick ;
+        document.getElementById("datepicker2").onchange = btnClick;
+        document.getElementById("Source_City").onchange = btnClick;
+        document.getElementById("Source_Airport").onchange = btnClick;
+        document.getElementById("Dest_City").onchange = btnClick;
+        document.getElementById("Dest_Airport").onchange = btnClick;
+
+
+        function btnClick(e) {
+            e.preventDefault();
+            var data = {};
+            data["datepicker1"] = document.getElementById("datepicker1").value;
+            data["datepicker2"] = document.getElementById("datepicker2").value;
+            data["Source_City"] = document.getElementById("Source_City").value;
+            data["Source_Airport"] = document.getElementById("Source_Airport").value;
+            data["Dest_City"] = document.getElementById("Dest_City").value;
+            data["Dest_Airport"] = document.getElementById("Dest_Airport").value;
+            console.log(data);
+            fetch("/searchPurchase", {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                .then(resp => resp.json())
+                .then(result => {
+                    var data = result.data;
+
+                    var inner_html =
+                        "<style>th,td{padding-left: 30px;padding-right :30px; padding-top : 15px;padding-bottom : 15px;}</style><th>Ticket ID</th><th>Airline Name</th><th>Booking Agent ID</th><th>Date</th>";
+                    // for (i)
+                    console.log(result);
+                    for (var i = 0; i < data.length; i++) {
+                        inner_html += "<tr>"
+                        for (var j = 0; j < data[i].length; j++) {
+                            if (data[i][j]) {
+                                inner_html += "<td>" + data[i][j].toString() + "</td>";
+
+                            } else {
+                                inner_html += "<td>" + "       " + "</td>";
+                            }
+
+                        }
+                        inner_html += "</tr>";
+                    }
+
+                    // inner_html = "<h1>changed</h1>";
+                    document.getElementById('table_view_purchase').innerHTML = inner_html;
+
+
+                });
+
+
+
+
+        }
+    </script>
+    <!-- action = '/CustomerPurchase' method = "POST" -->
+
+    <script>
+        var dataset = {{monthly_spending}};
+        console.log(dataset);
+        //    for (var i = 0 ; i<6;i++){
+        //     dataset[i][0] = dataset[i][0]
+        //    }
+        //    dataset = [["5",2000],["6",2000],["7",2500],["8",1000],["9",2000],["10",1500]]
+        var width = 300;
+        var height = 300;
+        var margin = {
+            'left': 50,
+            'right': 50,
+            'top': 50,
+            'bottom': 50
+        };
+        var svg = d3.select("#graph_monthly_spending")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+        var xScale = d3.scaleBand()
+            .domain(dataset.map(function (d) {
+                return d[0];
+            }))
+            .range([0, width])
+            .padding(0.3);
+        var yScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, function (d) {
+                return d[1];
+            })])
+            .range([height, 0]);
+        var xAxis = svg.append("g")
+            .attr("id", "xAxisDraw")
+            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+            .attr("color", "rgb(255,255,254)")
+            .call(d3.axisBottom(xScale));
+        svg.append("text")
+            .text("Month")
+            .attr("id", "xAxisText")
+            .attr("y", height + margin.top + 20)
+            .attr("dx", width + margin.left + 5)
+            .attr("color", "rgb(255,255,254)")
+            .style("font-size", 12)
+            .style("text-anchor", "end");
+        var yAxis = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "yAxisDraw")
+            .attr("color", "rgb(255,255,254)")
+            .call(d3.axisLeft(yScale));
+        svg.append("text")
+            .attr("id", "yAxisText")
+            .text("$/month")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 60)
+            .attr("dx", -40)
+            .attr("color", "rgb(255,255,254)")
+            .style("font-size", 12)
+            .style("text-anchor", "end");
+        svg.append('g')
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("width", width)
+            .attr("height", height)
+            .selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("class", "monthly_spending_graph")
+            .attr("x", function (d, i) {
+                return xScale(d[0]);
+            })
+            .attr("y", function (d) {
+                return yScale(d[1]);
+            })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function (d) {
+                return height - yScale(d[1]);
+            })
+            .attr("fill", "#C1CBCE")
+
+            .attr("stroke", "grey")
+            .attr("stroke-width", "2");
+    </script>
+
+
+    </div>
+    <script>
+        document.getElementById("date_end").onchange = change;
+
+        function change(e) {
+            e.preventDefault();
+            var data = {};
+            data["date_start"] = document.getElementById("date_start").value;
+            data["date_end"] = document.getElementById("date_end").value;
+            fetch("/searchSpending", {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                .then(resp => resp.json())
+                .then(result => {
+                    var total_spending = result.total_spending;
+                    var monthly_spending = result.monthly_spending;
+                    inner_html1 = "Total Spending : " + total_spending.toString() + "  RMB";
+                    document.getElementById("TotalSpending").innerHTML = inner_html1;
+                    console.log(result);
+                    // redraw the monthly_spending graph
+                    xScale.domain(monthly_spending.map(function (d) {
+                        return d[0];
+                    }));
+
+                    yScale.domain([0, d3.max(monthly_spending, function (d) {
+                        return d[1];
+                    })]);
+
+                    xAxis.call(d3.axisBottom(xScale));
+                    yAxis.call(d3.axisLeft(yScale));
+
+                    svg.selectAll("rect")
+                        .transition()
+                        .duration(500)
+                        .remove();
+
+
+
+
+                    svg.append('g')
+
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                        .attr("width", width)
+                        .attr("height", height)
+
+                        .selectAll("rect")
+                        .data(monthly_spending)
+                        .enter()
+
+                        .append("rect")
+                        .transition()
+
+                        .delay(function (d, i) {
+                            return i * 300 + 500;
+                        })
+
+                        .duration(500)
+                        .attr("x", function (d, i) {
+                            return xScale(d[0]);
+                        })
+                        .attr("y", function (d) {
+                            return yScale(d[1]);
+                        })
+                        .attr("width", xScale.bandwidth())
+                        .attr("height", function (d) {
+                            return height - yScale(d[1]);
+                        })
+                        .attr("fill", "#C1CBCE")
+
+                        .attr("stroke", "grey")
+                        .attr("stroke-width", "2");
+
+
+
+                });
+
+
+        }
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />
+
+    <!-- <script src="/static/js/jquery-ui.js"></script> -->
+    <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
+    <script>
+        $(function () {
+            $("#datepicker1,#datepicker2,#date_start,#date_end").datepicker();
+        });
+    </script>
+    <!-- //Calendar -->
+    <!--quantity-->
+    <script>
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+        });
+
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+        });
+    </script>
+    <!--//quantity-->
+    <!--load more-->
+    <script>
+        $(document).ready(function () {
+            size_li = $("#myList li").size();
+            x = 1;
+            $('#myList li:lt(' + x + ')').show();
+            $('#loadMore').click(function () {
+                x = (x + 1 <= size_li) ? x + 1 : size_li;
+                $('#myList li:lt(' + x + ')').show();
+            });
+            $('#showLess').click(function () {
+                x = (x - 1 < 0) ? 1 : x - 1;
+                $('#myList li').not(':lt(' + x + ')').hide();
+            });
+        });
+    </script>
+
+
+
+</body>
+
+
+</html>

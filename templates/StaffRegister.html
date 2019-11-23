@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <title>Staff Register</title>
+    <style>
+        h1 {
+            position: relative;
+            left: 45%;
+            top: 10%;
+        }
+
+        form {
+            position: relative;
+            left: 34%;
+            top: 20%;
+            width: 500px;
+        }
+
+        input {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+            display: block;
+            width: 70%;
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        #background {
+            background: url('/static/img/1.jpg') no-repeat 0px 0px;
+            top: 0%;
+            left: 0%;
+            right: 0%;
+            bottom: 0%;
+            position: fixed;
+        }
+
+
+        #holder {
+            position: relative;
+            background-color: rgba(3, 3, 3, 0.57);
+            left: 13%;
+            top: 7%;
+            width: 1000px;
+            border-radius: 8px;
+            height: 600px;
+
+        }
+
+        #register,
+        #go_back {
+            position: relative;
+            left: 10px;
+            color: rgb(255, 255, 254);
+        }
+
+        .navbar navbar-expand-lg navbar-light bg-gradient-secondary {
+            background-color: #FFC107;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="background"></div>
+
+
+    <a id="go_back" href="/">Go back</a>
+    <a id="register" href="/StaffLogIn">Register</a>
+    <div id="holder">
+
+        <h1 style="color:#FFC107;">Register</h1>
+
+
+        <form action="/StaffRegisterAuth" method="POST">
+            <input type="text" size="25" style="font-size: 25px;" name="username" placeholder="username" required />
+            <br><br>
+            <input type="password" size="25" style="font-size: 25px;" name="password" placeholder="password"
+                required /><br><br>
+            <input type="text" size="25" style="font-size: 25px;" name="airline" placeholder="airline"
+                required /><br><br>
+            <input type="submit" style="font-size: 25px;background-color:#FFC107;color:rgb(255,255,254);"
+                value=Register />
+            {% if error %}
+            <p class="error"><strong>Error:</strong> {{error}}</p>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+
+</html>
