@@ -197,8 +197,12 @@
             </div>
        
             {% if error %}
-            <p class="error"><strong>Error:</strong> {{error}}</p>
+            <p class="error" style = "color:white"><strong>Error:</strong> {{error}}</p>
             {% endif %}
+            {% if message %}
+            <p class="error" style = "color:white"><strong>Message:</strong> {{message}}</p>
+            {% endif %}
+
         </form>
     </div>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />

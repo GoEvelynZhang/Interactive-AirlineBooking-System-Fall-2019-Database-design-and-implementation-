@@ -76,32 +76,26 @@
 
 
     <a id="go_back" href="/">Go back</a>
-    <a id="register" href="/AgentLogIn">Register</a>
+    <a id="register" href="/AgentLogIn">Log In</a>
     <div id="holder">
 
 
         <h1 style="color:#FFC107;">Register</h1>
         <form action="/AgentRegisterAuth" method="POST">
-            <input type="text" size="25" style="font-size: 25px;" name="username" placeholder="username" required />
-            <input type="text" size="25" style="font-size: 25px;" name="name" placeholder="name" required />
+            <input type="text" size="25" style="font-size: 18px;" name="username" placeholder="username" required />
+           
             <br><br>
-            <input type="password" size="25" style="font-size: 25px;" name="password" placeholder="password"
+            <input type="password" size="25" style="font-size: 18px;" name="password" placeholder="password"
                 required /><br><br>
-            <input type="text" size="25" style="font-size: 25px;" name="city" placeholder="city" required />
-            <input type="text" size="25" style="font-size: 25px;" name="street" placeholder="street" required />
+            
 
-            <input type="text" size="25" style="font-size: 25px;" name="building" placeholder="building number" required />
-            <input type="text" size="25" style="font-size: 25px;" name="phone_number" placeholder="phone number" required />
-            <input type="text" size="25" style="font-size: 25px;" name="passport_number" placeholder="passport number" required />
-            <input type="text" size="25" style="font-size: 25px;" name="passport_expiration" placeholder="passport_expiration" required />
-            <input type="text" size="25" style="font-size: 25px;" name="passport_country" placeholder="passport country" required />
-            <input type="text" size="25" style="font-size: 25px;" name="date_of_birth" placeholder="date of birthy" required />
-       
-
-            <input type="submit" style="font-size: 25px;background-color:#FFC107;color:rgb(255,255,254);"
+            <input type="submit" style="font-size: 18px;background-color:#FFC107;color:rgb(255,255,254);"
                 value=Register />
             {% if error %}
-            <p class="error"><strong>Error:</strong> {{error}}</p>
+            <p class="error" style= "color:white;"><strong>Error:</strong> {{error}}</p>
+            {% endif %}
+            {% if message %}
+            <p class="error" style = "color:white;"><strong>Message:</strong> {{message}}</p>
             {% endif %}
         </form>
     </div>

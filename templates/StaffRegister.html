@@ -1,6 +1,9 @@
 <html>
 
 <head>
+        <script src="/static/js/jquery.min.js"> </script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
     <title>Staff Register</title>
     <style>
         h1 {
@@ -11,9 +14,9 @@
 
         form {
             position: relative;
-            left: 34%;
-            top: 20%;
-            width: 500px;
+          
+           
+            width: 800px;
         }
 
         input {
@@ -45,7 +48,26 @@
             bottom: 0%;
             position: fixed;
         }
+        h5{
+            color:white;
+        }
+        .submit{
+            width:150px;
+            position:relative;
+            left:90%;
+            top:150px;
+        }
 
+.register_infor{
+    top:50px;
+    position:relative;
+    left:30%;
+}
+.personal_infor{
+    top:50px;
+    position:relative;
+    left:47%;
+}
 
         #holder {
             position: relative;
@@ -68,6 +90,9 @@
         .navbar navbar-expand-lg navbar-light bg-gradient-secondary {
             background-color: #FFC107;
         }
+        .register_infor,.personal_infor{
+            display:inline-block;
+        }
     </style>
 </head>
 
@@ -83,6 +108,7 @@
 
 
         <form action="/StaffRegisterAuth" method="POST">
+            <div class = "register_infor">
             <div class = "username">
             <h5>Username:</h5>
             <input type="text" size="25" style="font-size: 18px;" name="username" placeholder="username" required />
@@ -97,6 +123,8 @@
             <input type="text" size="25" style="font-size: 18px;" name="airline" placeholder="airline"
                 required />
             </div>
+        </div>
+            <div class = "personal_infor">
             <div class = "airline">
                     <h5>First Name:</h5>
             <input type="text" size="25" style="font-size: 18px;" name="first_name" placeholder="First Name"
@@ -109,18 +137,62 @@
             </div>
             <div class = "airline">
                     <h5>Date of Birth:</h5>
-            <input type="text" size="25" style="font-size: 18px;" name="date_of_birth" placeholder="Data of Birth"
+            <input type="text" size="25" id = "date" style="font-size: 18px;" name="date_of_birth" placeholder="Data of Birth"
                 required />
             </div>
+        </div>
             <div class = "submit">
-            <input type="submit" style="font-size: 18px;background-color:#FFC107;color:rgb(255,255,254);"
+            <input type="submit"  style="font-size: 18px;background-color:#FFC107;color:rgb(255,255,254);"
                 value=Register />
             </div>
             {% if error %}
             <p class="error" style = "color:white;"><strong>Error:</strong> {{error}}</p>
             {% endif %}
+            {% if message %}
+            <p class="error" style = "color:white;"><strong>Message:</strong> {{message}}</p>
+            {% endif %}
         </form>
     </div>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />
+
+    <!-- <script src="/static/js/jquery-ui.js"></script> -->
+    <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
+    <script>
+        $(function () {
+            $("#date").datepicker();});
+    </script>
+    <!-- //Calendar -->
+    <!--quantity-->
+    <script>
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+        });
+
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+        });
+    </script>
+    <!--//quantity-->
+    <!--load more-->
+    <script>
+        $(document).ready(function () {
+            size_li = $("#myList li").size();
+            x = 1;
+            $('#myList li:lt(' + x + ')').show();
+            $('#loadMore').click(function () {
+                x = (x + 1 <= size_li) ? x + 1 : size_li;
+                $('#myList li:lt(' + x + ')').show();
+            });
+            $('#showLess').click(function () {
+                x = (x - 1 < 0) ? 1 : x - 1;
+                $('#myList li').not(':lt(' + x + ')').hide();
+            });
+        });
+    </script>
 
 </body>
 

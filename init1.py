@@ -250,7 +250,7 @@ def loginAuth():
     username = request.form['username']
     password = request.form['password']
     cursor = conn.cursor()
-    query = "SELECT * FROM customer WHERE email = \'{}\' and password = \'{}\'"
+    query = "SELECT * FROM customer WHERE email = \'{}\' and password = MD5(\'{}\')"
     cursor.execute(query.format(username,password))
     #stores the results in a variable
     data = cursor.fetchone()
@@ -313,13 +313,13 @@ def registerAuth():
         return render_template('CustomerRegister.html', error = error)
         ##send the error to the page 
     else:
-        ins = "INSERT INTO customer(email,name,password,building_number,street,city,state,phone_number,passport_number,passport_expiration,passport_country,date_of_birth) VALUES(\'{}\', \'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')"
+        ins = "INSERT INTO customer(email,name,password,building_number,street,city,state,phone_number,passport_number,passport_expiration,passport_country,date_of_birth) VALUES(\'{}\', \'{}\',MD5(\'{}\'),\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')"
         cursor.execute(ins.format(email,name,password,building,street,city,state,phone_number,passport_number,passport_expiration,passport_country,date_of_birth))
         conn.commit()
         cursor.close()
         # cursor is for the db conenction and operation
-        flash("You are successfully registered")
-        return render_template('CustomerLogIn.html')
+        message = "You are Successfully Registered!"
+        return render_template('CustomerRegister.html',message = message)
 
 @app.route('/CustomerHome', methods = ["GET",'POST'])
 def CustomerHome():
@@ -483,7 +483,7 @@ def AgentAuth():
     agent_id = request.form['Agent_id']
     password = request.form['password']
     cursor = conn.cursor()
-    query = "SELECT * FROM booking_agent WHERE email =\'{}\' and booking_agent_id = \'{}\' and password = \'{}\'"
+    query = "SELECT * FROM booking_agent WHERE email =\'{}\' and booking_agent_id = \'{}\' and password = MD5(\'{}\')"
     cursor.execute(query.format(email,agent_id,password))
     #stores the results in a variable
     data = cursor.fetchone()
@@ -756,18 +756,18 @@ def AgentRegisterAuth():
         cursor = conn.cursor()
         query_num = "SELECT count(*) FROM booking_agent"
         cursor.execute(query_num.format(username))
-        num = cursor.fetchone()
+        num = int(cursor.fetchone()[0])
         agent_id = num+1
         cursor.close()
         cursor = conn.cursor()
-        ins = "INSERT INTO booking_agent(email, password,booking_agent_id ) VALUES(\'{}\', \'{}\',\'{}\')"
+        ins = "INSERT INTO booking_agent(email, password,booking_agent_id ) VALUES(\'{}\', MD5(\'{}\'),\'{}\')"
         cursor.execute(ins.format(username, password, agent_id))
         conn.commit()
         cursor.close()
-        message = "Successfully registered, your agent_id is " + str(agent_id)
+        message = "Successfully registered, your agent_id is " + str(agent_id) + "   Go to Log In!"
         # cursor is for the db conenction and operation
-        flash("You are successfully registered")
-        return render_template('AgentLogIn.html', error = message)
+        
+        return render_template('AgentRegister.html', message = message)
 
 # ***************************************************************
 # All functionality regarding the Staff Usage
@@ -781,7 +781,7 @@ def StaffAuth():
     password = request.form['password']
     airline = request.form['airline']
     cursor = conn.cursor()
-    query = "SELECT * FROM airline_staff WHERE username = \'{}\' and password = \'{}\' and airline_name = \'{}\'"
+    query = "SELECT * FROM airline_staff WHERE username = \'{}\' and password = MD5(\'{}\') and airline_name = \'{}\'"
     cursor.execute(query.format(username,password, airline))
     #stores the results in a variable
     data = cursor.fetchone()
@@ -819,7 +819,12 @@ def StaffRegisterAuth():
     username = request.form['username']
     password = request.form['password']
     airline = request.form['airline']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    date_of_birth = request.form['date_of_birth']
+   
 
+    date_of_birth =  datetime.datetime.strptime(date_of_birth, "%m/%d/%Y").strftime("%Y-%m-%d")
     cursor = conn.cursor()
     #executes query
     query = "SELECT * FROM airline_staff WHERE username = \'{}\' AND airline_name = \'{}\'"
@@ -834,13 +839,13 @@ def StaffRegisterAuth():
         return render_template('StaffRegister.html', error = error)
         ##send the error to the page 
     else:
-        ins = "INSERT INTO airline_staff(username, password, airline_name) VALUES(\'{}\', \'{}\',\'{}\')"
-        cursor.execute(ins.format(username, password,airline))
+        ins = "INSERT INTO airline_staff(username, password, airline_name,first_name,last_name,date_of_birth) VALUES(\'{}\', MD5(\'{}\'),\'{}\',\'{}\', \'{}\',\'{}\')"
+        cursor.execute(ins.format(username, password,airline, first_name,last_name,date_of_birth))
         conn.commit()
         cursor.close()
         # cursor is for the db conenction and operation
-        flash("You are successfully registered")
-        return render_template('StaffLogIn.html')
+        message = "You are successfully Registered!"
+        return render_template('StaffRegister.html',message =message)
 
 @app.route('/StaffHome', methods = ["GET",'POST'])
 def StaffHome():
