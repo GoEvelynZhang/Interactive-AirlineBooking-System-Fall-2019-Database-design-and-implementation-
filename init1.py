@@ -924,7 +924,7 @@ def StaffHome():
     else:
         idr = 0
     
-    year_pie = {"Direct":dire,"Indirect":idr}
+    year_pie = [{"name":"Direct","value":dire},{"name":"Indirect","value":idr}]
     print(year_pie)
 
 	# # view comparison of revenue for last month
