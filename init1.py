@@ -927,35 +927,47 @@ def StaffHome():
     year_pie = [{"name":"Direct","value":dire},{"name":"Indirect","value":idr}]
     print(year_pie)
 
-	# # view comparison of revenue for last month
-    # cursor = conn.cursor()
-    # query10 = 'SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\''
-    # cursor.execute(query10.format(airline))
-    # m_direct = cursor.fetchone()
-    # cursor.close()
-    # cursor = conn.cursor()
-    # query11 = 'SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\''
-    # cursor.execute(query11.format(airline))
-    # m_indirect = cursor.fetchone()
-    # cursor.close()
-    # month_pie = [{values: [m_direct, m_indirect]}, {labels: ["Direct Revenue", "Indirect Revenue"]}]
+	# view comparison of revenue for last month
+    cursor = conn.cursor()
+    query10 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+    cursor.execute(query10.format(airline))
+    m_direct = cursor.fetchone()[0]
+    cursor.close()
+    m_dire = 0
+    if m_direct:
+        m_dire = int(m_direct)
+    else:
+        m_dire = 0
+    m_idr = 0
+    cursor = conn.cursor()
+    query11 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+    cursor.execute(query11.format(airline))
+    m_indirect = cursor.fetchone()[0]
+    cursor.close()
+    m_idr = 0
+    if m_indirect:
+        m_idr = int(m_indirect)
+    else:
+        m_idr = 0
+    month_pie = [{"name":"Direct","value":m_dire},{"name":"Indirect","value":m_idr}]
+    print(month_pie)
+    # view top 3 destinations over the last 3 months
+    cursor = conn.cursor()
+    query12 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 3 MONTH) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
+    cursor.execute(query12.format(airline))
+    m_des = cursor.fetchall()
+    cursor.close()
 
-    # # view top 3 destinations over the last 3 months
-    # cursor = conn.cursor()
-    # query12 = 'SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 3 MONTH) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3'
-    # cursor.execute(query12.format(airline))
-    # m_des = cursor.fetchall()
-    # cursor.close()
-
-    # # view top 3 destinations over the last year
-    # cursor = conn.cursor()
-    # query13 = 'SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3'
-    # cursor.execute(query13.format(airline))
-    # y_des = cursor.fetchall()
-    # cursor.close()
+    # view top 3 destinations over the last year
+    cursor = conn.cursor()
+    query13 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
+    cursor.execute(query13.format(airline))
+    y_des = cursor.fetchall()
+    cursor.close()
+    print(m_des,y_des)
 
 
-    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie)
+    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie,month_pie=month_pie,m_des = m_des,y_des=y_des )
 
 
 @app.route('/ViewFlightsByDates',methods = ["POST"])

@@ -15,6 +15,17 @@
         .pie {
   margin: 20px;
 }
+.table_dest{
+    display:inline-block;
+}
+#y_des{
+    position:relative;
+    left:30%;
+}
+#m_des{
+    position:relative;
+    left:20%;
+}
 
 
 
@@ -37,10 +48,9 @@
 .pie .value-text{
   font-size: 3em;
 }
-    #pie_graph {
-            position: relative;
-            left: 22%;
-        }
+.pie{
+    display:inline-block;
+}
 /* ******* */
         #monly_graph_condition {
             position: relative;
@@ -583,12 +593,25 @@
             </div>
             <div class="revenue_comparison">
                 <h3 id="revenue_comparison">Compare Revenue Source</h3>
+                
+                <div class = "pie">
+                    <h5>Last Month</h5>
+                <div id = "m_pie_graph"></div>
+                </div>
+                <div class = "pie">
+                    <h5>Last Year</h5>
                 <div id="pie_graph"></div>
+                </div>
+            
+
                 <script>
                         var data = {{year_pie | tojson}};
-                        console.log(data);
-                        var width = 250;
-                        var height = 250;
+                        var data_m = {{month_pie|tojson}};
+                        draw_pie(data,"#pie_graph");
+                        draw_pie(data_m,"#m_pie_graph");
+                        function draw_pie(data, div_id){
+                        var width = 200;
+                        var height = 200;
                         var thinkness = 40;
                         var duration = 750;
                         var padding = 10;
@@ -602,7 +625,7 @@
         
                        
                         // append the svg object to the div called 'my_dataviz'
-                        var svg = d3.select("#pie_graph")
+                        var svg = d3.select(div_id)
                             .append("svg")
                             .attr('class', 'pie')
                             .attr('width', width)
@@ -640,7 +663,7 @@
                                 });
          
         // #draw the legend color to indicate the value and category
-                    let legend = d3.select("#pie_graph").append('div')
+                    let legend = d3.select(div_id).append('div')
                             .attr('class', 'legend')
                             .style('margin-top', '30px');
         
@@ -661,7 +684,7 @@
         
                 keys.append('div')
                     .attr('class', 'name')
-                    .text(d => `${d.name} (${d.value})`);
+                    .text(d => `${d.name} (${d.value})`);}
         
                 // keys.exit().remove();
         
@@ -675,6 +698,40 @@
             
             <div class="top_destination">
                 <h3 id="top_destination">View Top Destination</h3>
+                <div class = "table_dest" id = "m_des">
+                    <h4 style = "color:#FFC107;">Most Popular In last 3 Months</h4>
+                   
+                    <table >
+                        <th>City Name</th>
+                        <th>Ticket Sold</th>
+                        {% for line in m_des %}
+                    <tr>
+                        <td>{{line[0]}}</td>
+                        <td>{{line[1]}}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                        
+
+
+                    </table>
+
+                </div>
+                <div class = "table_dest" id = "y_des">
+                    <h4 style = "color:#FFC107;">Most Popular In last Year</h4>
+                    <table>
+                        <th>City Name</th>
+                        <th>Ticket Sold</th>
+                        {% for line in y_des %}
+                        <tr>
+                            <td>{{line[0]}}</td>
+                            <td>{{line[1]}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
 
             </div>
 
