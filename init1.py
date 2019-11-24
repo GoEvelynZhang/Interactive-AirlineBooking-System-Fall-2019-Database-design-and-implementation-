@@ -279,8 +279,20 @@ def CustomerRegister():
 @app.route('/CusRegisterAuth', methods=['GET', 'POST'])
 def registerAuth():
     #grabs information from the forms
-    username = request.form['username']
+    email = request.form['email']
     password = request.form['password']
+    state = request.form['state']
+    name = request.form['name']
+    city = request.form['city']
+    street = request.form['street']
+    building = request.form['building']
+    phone_number = request.form['phone_number']
+    passport_number = request.form['passport_number']
+    passport_expiration = request.form['passport_expiration']
+    passport_expiration = datetime.datetime.strptime(passport_expiration, "%m/%d/%Y").strftime("%Y-%m-%d")
+    passport_country = request.form['passport_country']
+    date_of_birth = request.form['date_of_birth']
+    date_of_birth = datetime.datetime.strptime(date_of_birth, "%m/%d/%Y").strftime("%Y-%m-%d")
 
 #    if not len(password) >= 4:
 #                flash("Password length must be at least 4 characters")
@@ -290,7 +302,7 @@ def registerAuth():
     cursor = conn.cursor()
     #executes query
     query = "SELECT * FROM customer WHERE email = \'{}\'"
-    cursor.execute(query.format(username))
+    cursor.execute(query.format(email))
     #stores the results in a variable
     data = cursor.fetchone()
     #use fetchall() if you are expecting more than 1 data row
@@ -301,8 +313,8 @@ def registerAuth():
         return render_template('CustomerRegister.html', error = error)
         ##send the error to the page 
     else:
-        ins = "INSERT INTO customer(email, password) VALUES(\'{}\', \'{}\')"
-        cursor.execute(ins.format(username, password))
+        ins = "INSERT INTO customer(email,name,password,building_number,street,city,state,phone_number,passport_number,passport_expiration,passport_country,date_of_birth) VALUES(\'{}\', \'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\',\'{}\')"
+        cursor.execute(ins.format(email,name,password,building,street,city,state,phone_number,passport_number,passport_expiration,passport_country,date_of_birth))
         conn.commit()
         cursor.close()
         # cursor is for the db conenction and operation
