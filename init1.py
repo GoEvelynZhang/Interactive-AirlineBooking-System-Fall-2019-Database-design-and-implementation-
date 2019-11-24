@@ -869,25 +869,29 @@ def StaffHome():
     cursor.close()
 
     # view the most frequent customer and his/her flights
-    # cursor = conn.cursor()
-    # query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
-    # cursor.execute(query4.format(airline))
-    # mf_customer = cursor.fetchone() 
-    # cursor.close()   
+    cursor = conn.cursor()
+    query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
+    cursor.execute(query4.format(airline))
+    mf_customer = cursor.fetchone() 
+    cursor.close() 
+    print(mf_customer)  
 
-    # # view the most frequent customer's flights 
-    # cursor = conn.cursor()
-    # query5 = "SELECT flight.* FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
-    # cursor.execute(query5.format(mf_customer[0], airline))
-    # c_flights = cursor.fetchall()
-    # cursor.close() 
+    # view the most frequent customer's flights 
+    cursor = conn.cursor()
+    query5 = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
+    cursor.execute(query5.format(mf_customer[0], airline))
+    c_flights = cursor.fetchall()
+    cursor.close() 
 
-    # # view reports of last year
-    # cursor = conn.cursor()
-    # query6 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
-    # cursor.execute(query6.format(airline_name))
-    # year_sales = cursor.fetchall()
-    # cursor.close()
+    # view reports of last year
+    cursor = conn.cursor()
+    query6 = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month"
+    cursor.execute(query6.format(airline))
+    year_sales = cursor.fetchall()
+    cursor.close()
+    year_sales = [[int(j[0]),int(j[1])] for j in year_sales]
+    print(year_sales)
+    total_sale_ly = sum([int(i[1]) for i in year_sales])
 
     # # view reports of last month
     # cursor = conn.cursor()
@@ -937,7 +941,7 @@ def StaffHome():
     # cursor.close()
 
 
-    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm )
+    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly)
 
 
 @app.route('/ViewFlightsByDates',methods = ["POST"])
@@ -1117,18 +1121,22 @@ def AddAirport():
 
 @app.route("/HomeDirect")
 def HomeDirect():
-    username = session["username"]
-    cursor = conn.cursor()
+    try: 
+        if (session["airline"]):
+            return redirect(url_for('StaffHome'))
+    except:
+        username = session["username"]
+        cursor = conn.cursor()
     #executes query
-    query = "SELECT * FROM booking_agent WHERE booking_agent_id = \'{}\' "
-    cursor.execute(query.format(username))
+        query = "SELECT * FROM booking_agent WHERE booking_agent_id = \'{}\' "
+        cursor.execute(query.format(username))
     #stores the results in a variable
-    data = cursor.fetchone()
-    cursor.close()
-    if (data):
-        return redirect(url_for('AgentHome'))
-    else:
-        return redirect(url_for('CustomerHome'))
+        data = cursor.fetchone()
+        cursor.close()
+        if (data):
+            return redirect(url_for('AgentHome'))
+        else:
+            return redirect(url_for('CustomerHome'))
 
 
 

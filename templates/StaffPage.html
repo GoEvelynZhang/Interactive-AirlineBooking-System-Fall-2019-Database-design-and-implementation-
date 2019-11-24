@@ -16,7 +16,7 @@
         #year_num{
             left:30%;
         }
-        #table_view_purchase {
+        #table_view_purchase,#table_mf_customer_flight{
                 border: 1px solid rgb(255, 255, 254);
                 padding-left: 10px;
                 padding-right: 10px;
@@ -67,7 +67,7 @@
             color: white;
         }
         
-        #title_view_flight {
+        #title_view_flight,#mf_customer_title {
             position: relative;
             left: 17%;
             display: inline-block;
@@ -111,7 +111,7 @@
             position:relative;
 
         }
-        #by_ticket_num,#by_commission{
+        #by_ticket_num,#by_commission,#mf_customer{
             color: #FFC107;
           position:relative;
           left:22%;
@@ -347,11 +347,156 @@
 
         </div>
         <div class = "view_freq_customer">
-            <h3 id="view_freq_customer">View Top Customers</h3>
+            
+                <h4  style = "color: #FFC107" id = "mf_customer_title">Most Frequent Customer: </h4>
+            <div id = 'mf_customer'>
+                <h5 style= "color: white" id = "mf_customer">Customer_email: {{mf_customer[0]}}    </h5>
+                <h5 style = "color:white;" id = "mf_customer">Number of Flights Purchased:  {{mf_customer[2]}}</h5>
+            </div>
+            <div style="height:300px;overflow:auto;">
+                    <table id="table_mf_customer_flight" >
+                        <th>Airline</th>
+                        <th>Flight Num</th>
+                        <th>Depart Air</th>
+                        <th>Depart Time</th>
+                        <th>Arrival Air</th>
+                        <th>Arrival Time</th>
+                        <th>price</th>
+                   
+        
+                        {% for line in c_flights %}
+                        <tr>
+                            <td>{{line[0]}}</td>
+                            <td>{{line[1]}}</td>
+                            <td>{{line[2]}}</td>
+                            <td>{{line[3]}}</td>
+                            <td>{{line[4]}}</td>
+                            <td>{{line[5]}}</td>
+                            <td>{{line[6]}}</td>
+                         
+        
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            
+            </div>
+                
+            
 
         </div>
         <div class = "view_report">
             <h3 id="view_report">View Total Report</h3>
+            <div id = "conditional_graph">
+            <div class = "date">
+                <div id = "total_sale_range">
+                <h4> Total Sale : {{total_sale_ly}} Tickets</h4>
+                </div>
+            </div>
+
+            <div class="date">
+                    <div id="choose_day_start">
+                        <h5>Day Start</h5>
+                        <input id="datepicker3" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                            onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
+                    </div>
+            </div>
+            <div class="date">
+                    <div id="choose_day_end">
+                        <h5>Day End</h5>
+                        <input id="datepicker4" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                            onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
+                    </div>
+            </div>
+        </div>
+        <div id = "monly_graph_condition"></div>
+        <script>
+                var dataset = {{year_sales}};
+                console.log(dataset);
+                //    for (var i = 0 ; i<6;i++){
+                //     dataset[i][0] = dataset[i][0]
+                //    }
+                //    dataset = [["5",2000],["6",2000],["7",2500],["8",1000],["9",2000],["10",1500]]
+                var width = 300;
+                var height = 300;
+                var margin = {
+                    'left': 50,
+                    'right': 50,
+                    'top': 50,
+                    'bottom': 50
+                };
+                var svg = d3.select("#monly_graph_condition")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom);
+                var xScale = d3.scaleBand()
+                    .domain(dataset.map(function (d) {
+                        return d[0];
+                    }))
+                    .range([0, width])
+                    .padding(0.3);
+                var yScale = d3.scaleLinear()
+                    .domain([0, d3.max(dataset, function (d) {
+                        return d[1];
+                    })])
+                    .range([height, 0]);
+                var xAxis = svg.append("g")
+                    .attr("id", "xAxisDraw")
+                    .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+                    .attr("color", "rgb(255,255,254)")
+                    .call(d3.axisBottom(xScale));
+                svg.append("text")
+                    .text("Month")
+                    .attr("id", "xAxisText")
+                    .attr("y", height + margin.top + 20)
+                    .attr("dx", width + margin.left + 5)
+                    .attr("color", "rgb(255,255,254)")
+                    .style("font-size", 12)
+                    .style("text-anchor", "end");
+                var yAxis = svg.append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .attr("id", "yAxisDraw")
+                    .attr("color", "rgb(255,255,254)")
+                    .call(d3.axisLeft(yScale));
+                svg.append("text")
+                    .attr("id", "yAxisText")
+                    .text("Ticket Sale")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 60)
+                    .attr("dx", -40)
+                    .attr("color", "rgb(255,255,254)")
+                    .style("font-size", 12)
+                    .style("text-anchor", "end");
+                svg.append('g')
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .selectAll("rect")
+                    .data(dataset)
+                    .enter()
+                    .append("rect")
+                    .attr("class", "monthly_graph")
+                    .attr("x", function (d, i) {
+                        return xScale(d[0]);
+                    })
+                    .attr("y", function (d) {
+                        return yScale(d[1]);
+                    })
+                    .attr("width", xScale.bandwidth())
+                    .attr("height", function (d) {
+                        return height - yScale(d[1]);
+                    })
+                    .attr("fill", "#C1CBCE")
+        
+                    .attr("stroke", "grey")
+                    .attr("stroke-width", "2");
+            </script>
+        
+            <div class = "monthly graph">
+                    <div id = "monthly_sale">
+                    <h4> Monthly sale: </h4>
+                    </div>
+            </div>
 
         </div>
         <div class ="revenue_comparison">
@@ -371,7 +516,7 @@
 <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
 <script>
     $(function () {
-        $("#datepicker1,#datepicker2,#date_start,#date_end").datepicker();
+        $("#datepicker1,#datepicker2,#datepicker3,#datepicker4,#date_start,#date_end").datepicker();
     });
 </script>
 <!-- //Calendar -->
