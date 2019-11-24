@@ -893,25 +893,39 @@ def StaffHome():
     print(year_sales)
     total_sale_ly = sum([int(i[1]) for i in year_sales])
 
-    # # view reports of last month
-    # cursor = conn.cursor()
-    # query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
-    # cursor.execute(query7.format(airline))
-    # month_sales = cursor.fetchall()
-    # cursor.close()
+    # view reports of last month
+    cursor = conn.cursor()
+    query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
+    cursor.execute(query7.format(airline))
+    month_sales = cursor.fetchall()[0][1]
+    cursor.close()
+  
 
-    # # view comparison of revenue for last year
-    # cursor = conn.cursor()
-    # query8 = 'SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\''
-    # cursor.execute(query8.format(airline))
-    # direct = cursor.fetchone()
-    # cursor.close()
-    # cursor = conn.cursor()
-    # query8 = 'SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\''
-    # cursor.execute(query9.format(airline))
-    # indirect = cursor.fetchone()
-    # cursor.close()
-    # year_pie = [{values: [direct, indirect]}, {labels: ["Direct Revenue", "Indirect Revenue"]}]
+    # view comparison of revenue for last year
+    cursor = conn.cursor()
+    query8 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+    cursor.execute(query8.format(airline))
+    direct = cursor.fetchone()[0]
+    cursor.close()
+    dire = 0
+    if direct:
+        dire = direct
+    else:
+        dire = 0
+    
+    cursor = conn.cursor()
+    query9 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+    cursor.execute(query9.format(airline))
+    indirect = cursor.fetchone()[0]
+    cursor.close()
+    idr = 0
+    if indirect:
+        idr = int(indirect)
+    else:
+        idr = 0
+    
+    year_pie = {"Direct":dire,"Indirect":idr}
+    print(year_pie)
 
 	# # view comparison of revenue for last month
     # cursor = conn.cursor()
@@ -941,7 +955,7 @@ def StaffHome():
     # cursor.close()
 
 
-    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly)
+    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie)
 
 
 @app.route('/ViewFlightsByDates',methods = ["POST"])
