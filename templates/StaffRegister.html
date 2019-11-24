@@ -83,16 +83,41 @@
 
 
         <form action="/StaffRegisterAuth" method="POST">
-            <input type="text" size="25" style="font-size: 25px;" name="username" placeholder="username" required />
-            <br><br>
-            <input type="password" size="25" style="font-size: 25px;" name="password" placeholder="password"
-                required /><br><br>
-            <input type="text" size="25" style="font-size: 25px;" name="airline" placeholder="airline"
-                required /><br><br>
-            <input type="submit" style="font-size: 25px;background-color:#FFC107;color:rgb(255,255,254);"
+            <div class = "username">
+            <h5>Username:</h5>
+            <input type="text" size="25" style="font-size: 18px;" name="username" placeholder="username" required />
+        </div>
+        <div class = "password">
+                <h5>Password:</h5>
+            <input type="password" size="25" style="font-size: 18px;" name="password" placeholder="password"
+                required />
+            </div>
+            <div class = "airline">
+                    <h5>Airline:</h5>
+            <input type="text" size="25" style="font-size: 18px;" name="airline" placeholder="airline"
+                required />
+            </div>
+            <div class = "airline">
+                    <h5>First Name:</h5>
+            <input type="text" size="25" style="font-size: 18px;" name="first_name" placeholder="First Name"
+                required />
+            </div>
+            <div class = "airline">
+                    <h5>Last Name:</h5>
+            <input type="text" size="25" style="font-size: 18px;" name="last_name" placeholder="Last Name"
+                required />
+            </div>
+            <div class = "airline">
+                    <h5>Date of Birth:</h5>
+            <input type="text" size="25" style="font-size: 18px;" name="date_of_birth" placeholder="Data of Birth"
+                required />
+            </div>
+            <div class = "submit">
+            <input type="submit" style="font-size: 18px;background-color:#FFC107;color:rgb(255,255,254);"
                 value=Register />
+            </div>
             {% if error %}
-            <p class="error"><strong>Error:</strong> {{error}}</p>
+            <p class="error" style = "color:white;"><strong>Error:</strong> {{error}}</p>
             {% endif %}
         </form>
     </div>

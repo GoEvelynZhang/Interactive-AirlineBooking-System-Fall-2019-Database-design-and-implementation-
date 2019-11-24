@@ -606,7 +606,7 @@ def AgentPurchase():
     flash("You are logged in to Purchase")
     return render_template('index.html', username = username)
 
-@app.route("/ConfirmAgentLog")
+@app.route("/ConfirmAgentLog",methods = ["POST"])
 def ConfirmAgentLog():
     req = json.loads(request.data)
     result = ''
@@ -1180,7 +1180,10 @@ def HomeDirect():
 
 @app.route('/logout')
 def logout():
-    session.pop('username')
+    try:
+        session.pop('username')
+    except:
+        pass
     try:
         session.pop("airline")
     except:
