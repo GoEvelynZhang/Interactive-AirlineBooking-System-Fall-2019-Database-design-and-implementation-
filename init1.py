@@ -909,7 +909,10 @@ def StaffHome():
     cursor = conn.cursor()
     query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
     cursor.execute(query7.format(airline))
-    month_sales = cursor.fetchall()[0][1]
+    if (cursor.fetchall()):
+        month_sales = cursor.fetchall()[0][1]
+    else:
+        month_sales = "N/A"
     cursor.close()
   
 
@@ -917,7 +920,10 @@ def StaffHome():
     cursor = conn.cursor()
     query8 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
     cursor.execute(query8.format(airline))
-    direct = cursor.fetchone()[0]
+    testdata = cursor.fetchone()
+    direct = None
+    if (testdata is not None):
+        direct = testdata[0]
     cursor.close()
     dire = 0
     if direct:
@@ -928,7 +934,10 @@ def StaffHome():
     cursor = conn.cursor()
     query9 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
     cursor.execute(query9.format(airline))
-    indirect = cursor.fetchone()[0]
+    testdata = cursor.fetchone()
+    indirect = None
+    if (testdata is not None):
+        indirect = cursor.fetchone()[0]
     cursor.close()
     idr = 0
     if indirect:
@@ -943,7 +952,10 @@ def StaffHome():
     cursor = conn.cursor()
     query10 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
     cursor.execute(query10.format(airline))
-    m_direct = cursor.fetchone()[0]
+    testdata = cursor.fetchone()
+    m_direct = None
+    if (testdata is not None):
+        m_direct = cursor.fetchone()[0]
     cursor.close()
     m_dire = 0
     if m_direct:
@@ -954,7 +966,10 @@ def StaffHome():
     cursor = conn.cursor()
     query11 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
     cursor.execute(query11.format(airline))
-    m_indirect = cursor.fetchone()[0]
+    testdata = cursor.fetchone()
+    m_indirect = None
+    if (testdata is not None):
+        m_indirect = cursor.fetchone()[0]
     cursor.close()
     m_idr = 0
     if m_indirect:
