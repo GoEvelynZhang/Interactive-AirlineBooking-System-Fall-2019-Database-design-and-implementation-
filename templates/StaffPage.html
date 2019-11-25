@@ -619,7 +619,7 @@
         </div>
     </div>
 </div>
-<!-- end of model for new flight creation -->
+<!-- end of model for change status  -->
         <script>
             function change_flight_status(){
 
@@ -650,13 +650,149 @@
            $('#ChangeFlightStatus').modal('show');}
         </script>
         <div class="add_plane">
-            <h3 style = "font-size:25px;" id="add_plane">Add Planes</h3>
+            <h3 style = "font-size:25px;" id="add_plane" onclick = 'AddPlane()'>Add Planes</h3>
 
         </div>
+              <!-- model add planes-->
+  
+
+    <div class="modal fade" id="AddPlane" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Planes:</h5>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+            </div>
+            <div class="modal-body">
+                <form id="message_box2">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">New Plane ID:</label>
+                        <input type="text" class="form-control" id="plane_id" required =''>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Number of Seats:</label>
+                        <input type="text" class="form-control" id="seat_num" required =''>
+                    </div>
+                  
+                    <!-- <div class="form-group">
+        <label for="message-text" class="col-form-label">Message:</label>
+        <textarea class="form-control" id="message-text"></textarea>
+      </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <button type="button" id="AddPlaneConfirmButton" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of model for add plane-->
+        <script>
+                function AddPlane(){
+    
+                 document.getElementById("AddPlaneConfirmButton").onclick = confirm_add_plane;
+                function confirm_add_plane(){
+                    var data = [];
+                   
+                   data.push(document.getElementById("plane_id").value) ; 
+           
+                   data.push(document.getElementById("seat_num").value ); 
+                
+                   console.log(data);
+                fetch("/AuthorizeAddPlane", {
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                method: 'POST',
+                                body: JSON.stringify(data)
+                            })
+                            .then(resp => resp.json())
+                            .then(result => {
+                                console.log(result);
+                                var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                                document.getElementById("message_box2").innerHTML = innerhtml;
+    
+               }) ; }
+               
+               $('#AddPlane').modal('show');}
+            </script>
         <div class="add_airport">
-            <h3 style = "font-size:25px;" id="add_airport">Add Airports</h3>
+            <h3 style = "font-size:25px;" id="add_airport" onclick = 'AddAirport()'>Add Airports</h3>
 
         </div>
+                <!-- model add airport-->
+  
+
+    <div class="modal fade" id="AddAirport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Airport:</h5>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+            </div>
+            <div class="modal-body">
+                <form id="message_box3">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Airport Name:</label>
+                        <input type="text" class="form-control" id="airport_name" required =''>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Airport City:</label>
+                        <input type="text" class="form-control" id="airport_city" required =''>
+                    </div>
+                  
+                    <!-- <div class="form-group">
+        <label for="message-text" class="col-form-label">Message:</label>
+        <textarea class="form-control" id="message-text"></textarea>
+      </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <button type="button" id="AddAirportConfirmButton" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of model for add plane-->
+        <script>
+                function AddAirport(){
+    
+                 document.getElementById("AddAirportConfirmButton").onclick = confirm_add_airport;
+                function confirm_add_airport(){
+                    var data = [];
+                   
+                   data.push(document.getElementById("airport_name").value) ; 
+           
+                   data.push(document.getElementById("airport_city").value ); 
+                
+                   console.log(data);
+                fetch("/AuthorizeAddAirport", {
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                method: 'POST',
+                                body: JSON.stringify(data)
+                            })
+                            .then(resp => resp.json())
+                            .then(result => {
+                                console.log(result);
+                                var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                                document.getElementById("message_box3").innerHTML = innerhtml;
+    
+               }) ; }
+               
+               $('#AddAirport').modal('show');}
+            </script>
         <div class="view_booking_agent">
             <h3 style = "font-size:25px;" id="view_booking_agent">View Top Booking Agents</h3>
             <h4 id="by_ticket_num"> By Ticket Number</h4>

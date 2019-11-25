@@ -1126,14 +1126,14 @@ def AuthorizeChangeStatus():
     print(state)
     return jsonify(state)
 
-@app.route('/AddAirplane', methods = ["GET",'POST'])
-def AddAirplane():
+@app.route('/AuthorizeAddPlane', methods = ["GET",'POST'])
+def AuthorizeAddPlane():
     username = session['username']
     airline = session['airline']
 
     req = json.loads(request.data)
-    airplane_id = req["airplane_id"]
-    seats = req["seats"]
+    airplane_id = req[0]
+    seats = req[1]
     cursor = conn.cursor()
     query = 'SELECT * FROM airplane WHERE airline_name = \'{}\' AND airplane_id = \'{}\' '
     cursor.execute(query.format(airline, airplane_id))
@@ -1153,16 +1153,16 @@ def AddAirplane():
     print(state)
     return jsonify(state)
 
-@app.route('/AddAirport', methods = ["GET",'POST'])
-def AddAirport():
+@app.route('/AuthorizeAddAirport', methods = ["GET",'POST'])
+def AuthorizeAddAirport():
     username = session['username']
     airline = session['airline']
 
     req = json.loads(request.data)
-    airport_name = req["airport_name"]
-    airport_city = req["airport_city"]
+    airport_name = req[0]
+    airport_city = req[1]
     cursor = conn.cursor()
-    query = 'SELECT * FROM airport WHERE airport_name = \'{}\''
+    query = "SELECT * FROM airport WHERE airport_name = \'{}\'"
     cursor.execute(query.format(airport_name))
     data = cursor.fetchall()
     cursor.close()
@@ -1171,7 +1171,7 @@ def AddAirport():
 	    state = "Oops! This airport has already existed."
     else:
 	    cursor = conn.cursor()
-	    query = 'INSERT INTO airport values (\'{}\', \'{}\')'
+	    query = "INSERT INTO airport values (\'{}\', \'{}\')"
 	    cursor.execute(query.format(airport_name, airport_city))
 	    conn.commit()
 	    cursor.close()
