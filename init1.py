@@ -1060,23 +1060,28 @@ def ViewReportByDates():
 	return jsonify(data)
 
 
-@app.route('/CreateNewFlights', methods = ["GET",'POST'])
-def CreateNewFlights():
+@app.route('/AuthorizeNewFlight', methods = ["GET",'POST'])
+def AuthorizeNewFlight():
     username = session['username']
     airline = session['airline']
-
+    
     req = json.loads(request.data)
-    flight_num = req["flight_num"]
-    departure_airport = req["departure_airport"]
-    departure_time = req["departure_time"]
-    arrival_airport = req["arrival_airport"]
-    arrival_time = req["arrival_time"]
-    price = req["price"]
-    status = req["status"]
-    airplane_id = req["airplane_id"]
+    print(req)
+    flight_num = req[0]
+    departure_airport = req[1]
+    departure_time = req[2]
+    departure_time  = datetime.datetime.strptime(departure_time,'%m/%d/%y %H:%M:%S')
+    arrival_airport = req[3]
+    
+    arrival_time = req[4]
+    
+    arrival_time  = datetime.datetime.strptime(arrival_time,'%m/%d/%y %H:%M:%S')
+    price = req[5]
+    status = req[6]
+    airplane_id = req[7]
 
     cursor = conn.cursor()
-    query = 'SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' '
+    query = "SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' "
     cursor.execute(query.format(airline, flight_num))
     data = cursor.fetchall()
     cursor.close()
@@ -1085,7 +1090,7 @@ def CreateNewFlights():
 	    state = "Oops! This flight has already existed."
     else:
         cursor = conn.cursor()
-        query = 'INSERT INTO flight values (\'{}\', \'{}\', \'{}\',\'{}\', \'{}\', \'{}\',\'{}\', \'{}\', \'{}\')'
+        query = 'INSERT INTO flight(airline_name,flight_num,departure_airport,departure_time,arrival_airport, arrival_time, price, status, airplane_id) values (\'{}\', \'{}\', \'{}\',\'{}\', \'{}\', \'{}\',\'{}\', \'{}\', \'{}\')'
         cursor.execute(query.format(airline, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price, status, airplane_id))
         conn.commit()
         cursor.close()

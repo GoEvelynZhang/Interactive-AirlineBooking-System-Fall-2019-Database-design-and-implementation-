@@ -8,7 +8,7 @@
     
     <style>
      .top_destination{
-         height:300px;
+         height:400px;
      }
         /* ####for the pirce chart */
        #pie_area{
@@ -164,8 +164,19 @@
             left: 10px;
             color: white;
         }
+        /* #mf_customer_title,#create_new_flight,
+        #change_flight_status,#add_plane,
+        #add_airport,
+        #view_booking_agent,#view_report,
+        #revenue_comparison,#top_destination,#mf_customer{
+            top:70px;
+        } */
       
-
+      
+        .create_new_flight,.change_flight_status,.add_plane,.add_airport,.view_booking_agent{
+            position:relative;
+            top:60px;
+        }
         #title_view_flight,
         #mf_customer_title,#create_new_flight,
         #change_flight_status,#add_plane,
@@ -176,6 +187,7 @@
             left: 14%;
             display: inline-block;
             color: #FFC107;
+           
 
         }
         #top_dest_title{
@@ -203,6 +215,10 @@
             left: 15%;
             color: #FFC107;
 
+        }
+        .view_freq_customer, .view_report,.revenue_comparison,.top_destination{
+            position:relative;
+            top:90px;
         }
 
         h3 {
@@ -260,8 +276,9 @@
 
 
         <div class="view_my_flight" method="GET">
-            <h3 id="title_view_flight" style = "font-size:25px;">View my flights</h3>
-
+            
+            <h3  id="title_view_flight"style = "font-size:25px;">View my flights</h3>
+       
             <div class="date">
                 <div id="chose_day_start">
                     <h5 style = "font-size:16px;">Day Start</h5>
@@ -305,8 +322,8 @@
                 </div>
             </div>
 
-            <div style="height:300px;overflow:auto;">
-                <table id="table_view_purchase">
+            <div style="height:220px;overflow:auto;" >
+                <table id="table_view_purchase" >
                     <th>Airline</th>
                     <th>Flight Num</th>
                     <th>Depart Air</th>
@@ -460,10 +477,106 @@
         </script>
 
         <div class="create_new_flight">
-            <h3 style = "font-size:25px;" id="create_new_flight">Create New Flight</h3>
+            <h3 style = "font-size:25px;" id="create_new_flight" onclick = 'create_new_flight()'>Create New Flight</h3>
+
 
 
         </div>
+        <!-- model creating new fight-->
+  
+
+    <div class="modal fade" id="CreateNewFlight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Creating New Flight</h5>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+            </div>
+            <div class="modal-body">
+                <form id="message_box">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Flight Number:</label>
+                        <input type="text" class="form-control" id="flight_num" required =''>
+                    </div>
+                    <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Departure Airport:</label>
+                            <input type="text" class="form-control" id="departure_airport" required =''>
+                        </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Departure Time:</label>
+                        <input type="text" class="form-control" id="departure_time" placeholder="mm/dd/yy hh:mm:ss" required =''>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Arrival Airport:</label>
+                        <input type="text" class="form-control" id="arrival_airport" required =''>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Arrival Time:</label>
+                        <input type="text" class="form-control" id="arrival_time" placeholder="mm/dd/yy hh:mm:ss" required =''>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Price:</label>
+                        <input type="text" class="form-control" id="price" required =''>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Status:</label>
+                        <input type="text" class="form-control" id="status" required =''>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Airplane ID:</label>
+                        <input type="text" class="form-control" id="airplane_id" required =''>
+                    </div>
+                    <!-- <div class="form-group">
+        <label for="message-text" class="col-form-label">Message:</label>
+        <textarea class="form-control" id="message-text"></textarea>
+      </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <button type="button" id="AddNewFlightConfirmButton" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of model for new flight creation -->
+        <script>
+           function create_new_flight(){
+               
+               
+            document.getElementById("AddNewFlightConfirmButton").onclick = confirm_new_flight;
+            function confirm_new_flight(){
+                var data = [];
+               
+               data.push(document.getElementById("flight_num").value) ; 
+               data.push(document.getElementById("departure_airport").value) ; 
+               data.push(document.getElementById("departure_time").value ) ; 
+               data.push(document.getElementById("arrival_airport").value) ; 
+               data.push(document.getElementById("arrival_time").value ) ; 
+               data.push(document.getElementById("price").value) ; 
+               data.push(document.getElementById("status").value ); 
+               data.push(document.getElementById("airplane_id").value); 
+               console.log(data);
+            fetch("/AuthorizeNewFlight", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                            document.getElementById("message_box").innerHTML = innerhtml;
+
+           }) ; }
+           
+           $('#CreateNewFlight').modal('show');}
+        </script>
         <div class="change_flight_status">
             <h3 style = "font-size:25px;" id="change_flight_status">Change Flight Status</h3>
 
@@ -550,7 +663,7 @@
                     <h5 style="color: white;font-size:15px;" id="mf_customer">Customer_email: {{mf_customer[0]}} </h5><br>
                     <h5 style="color:white; font-size:15px;" id="mf_customer">Number of Flights Purchased: {{mf_customer[2]}}</h5>
                 </div>
-                <div style="height:300px;overflow:auto;">
+                <div style="height:220px;overflow:auto;">
                     <table id="table_mf_customer_flight">
                         <th>Airline</th>
                         <th>Flight Num</th>
