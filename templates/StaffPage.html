@@ -578,9 +578,77 @@
            $('#CreateNewFlight').modal('show');}
         </script>
         <div class="change_flight_status">
-            <h3 style = "font-size:25px;" id="change_flight_status">Change Flight Status</h3>
+            <h3 style = "font-size:25px;" id="change_flight_status" onclick = 'change_flight_status()'>Change Flight Status</h3>
 
         </div>
+         <!-- model change flight status-->
+  
+
+    <div class="modal fade" id="ChangeFlightStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Changing Flight Status</h5>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+            </div>
+            <div class="modal-body">
+                <form id="message_box1">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Flight Number:</label>
+                        <input type="text" class="form-control" id="flight_num1" required =''>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Status:</label>
+                        <input type="text" class="form-control" id="status1" required =''>
+                    </div>
+                  
+                    <!-- <div class="form-group">
+        <label for="message-text" class="col-form-label">Message:</label>
+        <textarea class="form-control" id="message-text"></textarea>
+      </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                <button type="button" id="ChangeStatusConfirmButton" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of model for new flight creation -->
+        <script>
+            function change_flight_status(){
+
+             document.getElementById("ChangeStatusConfirmButton").onclick = confirm_change_status;
+            function confirm_change_status(){
+                var data = [];
+               
+               data.push(document.getElementById("flight_num1").value) ; 
+       
+               data.push(document.getElementById("status").value ); 
+            
+               console.log(data);
+            fetch("/AuthorizeChangeStatus", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                            document.getElementById("message_box1").innerHTML = innerhtml;
+
+           }) ; }
+           
+           $('#ChangeFlightStatus').modal('show');}
+        </script>
         <div class="add_plane">
             <h3 style = "font-size:25px;" id="add_plane">Add Planes</h3>
 

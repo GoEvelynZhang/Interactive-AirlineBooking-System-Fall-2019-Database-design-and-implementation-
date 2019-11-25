@@ -1099,14 +1099,14 @@ def AuthorizeNewFlight():
     print(state)
     return jsonify(state)
 
-@app.route('/ChangeFlightStatus', methods = ["GET",'POST'])
-def ChangeFlightStatus():
+@app.route('/AuthorizeChangeStatus', methods = ["GET",'POST'])
+def AuthorizeChangeStatus():
     username = session['username']
     airline = session['airline']
 
     req = json.loads(request.data)
-    flight_num = req["flight_num"]
-    status = req["status"]
+    flight_num = req[0]
+    status = req[1]
     cursor = conn.cursor()
     query = 'SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' '
     cursor.execute(query.format(airline, flight_num))
