@@ -11,6 +11,11 @@
             left: 45%;
             top: 10%;
         }
+        .message,.error{
+            position:relative;
+            left:300px;
+            top:30px;
+        }
 
         form {
             position: relative;
@@ -101,7 +106,7 @@
 
 
     <a id="go_back" href="/">Go back</a>
-    <a id="register" href="/StaffLogIn">Register</a>
+    <a id="register" href="/StaffLogIn">Log In</a>
     <div id="holder">
 
         <h1 style="color:#FFC107;">Register</h1>
@@ -149,7 +154,7 @@
             <p class="error" style = "color:white;"><strong>Error:</strong> {{error}}</p>
             {% endif %}
             {% if message %}
-            <p class="error" style = "color:white;"><strong>Message:</strong> {{message}}</p>
+            <p class="message" style = "color:white;"><strong>Message:</strong> {{message}}</p>
             {% endif %}
         </form>
     </div>

@@ -285,14 +285,41 @@
                         <td>{{line[4]}}</td>
                         <td>{{line[5]}}</td>
                         <td>{{line[6]}}</td>
-                        <td><button type="button">Check</button> </td>
+                     
+                        <td><button type="button" >Check</button></td>
 
                     </tr>
                     {% endfor %}
                 </table>
+                <script>
+                    function check_customer(data){
+                        console.log(data);
+                    }
+                </script>
             </div>
 
         </div>
+              <!-- model for the Custome_infor for each flight under check -->
+              <div class="modal fade" id="exampleModalContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Customer Information </h5>
+                          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button> -->
+                      </div>
+                      <div class="modal-body">
+                          <table id = "inner_customer_infor">
+   
+   
+                          </table>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
         <!-- communicating with route /ViewFlightsByDates for getting upcomming flight infor -->
         <script>
             document.getElementById("datepicker2").onchange = renew_flight;
@@ -322,6 +349,7 @@
                     .then(result => {
 
                         console.log(result);
+                        window.result = result;
                         var inner_html =
                             "<style>th,td{text-align: center;padding-left: 10px;padding-right :10px; padding-top : 10px;padding-bottom : 10px;}</style><th>Airline</th><th>Flight Num</th><th>Depart Air</th><th>Depart Time</th><th>Arrival Air</th><th>Arrival Time</th><th>Status</th><th>Check Customer</th>";
                         // for (i)
@@ -337,7 +365,8 @@
                                 }
 
                             }
-                            inner_html += "<td><button type='button'>Check</button></td></tr>";
+                            inner_html += "<td><button type='button' onclick = 'check_customer(\"purchase\"," + i +
+                                ")'>Check</button></td></tr>";
                         }
 
                         // inner_html = "<h1>changed</h1>";
@@ -346,6 +375,34 @@
 
                     })
 
+
+            }
+            function check_customer(a,i){
+                console.log(result[i]);
+                fetch("/CheckCustomerForFlight", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(result[i])
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            innerhtml = "<th>Airline</th><th>Flight Number</th><th>Customer</th>"
+                            for (var i =0;i<result.length;i++){
+                                innerhtml += "<tr>" 
+                                for (var j = 0;j<result[i].length;j++){
+                                    innerhtml += "<th>"+result[i][j].toString()+"</th>";}
+                                innerhtml += "</tr>";
+
+                            }
+                            document.getElementById("inner_customer_infor").innerHTML = innerhtml;
+
+                            $('#exampleModalContent').modal('show');
+                           
+
+                        });
 
             }
         </script>
@@ -779,6 +836,7 @@
                 });
             });
         </script>
+  
 
 
 </body>

@@ -844,7 +844,7 @@ def StaffRegisterAuth():
         conn.commit()
         cursor.close()
         # cursor is for the db conenction and operation
-        message = "You are successfully Registered!"
+        message = "You are successfully Registered! Please go to Log In"
         return render_template('StaffRegister.html',message =message)
 
 @app.route('/StaffHome', methods = ["GET",'POST'])
@@ -869,7 +869,7 @@ def StaffHome():
     cursor.execute(query1.format(airline))
     agents_month = cursor.fetchall() 
     cursor.close()
-    print(agents_month)
+    print("top 5 bbooking agents last month sale :", agents_month)
 
     # # view top 5 booking agents by last year ticket sales
     cursor = conn.cursor()
@@ -891,7 +891,7 @@ def StaffHome():
     cursor.execute(query4.format(airline))
     mf_customer = cursor.fetchone() 
     cursor.close() 
-    print(mf_customer)  
+    print("our most frequent customers are  ",mf_customer)  
 
     # view the most frequent customer's flights 
     cursor = conn.cursor()
@@ -907,15 +907,16 @@ def StaffHome():
     year_sales = cursor.fetchall()
     cursor.close()
     year_sales = [[int(j[0]),int(j[1])] for j in year_sales]
-    print(year_sales)
+    print("Our last year sale is ", year_sales)
     total_sale_ly = sum([int(i[1]) for i in year_sales])
 
     # view reports of last month
     cursor = conn.cursor()
     query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
     cursor.execute(query7.format(airline))
-    if (cursor.fetchall()):
-        month_sales = cursor.fetchall()[0][1]
+    month_sales = cursor.fetchall()
+    if (month_sales):
+        month_sales = int(month_sales[0][1])
     else:
         month_sales = "N/A"
     cursor.close()
@@ -942,7 +943,7 @@ def StaffHome():
     testdata = cursor.fetchone()
     indirect = None
     if (testdata is not None):
-        indirect = cursor.fetchone()[0]
+        indirect = testdata[0]
     cursor.close()
     idr = 0
     if indirect:
@@ -960,7 +961,7 @@ def StaffHome():
     testdata = cursor.fetchone()
     m_direct = None
     if (testdata is not None):
-        m_direct = cursor.fetchone()[0]
+        m_direct =testdata[0]
     cursor.close()
     m_dire = 0
     if m_direct:
@@ -974,7 +975,7 @@ def StaffHome():
     testdata = cursor.fetchone()
     m_indirect = None
     if (testdata is not None):
-        m_indirect = cursor.fetchone()[0]
+        m_indirect = testdata[0]
     cursor.close()
     m_idr = 0
     if m_indirect:
@@ -1025,15 +1026,16 @@ def ViewFlightsByDates():
     return jsonify(data)
 
 
-@app.route('/ViewCustomersForFlight', methods = ["POST"])
-def ViewCustomersForFlight():
+@app.route('/CheckCustomerForFlight', methods = ["POST"])
+def CheckCustomerForFlight():
     username = session['username']
     airline = session['airline']
 
     req = json.loads(request.data)
-    flight_num = req['flight_num']
+    flight_num = req[1]
+    
     cursor = conn.cursor()
-    query = 'SELECT customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\''
+    query = 'SELECT airline_name, flight_num,customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\''
     cursor.execute(query.format(airline, flight_num))
     data = cursor.fetchall()
     cursor.close()
