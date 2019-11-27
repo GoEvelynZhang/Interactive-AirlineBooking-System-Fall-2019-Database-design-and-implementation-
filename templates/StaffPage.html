@@ -346,13 +346,53 @@
                         <td>{{line[5]}}</td>
                         <td>{{line[6]}}</td>
                      
-                        <td><button type="button">Check</button></td>
+                        <td><button type="button" onclick = 'send("{{line}}")'>Check</button></td>
 
                     </tr>
                     {% endfor %}
                 </table>
                
             </div>
+            <script>
+                function send(data){
+
+                    fetch("/CheckCustomerForFlight", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            var innerhtml = "";
+                            // <style>h4,th,tr,td{color:white;}</style>
+                            if (result.length === 0){
+                               
+                                innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
+                            }
+                            else{
+                                
+                            innerhtml = "<table ><th style = 'color:black'>Airline</th><th style = 'color:black'>Flight Number</th><th style = 'color:black'>Customer</th>";
+                            for (var i =0;i<result.length;i++){
+                                innerhtml += "<tr>" 
+                                for (var j = 0;j<result[i].length;j++){
+                                    innerhtml += "<th style = 'color:black'>"+result[i][j].toString()+"</th>";}
+                                innerhtml += "</tr>";
+
+                            }
+                            innerhtml+="</table>";}
+                           
+                            document.getElementById("inner_customer_infor").innerHTML = innerhtml;
+
+                           
+                           
+
+                        });
+                        $('#exampleModalContent').modal('show');
+                }
+            </script>
 
         </div>
               <!-- model for the Custome_infor for each flight under check -->
@@ -461,7 +501,7 @@
             }
             function check_customer(a,i){
                 console.log(result[i]);
-                fetch("/CheckCustomerForFlight", {
+                fetch("/CheckCustomerForFlight_interaction", {
                             headers: {
                                 "Content-Type": "application/json"
                             },
@@ -478,11 +518,11 @@
                                 innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
                             }
                             else{
-                            innerhtml = "<table><th>Airline</th><th>Flight Number</th><th>Customer</th>";
+                            innerhtml = "<table><th style = 'color:black;'>Airline</th><th style = 'color:black;'>Flight Number</th><th style = 'color:black;'>Customer</th>";
                             for (var i =0;i<result.length;i++){
                                 innerhtml += "<tr>" 
                                 for (var j = 0;j<result[i].length;j++){
-                                    innerhtml += "<th>"+result[i][j].toString()+"</th>";}
+                                    innerhtml += "<th style = 'color:black;'>"+result[i][j].toString()+"</th>";}
                                 innerhtml += "</tr>";
 
                             }

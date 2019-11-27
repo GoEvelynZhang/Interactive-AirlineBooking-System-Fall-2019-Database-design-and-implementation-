@@ -1046,13 +1046,38 @@ def CheckCustomerForFlight():
     airline = session['airline']
 
     req = json.loads(request.data)
-    flight_num = req[1]
+    data = req[1:-1].split(",")
+    flight_num = int(data[1].strip())
+   
+   
     
     cursor = conn.cursor()
-    query = 'SELECT airline_name, flight_num,customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\''
+    query = "SELECT airline_name, flight_num,customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\'"
     cursor.execute(query.format(airline, flight_num))
     data = cursor.fetchall()
     cursor.close()
+    print(data)
+
+
+    return jsonify(data)
+@app.route('/CheckCustomerForFlight_interaction',methods = ["POST"])
+def CheckCustomerForFlight_interaction():
+    username = session['username']
+    airline = session['airline']
+
+    req = json.loads(request.data)
+   
+    flight_num = req[1]
+   
+   
+    
+    cursor = conn.cursor()
+    query = "SELECT airline_name, flight_num,customer_email from purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND flight_num = \'{}\'"
+    cursor.execute(query.format(airline, flight_num))
+    data = cursor.fetchall()
+    cursor.close()
+    print(data)
+
 
     return jsonify(data)
 
