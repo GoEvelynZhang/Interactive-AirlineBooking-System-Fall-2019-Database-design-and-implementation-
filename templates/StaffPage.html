@@ -391,6 +391,18 @@
             document.getElementById("Dest_City").onchange = renew_flight;
             document.getElementById("Dest_Airport").onchange = renew_flight;
 
+            // Time converter
+            function convert(str) {
+            var date = new Date(str);
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2);
+    day = ("0" + date.getDate()).slice(-2);
+    hour =("0"+date.getHours()).slice(-2);
+    minute = ("0"+date.getMinutes()).slice(-2);
+    second = ("0"+date.getSeconds()).slice(-2);
+  return [date.getFullYear(), mnth, day].join("-") +" "+[hour,minute,second].join(":");
+}
+
+
             function renew_flight(e) {
                 e.preventDefault();
                 var data = {};
@@ -423,7 +435,7 @@
 
                                 if (result[i][j]) {
                                     if (j === 3 || j === 5){
-                                        inner_html += "<td>" + result[i][j].slice(4,) + "</td>";
+                                        inner_html += "<td>" + convert(result[i][j]) + "</td>";
                                        }
            
                                  
