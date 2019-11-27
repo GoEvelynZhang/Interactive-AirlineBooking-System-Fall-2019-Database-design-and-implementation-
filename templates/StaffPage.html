@@ -1,9 +1,12 @@
 <html>
 
 <head>
+    <title>Staff Page</title>
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/static/js/jquery.min.js"> </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src = "{{ url_for('static', filename='js/moment.js') }}"></script>
+            
     <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
     
     <style>
@@ -343,7 +346,7 @@
                         <td>{{line[5]}}</td>
                         <td>{{line[6]}}</td>
                      
-                        <td><button type="button" >Check</button></td>
+                        <td><button type="button">Check</button></td>
 
                     </tr>
                     {% endfor %}
@@ -417,8 +420,15 @@
                         for (var i = 0; i < result.length; i++) {
                             inner_html += "<tr>"
                             for (var j = 0; j < result[i].length; j++) {
+
                                 if (result[i][j]) {
-                                    inner_html += "<td>" + result[i][j].toString() + "</td>";
+                                    if (j === 3 || j === 5){
+                                        inner_html += "<td>" + result[i][j].slice(4,) + "</td>";
+                                       }
+           
+                                 
+                                    else{
+                                    inner_html += "<td>" + result[i][j].toString() + "</td>";}
 
                                 } else {
                                     inner_html += "<td>" + "" + "</td>";
@@ -545,6 +555,12 @@
 <!-- end of model for new flight creation -->
         <script>
            function create_new_flight(){
+               var  refresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Airport:</label><input type="text" class="form-control" id="departure_airport" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Time:</label><input type="text" class="form-control" id="departure_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>'+
+               '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Airport:</label><input type="text" class="form-control" id="arrival_airport" required =""></div>'+
+                '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Time:</label><input type="text" class="form-control" id="arrival_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>'+
+            '<div class="form-group"><label for="recipient-name" class="col-form-label">Price:</label><input type="text" class="form-control" id="price" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status" required =""></div>'+
+            '<div class="form-group"><label for="recipient-name" class="col-form-label">Airplane ID:</label><input type="text" class="form-control" id="airplane_id" required =""></div>';
+               document.getElementById("message_box").innerHTML = refresh;
                
                
             document.getElementById("AddNewFlightConfirmButton").onclick = confirm_new_flight;
@@ -622,7 +638,9 @@
 <!-- end of model for change status  -->
         <script>
             function change_flight_status(){
-
+                var fresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num1" required =""></div><div class="form-group">'+
+                        '<label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status1" required =""></div>';
+                document.getElementById("message_box1").innerHTML = fresh;
              document.getElementById("ChangeStatusConfirmButton").onclick = confirm_change_status;
             function confirm_change_status(){
                 var data = [];
@@ -694,7 +712,8 @@
 <!-- end of model for add plane-->
         <script>
                 function AddPlane(){
-    
+                var fresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">New Plane ID:</label><input type="text" class="form-control" id="plane_id" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Number of Seats:</label><input type="text" class="form-control" id="seat_num" required =""></div>';
+                document.getElementById("message_box2").innerHTML = fresh;
                  document.getElementById("AddPlaneConfirmButton").onclick = confirm_add_plane;
                 function confirm_add_plane(){
                     var data = [];
@@ -766,8 +785,10 @@
 <!-- end of model for add plane-->
         <script>
                 function AddAirport(){
-    
-                 document.getElementById("AddAirportConfirmButton").onclick = confirm_add_airport;
+                    // #refresh the input box at each time of the input to restore
+                    var fresh  = '<div class="form-group"><label for="recipient-name" class="col-form-label">Airport Name:</label><input type="text" class="form-control" id="airport_name" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Airport City:</label><input type="text" class="form-control" id="airport_city" required =""></div>';
+                    document.getElementById("message_box3").innerHTML = fresh;
+                    document.getElementById("AddAirportConfirmButton").onclick = confirm_add_airport;
                 function confirm_add_airport(){
                     var data = [];
                    

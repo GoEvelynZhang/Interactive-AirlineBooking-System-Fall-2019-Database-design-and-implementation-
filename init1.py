@@ -235,8 +235,22 @@ def searchFlightStatus():
         data = cursor.fetchall()
         cursor.close()
     else:
-        depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-        arrive_date = datetime.datetime.strptime(arrive_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        if depart_date != 'mm/dd/yyyy' and arrive_date == 'mm/dd/yyyy':
+    
+            depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+            cursor = conn.cursor()
+            query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' "
+            cursor.execute(query.format(flight_num, depart_date))
+            data = cursor.fetchall()
+            cursor.close()
+        else:
+            depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+            arrive_date = datetime.datetime.strptime(arrive_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+            cursor = conn.cursor()
+            query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' CAST(arrival_time AS DATE) = \'{}\' "
+            cursor.execute(query.format(flight_num, depart_date, arrive_date))
+            data = cursor.fetchall()
+            cursor.close()
     
     return jsonify(data)
 # ***************************************************************
@@ -862,14 +876,14 @@ def StaffHome():
     cursor.execute(query.format(airline,today,thirty_future_day))
     dafault_flights = cursor.fetchall() 
     cursor.close()
-
+    print(dafault_flights)
     # view top 5 booking agents by last month ticket sales
     cursor = conn.cursor()
     query1 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent  WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
     cursor.execute(query1.format(airline))
     agents_month = cursor.fetchall() 
     cursor.close()
-    print("top 5 bbooking agents last month sale :", agents_month)
+
 
     # # view top 5 booking agents by last year ticket sales
     cursor = conn.cursor()
@@ -983,7 +997,7 @@ def StaffHome():
     else:
         m_idr = 0
     month_pie = [{"name":"Direct","value":m_dire},{"name":"Indirect","value":m_idr}]
-    print(month_pie)
+   
     # view top 3 destinations over the last 3 months
     cursor = conn.cursor()
     query12 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 3 MONTH) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
@@ -997,8 +1011,7 @@ def StaffHome():
     cursor.execute(query13.format(airline))
     y_des = cursor.fetchall()
     cursor.close()
-    print(m_des,y_des)
-
+ 
 
     return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie,month_pie=month_pie,m_des = m_des,y_des=y_des )
 
@@ -1022,6 +1035,7 @@ def ViewFlightsByDates():
     data = cursor.fetchall()
     cursor.close()
     print(data)
+   
 
     return jsonify(data)
 
