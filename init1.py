@@ -424,20 +424,74 @@ def searchPurchase():
     username = session["username"]
     req = json.loads(request.data)  
     start_date = req["datepicker1"] 
-    start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    
     end_date = req["datepicker2"]
-    end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    
     start_city =  req["Source_City"]
     start_airport = req["Source_Airport"] 
     arrive_city =  req["Dest_City"] 
     arrive_airport =  req["Dest_Airport"]
-    if start_date != '' and end_date !='':
-        cursor = conn.cursor()
-        query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' ORDER BY purchase_date  DESC"
-        cursor.execute(query.format(username, start_date, end_date))
-        data = cursor.fetchall() 
-        cursor.close()
-        ret =[]
+    ret =[]
+    data = None
+    if start_date != 'mm/dd/yyyy' and end_date !='mm/dd/yyyy':
+        start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        if start_city == '' and arrive_city == '':
+            if start_airport == '' and arrive_airport == '':
+                
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE customer_email = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' ORDER BY purchase_date  DESC"
+                cursor.execute(query.format(username, start_date, end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+               
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE customer_email = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' AND departure_airport =\'{}\' AND arrival_airport =\'{}\' ORDER BY purchase_date  DESC"
+                cursor.execute(query.format(username, start_date, end_date,start_airport,arrive_airport))
+                data = cursor.fetchall() 
+                cursor.close()
+        else:
+            if start_airport == '' and arrive_airport == '':
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM (ticket NATURAL JOIN purchases NATURAL JOIN flight AS A), airport as B, airport as C WHERE A.departure_airport = B.airport_name and A.arrival_airport = C.airport_name and customer_email = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' ORDER BY purchase_date  DESC "
+                cursor.execute(query.format(username, start_city, arrive_city, start_date,end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM (ticket NATURAL JOIN purchases NATURAL JOIN flight AS A), airport as B, airport as C WHERE A.departure_airport = B.airport_name and A.arrival_airport = C.airport_name and customer_email = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'  ORDER BY purchase_date  DESC "
+                cursor.execute(query.format(username, start_city, arrive_city, start_airport,arrive_airport,start_date,end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+
+    else:
+        
+        
+    # if the input is the start and the destination airport  
+        if start_city != '' and arrive_city != '':
+            if start_airport == '' and arrive_airport == '':
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM (ticket NATURAL JOIN purchases NATURAL JOIN flight AS A), airport as B, airport as C WHERE A.departure_airport = B.airport_name and A.arrival_airport = C.airport_name and customer_email = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' "
+                cursor.execute(query.format(username, start_city, arrive_city))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+                cursor = conn.cursor()
+                query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM (ticket NATURAL JOIN purchases NATURAL JOIN flight AS A), airport as B, airport as C WHERE A.departure_airport = B.airport_name and A.arrival_airport = C.airport_name and customer_email = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\'"
+                cursor.execute(query.format(username, start_city, arrive_city,start_airport,arrive_airport))
+                data = cursor.fetchall() 
+                cursor.close()
+        # if the user input are the two airport
+        else:
+            cursor = conn.cursor()
+            query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE customer_email = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' "
+            cursor.execute(query.format(username, start_airport, arrive_airport))
+            data = cursor.fetchall() 
+            cursor.close()
+
+        # deal with the time format inconsistency
+    if data:
         for i in range(len(data)):
             current=[]
             current.append(data[i][0])
@@ -445,9 +499,9 @@ def searchPurchase():
             current.append(data[i][2])
             current.append(data[i][3].strftime("%Y-%m-%d"))
             ret.append(current)
-        
-        print(ret)
-        return jsonify({
+    else:
+        pass
+    return jsonify({
             "data": ret
             })
         
@@ -872,7 +926,7 @@ def StaffHome():
 
     # view my flights by default
     thirty_future_day = (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d")
-    query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND status = 'upcoming' AND departure_time BETWEEN  \'{}\' AND \'{}\' ORDER BY departure_time DESC"
+    query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND status = 'upcoming' AND CAST(departure_time AS DATE) BETWEEN  \'{}\' AND \'{}\' ORDER BY departure_time DESC"
     cursor.execute(query.format(airline,today,thirty_future_day))
     dafault_flights = cursor.fetchall() 
     cursor.close()
@@ -1218,6 +1272,11 @@ def AuthorizeAddAirport():
 
     print(state)
     return jsonify(state)
+@app.route("/UpdateReportByDate",methods = ['POST'])
+def UpdateReportByDate():
+    req = json.loads(request.data)
+    print(req)
+    return([1,2,3])
 # *****************************************************
 
 

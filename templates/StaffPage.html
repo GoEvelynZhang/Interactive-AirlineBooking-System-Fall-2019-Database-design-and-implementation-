@@ -113,6 +113,7 @@
         #year_num {
             left: 30%;
         }
+      
 
         #table_view_purchase,
         #table_mf_customer_flight {
@@ -1006,6 +1007,28 @@
                 </div>
                 <div id="monly_graph_condition"></div>
                 <script>
+                    // select the date range
+                    document.getElementById("datepicker4").onchange = update_report;
+                    function update_report(){
+                        data = {};
+                        var day_start = document.getElementById("datepicker3").value;
+                        var day_end = document.getElementById("datepicker4").value;
+                        data['date_start'] = day_start;
+                        data['date_end'] = date_end;
+                        fetch("/UpdateReportByDate", {
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    })
+                    .then(resp => resp.json())
+                    .then(result => {
+
+                        console.log(result);
+
+                    });
+                    // draw the monthly graph
                     var dataset = {{year_sales}};
                     console.log(dataset);
                     //    for (var i = 0 ; i<6;i++){
@@ -1249,7 +1272,7 @@
         <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
         <script>
             $(function () {
-                $("#datepicker1,#datepicker2,#datepicker3,#datepicker4,#date_start,#date_end").datepicker();
+                $("#datepicker1,#datepicker2,#datepicker3,#datepicker4").datepicker();
             });
         </script>
         <!-- //Calendar -->
