@@ -243,29 +243,36 @@ def searchFlightStatus():
     data = None
     print(flight_num,depart_date,arrive_date )
     if depart_date == 'mm/dd/yyyy' and arrive_date == 'mm/dd/yyyy':
-
+    
         cursor = conn.cursor()
         query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time, arrival_time, status FROM flight WHERE flight_num = \'{}\'"
         cursor.execute(query.format(flight_num))
         data = cursor.fetchall()
         cursor.close()
-    else:
-        if depart_date != 'mm/dd/yyyy' and arrive_date == 'mm/dd/yyyy':
+    elif depart_date != 'mm/dd/yyyy' and arrive_date == 'mm/dd/yyyy':
     
-            depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-            cursor = conn.cursor()
-            query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' "
-            cursor.execute(query.format(flight_num, depart_date))
-            data = cursor.fetchall()
-            cursor.close()
-        else:
-            depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-            arrive_date = datetime.datetime.strptime(arrive_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-            cursor = conn.cursor()
-            query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' CAST(arrival_time AS DATE) = \'{}\' "
-            cursor.execute(query.format(flight_num, depart_date, arrive_date))
-            data = cursor.fetchall()
-            cursor.close()
+        depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        cursor = conn.cursor()
+        query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' "
+        cursor.execute(query.format(flight_num, depart_date))
+        data = cursor.fetchall()
+        cursor.close()
+    elif depart_date == 'mm/dd/yyyy' and arrive_date != 'mm/dd/yyyy':
+        arrive_date = datetime.datetime.strptime(arrive_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        cursor = conn.cursor()
+        query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(arrival_time AS DATE) =\'{}\' "
+        cursor.execute(query.format(flight_num, arrive_date))
+        data = cursor.fetchall()
+        cursor.close()
+    else:
+        depart_date = datetime.datetime.strptime(depart_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        arrive_date = datetime.datetime.strptime(arrive_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        cursor = conn.cursor()
+        query = "SELECT airline_name, flight_num, departure_airport, arrival_airport, departure_time , arrival_time, status FROM flight WHERE flight_num = \'{}\' and CAST(departure_time AS DATE) =\'{}\' and CAST(arrival_time AS DATE) = \'{}\' "
+        cursor.execute(query.format(flight_num, depart_date, arrive_date))
+        data = cursor.fetchall()
+        cursor.close()
+
     
     return jsonify(data)
 # ***************************************************************
