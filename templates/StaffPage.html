@@ -5,63 +5,68 @@
     <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/static/js/jquery.min.js"> </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src = "{{ url_for('static', filename='js/moment.js') }}"></script>
-            
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+
     <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
-    
+
     <style>
-     .top_destination{
-         height:400px;
-     }
+        .top_destination {
+            height: 400px;
+        }
+
         /* ####for the pirce chart */
-       #pie_area{
-           position:relative;
-           left:10%;
-           top:30px;
-       }
+        #pie_area {
+            position: relative;
+            left: 10%;
+            top: 30px;
+        }
+
         .pie {
 
-  display:inline-block;
-  position:relative;
- 
-}
-.table_dest{
-    display:inline-block;
-}
-#y_des{
-    position:relative;
-    left:30%;
-    top:60px;
-}
-#m_des{
-    position:relative;
-    left:20%;
-    top:60px;
-}
+            display: inline-block;
+            position: relative;
+
+        }
+
+        .table_dest {
+            display: inline-block;
+        }
+
+        #y_des {
+            position: relative;
+            left: 30%;
+            top: 60px;
+        }
+
+        #m_des {
+            position: relative;
+            left: 20%;
+            top: 60px;
+        }
 
 
 
-.legend {
-  float: left;
-  font-family: "Verdana";
-  font-size: .7em;
-  color: white;
-}
+        .legend {
+            float: left;
+            font-family: "Verdana";
+            font-size: .7em;
+            color: white;
+        }
 
-.pie text {
-  font-family: "Verdana";
-  fill: white;
-}
+        .pie text {
+            font-family: "Verdana";
+            fill: white;
+        }
 
-.pie .name-text{
-  font-size: .8em;
-}
+        .pie .name-text {
+            font-size: .8em;
+        }
 
-.pie .value-text{
-  font-size: 3em;
-}
+        .pie .value-text {
+            font-size: 3em;
+        }
 
-/* ******* */
+        /* ******* */
         #monly_graph_condition {
             position: relative;
             left: 22%;
@@ -70,13 +75,16 @@
         .tick {
             stroke: rgb(255, 255, 254);
         }
-        #choose_day_start{
-            position:relative;
-            left:100px;
+
+        #choose_day_start {
+            position: relative;
+            left: 120px;
+            z-index: 100;
         }
-        #choose_day_end{
-            position:relative;
-            left:130px;
+
+        #choose_day_end {
+            position: relative;
+            left: 130px;
         }
 
         path,
@@ -94,15 +102,16 @@
             position: relative;
         }
 
-        #month_sale{
+        #month_sale {
             position: relative;
             left: 180px;
             font-size: 17px;
         }
+
         #total_sale {
 
-            position:relative;
-            left:30px;
+            position: relative;
+            left: 30px;
 
         }
 
@@ -113,7 +122,7 @@
         #year_num {
             left: 30%;
         }
-      
+
 
         #table_view_purchase,
         #table_mf_customer_flight {
@@ -168,6 +177,7 @@
             left: 10px;
             color: white;
         }
+
         /* #mf_customer_title,#create_new_flight,
         #change_flight_status,#add_plane,
         #add_airport,
@@ -175,31 +185,48 @@
         #revenue_comparison,#top_destination,#mf_customer{
             top:70px;
         } */
-      
-      
-        .create_new_flight,.change_flight_status,.add_plane,.add_airport,.view_booking_agent{
-            position:relative;
-            top:60px;
+
+
+        .create_new_flight,
+        .change_flight_status,
+        .add_plane,
+        .add_airport,
+        .view_booking_agent {
+            position: relative;
+            top: 60px;
         }
+
         #title_view_flight,
-        #mf_customer_title,#create_new_flight,
-        #change_flight_status,#add_plane,
+        #mf_customer_title,
+        #create_new_flight,
+        #change_flight_status,
+        #add_plane,
         #add_airport,
-        #view_booking_agent,#view_report,
-        #revenue_comparison,#top_destination,#mf_customer{
+        #view_booking_agent,
+        #view_report,
+        #revenue_comparison,
+        #top_destination,
+        #mf_customer {
             position: relative;
             left: 14%;
             display: inline-block;
             color: #FFC107;
-           
+
 
         }
-        #top_dest_title{
-            position:relative;
-            top:50px;
+
+        #top_dest_title {
+            position: relative;
+            top: 50px;
         }
 
-       
+        #choose_last_year,
+        #choose_last_month {
+            position: relative;
+            left: 300px;
+
+        }
+
 
         .view_my_flight {
             position: relative;
@@ -220,9 +247,13 @@
             color: #FFC107;
 
         }
-        .view_freq_customer, .view_report,.revenue_comparison,.top_destination{
-            position:relative;
-            top:90px;
+
+        .view_freq_customer,
+        .view_report,
+        .revenue_comparison,
+        .top_destination {
+            position: relative;
+            top: 90px;
         }
 
         h3 {
@@ -234,35 +265,34 @@
 
         h5 {
             color: #FFC107;
-        
+
             position: relative;
 
         }
 
         #by_ticket_num,
-        #by_commission
-         {
+        #by_commission {
             color: #FFC107;
             position: relative;
             left: 18%;
-            font-size:20px;
+            font-size: 20px;
         }
     </style>
-     <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="keywords"
-          content="Flight Ticket Booking  Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
-      <script type="application/x-javascript">
-          addEventListener("load", function () {
-              setTimeout(hideURLbar, 0);
-          }, false);
-  
-          function hideURLbar() {
-              window.scrollTo(0, 1);
-          }
-      </script>
+    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords"
+        content="Flight Ticket Booking  Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
 
 
 </head>
@@ -280,12 +310,12 @@
 
 
         <div class="view_my_flight" method="GET">
-            
-            <h3  id="title_view_flight"style = "font-size:25px;">View my flights</h3>
-       
+
+            <h3 id="title_view_flight" style="font-size:25px;">View my flights</h3>
+
             <div class="date">
                 <div id="chose_day_start">
-                    <h5 style = "font-size:16px;">Day Start</h5>
+                    <h5 style="font-size:16px;">Day Start</h5>
                     <input id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy"
                         onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
                         required="">
@@ -293,7 +323,7 @@
             </div>
             <div class="date">
                 <div id="chose_day_end">
-                    <h5 style = "font-size:16px;">Day End</h5>
+                    <h5 style="font-size:16px;">Day End</h5>
                     <input id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy"
                         onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
                         required="">
@@ -301,7 +331,7 @@
             </div>
             <div class="date">
                 <div id="chose_day_end">
-                    <h5 style = "font-size:16px;">Source city</h5>
+                    <h5 style="font-size:16px;">Source city</h5>
                     <input type="text" size="10" id="Source_City" name="SourceCity" placeholder="Source city" />
                 </div>
             </div>
@@ -326,8 +356,8 @@
                 </div>
             </div>
 
-            <div style="height:220px;overflow:auto;" >
-                <table id="table_view_purchase" >
+            <div style="height:220px;overflow:auto;">
+                <table id="table_view_purchase">
                     <th>Airline</th>
                     <th>Flight Num</th>
                     <th>Depart Air</th>
@@ -346,16 +376,16 @@
                         <td>{{line[4]}}</td>
                         <td>{{line[5]}}</td>
                         <td>{{line[6]}}</td>
-                     
-                        <td><button type="button" onclick = 'send("{{line}}")'>Check</button></td>
+
+                        <td><button type="button" onclick='send("{{line}}")'>Check</button></td>
 
                     </tr>
                     {% endfor %}
                 </table>
-               
+
             </div>
             <script>
-                function send(data){
+                function send(data) {
 
                     fetch("/CheckCustomerForFlight", {
                             headers: {
@@ -369,63 +399,65 @@
                             console.log(result);
                             var innerhtml = "";
                             // <style>h4,th,tr,td{color:white;}</style>
-                            if (result.length === 0){
-                               
-                                innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
-                            }
-                            else{
-                                
-                            innerhtml = "<table ><th style = 'color:black'>Airline</th><th style = 'color:black'>Flight Number</th><th style = 'color:black'>Customer</th>";
-                            for (var i =0;i<result.length;i++){
-                                innerhtml += "<tr>" 
-                                for (var j = 0;j<result[i].length;j++){
-                                    innerhtml += "<th style = 'color:black'>"+result[i][j].toString()+"</th>";}
-                                innerhtml += "</tr>";
+                            if (result.length === 0) {
 
+                                innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
+                            } else {
+
+                                innerhtml =
+                                    "<table ><th style = 'color:black'>Airline</th><th style = 'color:black'>Flight Number</th><th style = 'color:black'>Customer</th>";
+                                for (var i = 0; i < result.length; i++) {
+                                    innerhtml += "<tr>"
+                                    for (var j = 0; j < result[i].length; j++) {
+                                        innerhtml += "<th style = 'color:black'>" + result[i][j].toString() +
+                                            "</th>";
+                                    }
+                                    innerhtml += "</tr>";
+
+                                }
+                                innerhtml += "</table>";
                             }
-                            innerhtml+="</table>";}
-                           
+
                             document.getElementById("inner_customer_infor").innerHTML = innerhtml;
 
-                           
-                           
+
+
 
                         });
-                        $('#exampleModalContent').modal('show');
+                    $('#exampleModalContent').modal('show');
                 }
             </script>
 
         </div>
-              <!-- model for the Custome_infor for each flight under check -->
-              <div class="modal fade" id="exampleModalContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Customer Information </h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                      </div>
-                      <div class="modal-body"id = "inner_customer_infor">
-                          
-   
-   
-                        
-                      </div>
-                      
-                  </div>
-              </div>
-          </div>
-        
+        <!-- model for the Custome_infor for each flight under check -->
+        <div class="modal fade" id="exampleModalContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Customer Information </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="inner_customer_infor">
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- communicating with route /ViewFlightsByDates for getting upcomming flight infor -->
-      
-            <!--script for portfolio-->
-            <script src="/static/js/jquery.min.js"> </script>
-            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-            <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
-            <script type="text/javascript">
-        
+
+        <!--script for portfolio-->
+        <script src="/static/js/jquery.min.js"> </script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
+        <script type="text/javascript">
             document.getElementById("datepicker2").onchange = renew_flight;
             document.getElementById("Source_City").onchange = renew_flight;
             document.getElementById("Source_Airport").onchange = renew_flight;
@@ -434,14 +466,14 @@
 
             // Time converter
             function convert(str) {
-            var date = new Date(str);
-    mnth = ("0" + (date.getMonth() + 1)).slice(-2);
-    day = ("0" + date.getDate()).slice(-2);
-    hour =("0"+date.getHours()).slice(-2);
-    minute = ("0"+date.getMinutes()).slice(-2);
-    second = ("0"+date.getSeconds()).slice(-2);
-  return [date.getFullYear(), mnth, day].join("-") +" "+[hour,minute,second].join(":");
-}
+                var date = new Date(str);
+                mnth = ("0" + (date.getMonth() + 1)).slice(-2);
+                day = ("0" + date.getDate()).slice(-2);
+                hour = ("0" + date.getHours()).slice(-2);
+                minute = ("0" + date.getMinutes()).slice(-2);
+                second = ("0" + date.getSeconds()).slice(-2);
+                return [date.getFullYear(), mnth, day].join("-") + " " + [hour, minute, second].join(":");
+            }
 
 
             function renew_flight(e) {
@@ -475,13 +507,11 @@
                             for (var j = 0; j < result[i].length; j++) {
 
                                 if (result[i][j]) {
-                                    if (j === 3 || j === 5){
+                                    if (j === 3 || j === 5) {
                                         inner_html += "<td>" + convert(result[i][j]) + "</td>";
-                                       }
-           
-                                 
-                                    else{
-                                    inner_html += "<td>" + result[i][j].toString() + "</td>";}
+                                    } else {
+                                        inner_html += "<td>" + result[i][j].toString() + "</td>";
+                                    }
 
                                 } else {
                                     inner_html += "<td>" + "" + "</td>";
@@ -500,136 +530,143 @@
 
 
             }
-            function check_customer(a,i){
+
+            function check_customer(a, i) {
                 console.log(result[i]);
                 fetch("/CheckCustomerForFlight_interaction", {
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            method: 'POST',
-                            body: JSON.stringify(result[i])
-                        })
-                        .then(resp => resp.json())
-                        .then(result => {
-                            console.log(result);
-                            var innerhtml = "";
-                            // <style>h4,th,tr,td{color:white;}</style>
-                            if (result.length === 0){
-                               
-                                innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
-                            }
-                            else{
-                            innerhtml = "<table><th style = 'color:black;'>Airline</th><th style = 'color:black;'>Flight Number</th><th style = 'color:black;'>Customer</th>";
-                            for (var i =0;i<result.length;i++){
-                                innerhtml += "<tr>" 
-                                for (var j = 0;j<result[i].length;j++){
-                                    innerhtml += "<th style = 'color:black;'>"+result[i][j].toString()+"</th>";}
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        method: 'POST',
+                        body: JSON.stringify(result[i])
+                    })
+                    .then(resp => resp.json())
+                    .then(result => {
+                        console.log(result);
+                        var innerhtml = "";
+                        // <style>h4,th,tr,td{color:white;}</style>
+                        if (result.length === 0) {
+
+                            innerhtml += "<h5 style = 'text-align:center;'>No customer Infor Available</h5>";
+                        } else {
+                            innerhtml =
+                                "<table><th style = 'color:black;'>Airline</th><th style = 'color:black;'>Flight Number</th><th style = 'color:black;'>Customer</th>";
+                            for (var i = 0; i < result.length; i++) {
+                                innerhtml += "<tr>"
+                                for (var j = 0; j < result[i].length; j++) {
+                                    innerhtml += "<th style = 'color:black;'>" + result[i][j].toString() + "</th>";
+                                }
                                 innerhtml += "</tr>";
 
                             }
-                            innerhtml+="</table>";}
-                           
-                            document.getElementById("inner_customer_infor").innerHTML = innerhtml;
+                            innerhtml += "</table>";
+                        }
 
-                           
-                           
+                        document.getElementById("inner_customer_infor").innerHTML = innerhtml;
 
-                        });
-                        $('#exampleModalContent').modal('show');
+
+
+
+                    });
+                $('#exampleModalContent').modal('show');
             }
         </script>
 
         <div class="create_new_flight">
-            <h3 style = "font-size:25px;" id="create_new_flight" onclick = 'create_new_flight()'>Create New Flight</h3>
+            <h3 style="font-size:25px;" id="create_new_flight" onclick='create_new_flight()'>Create New Flight</h3>
 
 
 
         </div>
         <!-- model creating new fight-->
-  
 
-    <div class="modal fade" id="CreateNewFlight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Creating New Flight</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+        <div class="modal fade" id="CreateNewFlight" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Creating New Flight</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button> -->
-            </div>
-            <div class="modal-body">
-                <form id="message_box">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Flight Number:</label>
-                        <input type="text" class="form-control" id="flight_num" required =''>
                     </div>
-                    <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Departure Airport:</label>
-                            <input type="text" class="form-control" id="departure_airport" required =''>
-                        </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Departure Time:</label>
-                        <input type="text" class="form-control" id="departure_time" placeholder="mm/dd/yy hh:mm:ss" required =''>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Arrival Airport:</label>
-                        <input type="text" class="form-control" id="arrival_airport" required =''>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Arrival Time:</label>
-                        <input type="text" class="form-control" id="arrival_time" placeholder="mm/dd/yy hh:mm:ss" required =''>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Price:</label>
-                        <input type="text" class="form-control" id="price" required =''>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Status:</label>
-                        <input type="text" class="form-control" id="status" required =''>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Airplane ID:</label>
-                        <input type="text" class="form-control" id="airplane_id" required =''>
-                    </div>
-                    <!-- <div class="form-group">
+                    <div class="modal-body">
+                        <form id="message_box">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Flight Number:</label>
+                                <input type="text" class="form-control" id="flight_num" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Departure Airport:</label>
+                                <input type="text" class="form-control" id="departure_airport" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Departure Time:</label>
+                                <input type="text" class="form-control" id="departure_time"
+                                    placeholder="mm/dd/yy hh:mm:ss" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Arrival Airport:</label>
+                                <input type="text" class="form-control" id="arrival_airport" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Arrival Time:</label>
+                                <input type="text" class="form-control" id="arrival_time"
+                                    placeholder="mm/dd/yy hh:mm:ss" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Price:</label>
+                                <input type="text" class="form-control" id="price" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Status:</label>
+                                <input type="text" class="form-control" id="status" required=''>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Airplane ID:</label>
+                                <input type="text" class="form-control" id="airplane_id" required=''>
+                            </div>
+                            <!-- <div class="form-group">
         <label for="message-text" class="col-form-label">Message:</label>
         <textarea class="form-control" id="message-text"></textarea>
       </div> -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                <button type="button" id="AddNewFlightConfirmButton" class="btn btn-primary">Confirm</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="button" id="AddNewFlightConfirmButton" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- end of model for new flight creation -->
+        <!-- end of model for new flight creation -->
         <script>
-           function create_new_flight(){
-               var  refresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Airport:</label><input type="text" class="form-control" id="departure_airport" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Time:</label><input type="text" class="form-control" id="departure_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>'+
-               '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Airport:</label><input type="text" class="form-control" id="arrival_airport" required =""></div>'+
-                '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Time:</label><input type="text" class="form-control" id="arrival_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>'+
-            '<div class="form-group"><label for="recipient-name" class="col-form-label">Price:</label><input type="text" class="form-control" id="price" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status" required =""></div>'+
-            '<div class="form-group"><label for="recipient-name" class="col-form-label">Airplane ID:</label><input type="text" class="form-control" id="airplane_id" required =""></div>';
-               document.getElementById("message_box").innerHTML = refresh;
-               
-               
-            document.getElementById("AddNewFlightConfirmButton").onclick = confirm_new_flight;
-            function confirm_new_flight(){
-                var data = [];
-               
-               data.push(document.getElementById("flight_num").value) ; 
-               data.push(document.getElementById("departure_airport").value) ; 
-               data.push(document.getElementById("departure_time").value ) ; 
-               data.push(document.getElementById("arrival_airport").value) ; 
-               data.push(document.getElementById("arrival_time").value ) ; 
-               data.push(document.getElementById("price").value) ; 
-               data.push(document.getElementById("status").value ); 
-               data.push(document.getElementById("airplane_id").value); 
-               console.log(data);
-            fetch("/AuthorizeNewFlight", {
+            function create_new_flight() {
+                var refresh =
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Airport:</label><input type="text" class="form-control" id="departure_airport" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Departure Time:</label><input type="text" class="form-control" id="departure_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>' +
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Airport:</label><input type="text" class="form-control" id="arrival_airport" required =""></div>' +
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Arrival Time:</label><input type="text" class="form-control" id="arrival_time" placeholder="mm/dd/yy hh:mm:ss" required =""></div>' +
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Price:</label><input type="text" class="form-control" id="price" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status" required =""></div>' +
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Airplane ID:</label><input type="text" class="form-control" id="airplane_id" required =""></div>';
+                document.getElementById("message_box").innerHTML = refresh;
+
+
+                document.getElementById("AddNewFlightConfirmButton").onclick = confirm_new_flight;
+
+                function confirm_new_flight() {
+                    var data = [];
+
+                    data.push(document.getElementById("flight_num").value);
+                    data.push(document.getElementById("departure_airport").value);
+                    data.push(document.getElementById("departure_time").value);
+                    data.push(document.getElementById("arrival_airport").value);
+                    data.push(document.getElementById("arrival_time").value);
+                    data.push(document.getElementById("price").value);
+                    data.push(document.getElementById("status").value);
+                    data.push(document.getElementById("airplane_id").value);
+                    console.log(data);
+                    fetch("/AuthorizeNewFlight", {
                             headers: {
                                 "Content-Type": "application/json"
                             },
@@ -639,71 +676,78 @@
                         .then(resp => resp.json())
                         .then(result => {
                             console.log(result);
-                            var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>" + result.toString() +
+                                "</h4>";
                             document.getElementById("message_box").innerHTML = innerhtml;
 
-           }) ; }
-           
-           $('#CreateNewFlight').modal('show');}
+                        });
+                }
+
+                $('#CreateNewFlight').modal('show');
+            }
         </script>
         <div class="change_flight_status">
-            <h3 style = "font-size:25px;" id="change_flight_status" onclick = 'change_flight_status()'>Change Flight Status</h3>
+            <h3 style="font-size:25px;" id="change_flight_status" onclick='change_flight_status()'>Change Flight Status
+            </h3>
 
         </div>
-         <!-- model change flight status-->
-  
+        <!-- model change flight status-->
 
-    <div class="modal fade" id="ChangeFlightStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Changing Flight Status</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+        <div class="modal fade" id="ChangeFlightStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Changing Flight Status
+                        </h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button> -->
-            </div>
-            <div class="modal-body">
-                <form id="message_box1">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Flight Number:</label>
-                        <input type="text" class="form-control" id="flight_num1" required =''>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Status:</label>
-                        <input type="text" class="form-control" id="status1" required =''>
-                    </div>
-                  
-                    <!-- <div class="form-group">
+                    <div class="modal-body">
+                        <form id="message_box1">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Flight Number:</label>
+                                <input type="text" class="form-control" id="flight_num1" required=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Status:</label>
+                                <input type="text" class="form-control" id="status1" required=''>
+                            </div>
+
+                            <!-- <div class="form-group">
         <label for="message-text" class="col-form-label">Message:</label>
         <textarea class="form-control" id="message-text"></textarea>
       </div> -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                <button type="button" id="ChangeStatusConfirmButton" class="btn btn-primary">Confirm</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="button" id="ChangeStatusConfirmButton" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- end of model for change status  -->
+        <!-- end of model for change status  -->
         <script>
-            function change_flight_status(){
-                var fresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num1" required =""></div><div class="form-group">'+
-                        '<label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status1" required =""></div>';
+            function change_flight_status() {
+                var fresh =
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Flight Number:</label><input type="text" class="form-control" id="flight_num1" required =""></div><div class="form-group">' +
+                    '<label for="recipient-name" class="col-form-label">Status:</label><input type="text" class="form-control" id="status1" required =""></div>';
                 document.getElementById("message_box1").innerHTML = fresh;
-             document.getElementById("ChangeStatusConfirmButton").onclick = confirm_change_status;
-            function confirm_change_status(){
-                var data = [];
-               
-               data.push(document.getElementById("flight_num1").value) ; 
-       
-               data.push(document.getElementById("status").value ); 
-            
-               console.log(data);
-            fetch("/AuthorizeChangeStatus", {
+                document.getElementById("ChangeStatusConfirmButton").onclick = confirm_change_status;
+
+                function confirm_change_status() {
+                    var data = [];
+
+                    data.push(document.getElementById("flight_num1").value);
+
+                    data.push(document.getElementById("status").value);
+
+                    console.log(data);
+                    fetch("/AuthorizeChangeStatus", {
                             headers: {
                                 "Content-Type": "application/json"
                             },
@@ -713,165 +757,178 @@
                         .then(resp => resp.json())
                         .then(result => {
                             console.log(result);
-                            var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>" + result.toString() +
+                                "</h4>";
                             document.getElementById("message_box1").innerHTML = innerhtml;
 
-           }) ; }
-           
-           $('#ChangeFlightStatus').modal('show');}
+                        });
+                }
+
+                $('#ChangeFlightStatus').modal('show');
+            }
         </script>
         <div class="add_plane">
-            <h3 style = "font-size:25px;" id="add_plane" onclick = 'AddPlane()'>Add Planes</h3>
+            <h3 style="font-size:25px;" id="add_plane" onclick='AddPlane()'>Add Planes</h3>
 
         </div>
-              <!-- model add planes-->
-  
+        <!-- model add planes-->
 
-    <div class="modal fade" id="AddPlane" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Planes:</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+        <div class="modal fade" id="AddPlane" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Planes:</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button> -->
-            </div>
-            <div class="modal-body">
-                <form id="message_box2">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">New Plane ID:</label>
-                        <input type="text" class="form-control" id="plane_id" required =''>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Number of Seats:</label>
-                        <input type="text" class="form-control" id="seat_num" required =''>
-                    </div>
-                  
-                    <!-- <div class="form-group">
+                    <div class="modal-body">
+                        <form id="message_box2">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">New Plane ID:</label>
+                                <input type="text" class="form-control" id="plane_id" required=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Number of Seats:</label>
+                                <input type="text" class="form-control" id="seat_num" required=''>
+                            </div>
+
+                            <!-- <div class="form-group">
         <label for="message-text" class="col-form-label">Message:</label>
         <textarea class="form-control" id="message-text"></textarea>
       </div> -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                <button type="button" id="AddPlaneConfirmButton" class="btn btn-primary">Confirm</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="button" id="AddPlaneConfirmButton" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- end of model for add plane-->
+        <!-- end of model for add plane-->
         <script>
-                function AddPlane(){
-                var fresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">New Plane ID:</label><input type="text" class="form-control" id="plane_id" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Number of Seats:</label><input type="text" class="form-control" id="seat_num" required =""></div>';
+            function AddPlane() {
+                var fresh =
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">New Plane ID:</label><input type="text" class="form-control" id="plane_id" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Number of Seats:</label><input type="text" class="form-control" id="seat_num" required =""></div>';
                 document.getElementById("message_box2").innerHTML = fresh;
-                 document.getElementById("AddPlaneConfirmButton").onclick = confirm_add_plane;
-                function confirm_add_plane(){
+                document.getElementById("AddPlaneConfirmButton").onclick = confirm_add_plane;
+
+                function confirm_add_plane() {
                     var data = [];
-                   
-                   data.push(document.getElementById("plane_id").value) ; 
-           
-                   data.push(document.getElementById("seat_num").value ); 
-                
-                   console.log(data);
-                fetch("/AuthorizeAddPlane", {
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                method: 'POST',
-                                body: JSON.stringify(data)
-                            })
-                            .then(resp => resp.json())
-                            .then(result => {
-                                console.log(result);
-                                var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
-                                document.getElementById("message_box2").innerHTML = innerhtml;
-    
-               }) ; }
-               
-               $('#AddPlane').modal('show');}
-            </script>
+
+                    data.push(document.getElementById("plane_id").value);
+
+                    data.push(document.getElementById("seat_num").value);
+
+                    console.log(data);
+                    fetch("/AuthorizeAddPlane", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>" + result.toString() +
+                                "</h4>";
+                            document.getElementById("message_box2").innerHTML = innerhtml;
+
+                        });
+                }
+
+                $('#AddPlane').modal('show');
+            }
+        </script>
         <div class="add_airport">
-            <h3 style = "font-size:25px;" id="add_airport" onclick = 'AddAirport()'>Add Airports</h3>
+            <h3 style="font-size:25px;" id="add_airport" onclick='AddAirport()'>Add Airports</h3>
 
         </div>
-                <!-- model add airport-->
-  
+        <!-- model add airport-->
 
-    <div class="modal fade" id="AddAirport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Airport:</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+        <div class="modal fade" id="AddAirport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Fill out Information for Adding New Airport:</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button> -->
-            </div>
-            <div class="modal-body">
-                <form id="message_box3">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Airport Name:</label>
-                        <input type="text" class="form-control" id="airport_name" required =''>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Airport City:</label>
-                        <input type="text" class="form-control" id="airport_city" required =''>
-                    </div>
-                  
-                    <!-- <div class="form-group">
+                    <div class="modal-body">
+                        <form id="message_box3">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Airport Name:</label>
+                                <input type="text" class="form-control" id="airport_name" required=''>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Airport City:</label>
+                                <input type="text" class="form-control" id="airport_city" required=''>
+                            </div>
+
+                            <!-- <div class="form-group">
         <label for="message-text" class="col-form-label">Message:</label>
         <textarea class="form-control" id="message-text"></textarea>
       </div> -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                <button type="button" id="AddAirportConfirmButton" class="btn btn-primary">Confirm</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="button" id="AddAirportConfirmButton" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- end of model for add plane-->
+        <!-- end of model for add plane-->
         <script>
-                function AddAirport(){
-                    // #refresh the input box at each time of the input to restore
-                    var fresh  = '<div class="form-group"><label for="recipient-name" class="col-form-label">Airport Name:</label><input type="text" class="form-control" id="airport_name" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Airport City:</label><input type="text" class="form-control" id="airport_city" required =""></div>';
-                    document.getElementById("message_box3").innerHTML = fresh;
-                    document.getElementById("AddAirportConfirmButton").onclick = confirm_add_airport;
-                function confirm_add_airport(){
+            function AddAirport() {
+                // #refresh the input box at each time of the input to restore
+                var fresh =
+                    '<div class="form-group"><label for="recipient-name" class="col-form-label">Airport Name:</label><input type="text" class="form-control" id="airport_name" required =""></div><div class="form-group"><label for="recipient-name" class="col-form-label">Airport City:</label><input type="text" class="form-control" id="airport_city" required =""></div>';
+                document.getElementById("message_box3").innerHTML = fresh;
+                document.getElementById("AddAirportConfirmButton").onclick = confirm_add_airport;
+
+                function confirm_add_airport() {
                     var data = [];
-                   
-                   data.push(document.getElementById("airport_name").value) ; 
-           
-                   data.push(document.getElementById("airport_city").value ); 
-                
-                   console.log(data);
-                fetch("/AuthorizeAddAirport", {
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                method: 'POST',
-                                body: JSON.stringify(data)
-                            })
-                            .then(resp => resp.json())
-                            .then(result => {
-                                console.log(result);
-                                var innerhtml = "<style>h4{text-align:center;}</style><h4>"+ result.toString() + "</h4>";
-                                document.getElementById("message_box3").innerHTML = innerhtml;
-    
-               }) ; }
-               
-               $('#AddAirport').modal('show');}
-            </script>
+
+                    data.push(document.getElementById("airport_name").value);
+
+                    data.push(document.getElementById("airport_city").value);
+
+                    console.log(data);
+                    fetch("/AuthorizeAddAirport", {
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            method: 'POST',
+                            body: JSON.stringify(data)
+                        })
+                        .then(resp => resp.json())
+                        .then(result => {
+                            console.log(result);
+                            var innerhtml = "<style>h4{text-align:center;}</style><h4>" + result.toString() +
+                                "</h4>";
+                            document.getElementById("message_box3").innerHTML = innerhtml;
+
+                        });
+                }
+
+                $('#AddAirport').modal('show');
+            }
+        </script>
         <div class="view_booking_agent">
-            <h3 style = "font-size:25px;" id="view_booking_agent">View Top Booking Agents</h3>
+            <h3 style="font-size:25px;" id="view_booking_agent">View Top Booking Agents</h3>
             <h4 id="by_ticket_num"> By Ticket Number</h4>
             <div id="month_num">
-                <h5 id="last_month" style = "color:white;">Last Month:</h5>
+                <h5 id="last_month" style="color:white;">Last Month:</h5>
                 <table>
                     <th>Agent_email</th>
                     <th>Agent ID</th>
@@ -890,7 +947,7 @@
                 </table>
             </div>
             <div id="year_num">
-                <h5 id="last_year" style = "color:white;">Last Year:</h5>
+                <h5 id="last_year" style="color:white;">Last Year:</h5>
                 <table>
                     <th>Agent_email</th>
                     <th>Agent ID</th>
@@ -908,10 +965,10 @@
 
                 </table>
             </div>
-            <h4 id="by_commission" > By Commission</h4>
+            <h4 id="by_commission"> By Commission</h4>
 
             <div id="year_num">
-                <h5 id="last_year" style = "color:white;">Last Year:</h5>
+                <h5 id="last_year" style="color:white;">Last Year:</h5>
                 <table>
                     <th>Agent_email</th>
                     <th>Agent ID</th>
@@ -933,89 +990,186 @@
 
 
 
-            <div class="view_freq_customer">
-                <div class ="title-mf-cust">
+        <div class="view_freq_customer">
+            <div class="title-mf-cust">
                 <h4 style="color: #FFC107" id="mf_customer_title">Most Frequent Customer </h4>
             </div>
-                <div id='mf_customer'>
-                    <h5 style="color: white;font-size:15px;" id="mf_customer">Customer_email: {{mf_customer[0]}} </h5><br>
-                    <h5 style="color:white; font-size:15px;" id="mf_customer">Number of Flights Purchased: {{mf_customer[2]}}</h5>
+            <div id='mf_customer'>
+                <h5 style="color: white;font-size:15px;" id="mf_customer">Customer_email: {{mf_customer[0]}} </h5><br>
+                <h5 style="color:white; font-size:15px;" id="mf_customer">Number of Flights Purchased:
+                    {{mf_customer[2]}}</h5>
+            </div>
+            <div style="height:220px;overflow:auto;">
+                <table id="table_mf_customer_flight">
+                    <th>Airline</th>
+                    <th>Flight Num</th>
+                    <th>Depart Air</th>
+                    <th>Depart Time</th>
+                    <th>Arrival Air</th>
+                    <th>Arrival Time</th>
+                    <th>price</th>
+
+
+                    {% for line in c_flights %}
+                    <tr>
+                        <td>{{line[0]}}</td>
+                        <td>{{line[1]}}</td>
+                        <td>{{line[2]}}</td>
+                        <td>{{line[3]}}</td>
+                        <td>{{line[4]}}</td>
+                        <td>{{line[5]}}</td>
+                        <td>{{line[6]}}</td>
+
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="view_report">
+            <h3 style="font-size:25px;" id="view_report">View Total Report</h3>
+            <div id="conditional_graph">
+                <div class="date">
+                    <div id="total_sale_range">
+                        <h4 style="font-size:20px;" id="total_sale"> Total Sale : {{total_sale_ly}} Tickets</h4>
+                    </div>
                 </div>
-                <div style="height:220px;overflow:auto;">
-                    <table id="table_mf_customer_flight">
-                        <th>Airline</th>
-                        <th>Flight Num</th>
-                        <th>Depart Air</th>
-                        <th>Depart Time</th>
-                        <th>Arrival Air</th>
-                        <th>Arrival Time</th>
-                        <th>price</th>
 
-
-                        {% for line in c_flights %}
-                        <tr>
-                            <td>{{line[0]}}</td>
-                            <td>{{line[1]}}</td>
-                            <td>{{line[2]}}</td>
-                            <td>{{line[3]}}</td>
-                            <td>{{line[4]}}</td>
-                            <td>{{line[5]}}</td>
-                            <td>{{line[6]}}</td>
-
-
-                        </tr>
-                        {% endfor %}
-                    </table>
+                <div class="date" style="position:relative;left:150px;">
+                    <div id="choose_day_start">
+                        <h5 style="font-size:15px;">Day Start</h5>
+                        <input id="datepicker3" size='10' name="Text1" type="text" value="mm/dd/yyyy"
+                            onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
+                            required="">
+                    </div>
                 </div>
+                <div class="date">
+                    <div id="choose_day_end">
+                        <h5 style="font-size:15px;">Day End</h5>
+                        <input id="datepicker4" size='10' name="Text2" type="text" value="mm/dd/yyyy"
+                            onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
+                            required="">
+                    </div>
+                </div>
+                <div class="date" id='choose_last_year'>
+                    <button id='ly_sales'>
+                        Last Year
+                    </button>
+                </div>
+                <div class="date" id='choose_last_month'>
+                    <button id='lm_sales'>
+                        Last Month
+                    </button>
+                </div>
+            </div>
+            <div class="lm_sale">
+
+                <h3 style="font-size:20px;color:#FFC107;" id="month_sale"> Monthly sale graph:</h3>
+                <div id="monly_graph_condition"></div>
 
             </div>
 
 
+        </div>
 
 
-            <div class="view_report">
-                <h3 style = "font-size:25px;" id="view_report">View Total Report</h3>
-                <div id="conditional_graph">
-                    <div class="date">
-                        <div id="total_sale_range">
-                            <h4 style = "font-size:20px;" id ="total_sale"> Total Sale : {{total_sale_ly}} Tickets</h4>
-                        </div>
-                    </div>
+        <script>
+            // draw the monthly graph
+            var dataset = {{ year_sales}};
+            console.log(dataset);
+            //    for (var i = 0 ; i<6;i++){
+            //     dataset[i][0] = dataset[i][0]
+            //    }
+            //    dataset = [["5",2000],["6",2000],["7",2500],["8",1000],["9",2000],["10",1500]]
+            var width = 250;
+            var height = 250;
+            var margin = {
+                'left': 50,
+                'right': 50,
+                'top': 50,
+                'bottom': 50
+            };
+            var svg = d3.select("#monly_graph_condition")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+            var draw_area = svg.append('g')
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("width", width)
+                .attr("height", height);
+            var xScale = d3.scaleBand()
+                .domain(dataset.map(function (d) {
+                    return d[0];
+                }))
+                .range([0, width])
+                .padding(0.3);
+            var yScale = d3.scaleLinear()
+                .domain([0, d3.max(dataset, function (d) {
+                    return d[1];
+                })])
+                .range([height, 0]);
+            var xAxis = svg.append("g")
+                .attr("id", "xAxisDraw")
+                .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+                .attr("color", "rgb(255,255,254)")
+                .call(d3.axisBottom(xScale));
+            svg.append("text")
+                .text("Month")
+                .attr("id", "xAxisText")
+                .attr("y", height + margin.top + 20)
+                .attr("dx", width + margin.left + 5)
+                .attr("color", "rgb(255,255,254)")
+                .style("font-size", 12)
+                .style("text-anchor", "end");
+            var yAxis = svg.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("id", "yAxisDraw")
+                .attr("color", "rgb(255,255,254)")
+                .call(d3.axisLeft(yScale));
+            svg.append("text")
+                .attr("id", "yAxisText")
+                .text("Ticket Sale")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 60)
+                .attr("dx", -40)
+                .attr("color", "rgb(255,255,254)")
+                .style("font-size", 12)
+                .style("text-anchor", "end");
+            draw_area
+                .selectAll("rect")
+                .data(dataset)
+                .enter()
+                .append("rect")
+                .attr("class", "monthly_graph")
+                .attr("x", function (d, i) {
+                    return xScale(d[0]);
+                })
+                .attr("y", function (d) {
+                    return yScale(d[1]);
+                })
+                .attr("width", xScale.bandwidth())
+                .attr("height", function (d) {
+                    return height - yScale(d[1]);
+                })
+                .attr("fill", "#C1CBCE")
+                .attr("stroke", "grey")
+                .attr("stroke-width", "2");
+            // select the date range
+            document.getElementById("datepicker4").onchange = update_report;
 
-                    <div class="date" style = "position:relative;left:150px;">
-                        <div id="choose_day_start">
-                            <h5 style = "font-size:15px;">Day Start</h5>
-                            <input id="datepicker3" size='10' name="Text1" type="text" value="mm/dd/yyyy"
-                                onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
-                                required="">
-                        </div>
-                    </div>
-                    <div class="date">
-                        <div id="choose_day_end">
-                            <h5 style = "font-size:15px;">Day End</h5>
-                            <input id="datepicker4" size='10' name="Text2" type="text" value="mm/dd/yyyy"
-                                onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
-                                required="">
-                        </div>
-                    </div>
-                </div>
-                <div class="lm_sale">
-
-                    <h3 style = "font-size:20px;color:#FFC107;" id="month_sale"> Monthly sale: {{month_sales}} </h3>
-
-
-                </div>
-                <div id="monly_graph_condition"></div>
-                <script>
-                    // select the date range
-                    document.getElementById("datepicker4").onchange = update_report;
-                    function update_report(){
-                        data = {};
-                        var day_start = document.getElementById("datepicker3").value;
-                        var day_end = document.getElementById("datepicker4").value;
-                        data['date_start'] = day_start;
-                        data['date_end'] = date_end;
-                        fetch("/UpdateReportByDate", {
+            function update_report() {
+                data = {};
+                var day_start = document.getElementById("datepicker3").value;
+                var day_end = document.getElementById("datepicker4").value;
+                data['date_start'] = day_start;
+                data['date_end'] = day_end;
+                console.log(data);
+                fetch("/UpdateReportByDate", {
                         headers: {
                             "Content-Type": "application/json"
                         },
@@ -1025,289 +1179,427 @@
                     .then(resp => resp.json())
                     .then(result => {
 
-                        console.log(result);
-
-                    });
-                    // draw the monthly graph
-                    var dataset = {{year_sales}};
-                    console.log(dataset);
-                    //    for (var i = 0 ; i<6;i++){
-                    //     dataset[i][0] = dataset[i][0]
-                    //    }
-                    //    dataset = [["5",2000],["6",2000],["7",2500],["8",1000],["9",2000],["10",1500]]
-                    var width = 250;
-                    var height = 250;
-                    var margin = {
-                        'left': 50,
-                        'right': 50,
-                        'top': 50,
-                        'bottom': 50
-                    };
-                    var svg = d3.select("#monly_graph_condition")
-                        .append("svg")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom);
-                    var draw_area = svg.append('g')
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                        .attr("width", width)
-                        .attr("height", height);
-                    var xScale = d3.scaleBand()
-                        .domain(dataset.map(function (d) {
+                        var total = result['total'];
+                        var monthly = result['monthly']
+                        document.getElementById('total_sale').innerHTML = 'Total Sale  :' + total.toString() +
+                            ' Tickets';
+                        console.log(monthly);
+                        // redraw the monthly_spending graph
+                        xScale.domain(monthly.map(function (d) {
                             return d[0];
-                        }))
-                        .range([0, width])
-                        .padding(0.3);
-                    var yScale = d3.scaleLinear()
-                        .domain([0, d3.max(dataset, function (d) {
+                        }));
+
+                        yScale.domain([0, d3.max(monthly, function (d) {
                             return d[1];
-                        })])
-                        .range([height, 0]);
-                    var xAxis = svg.append("g")
-                        .attr("id", "xAxisDraw")
-                        .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
-                        .attr("color", "rgb(255,255,254)")
-                        .call(d3.axisBottom(xScale));
-                    svg.append("text")
-                        .text("Month")
-                        .attr("id", "xAxisText")
-                        .attr("y", height + margin.top + 20)
-                        .attr("dx", width + margin.left + 5)
-                        .attr("color", "rgb(255,255,254)")
-                        .style("font-size", 12)
-                        .style("text-anchor", "end");
-                    var yAxis = svg.append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                        .attr("id", "yAxisDraw")
-                        .attr("color", "rgb(255,255,254)")
-                        .call(d3.axisLeft(yScale));
-                    svg.append("text")
-                        .attr("id", "yAxisText")
-                        .text("Ticket Sale")
-                        .attr("transform", "rotate(-90)")
-                        .attr("y", 60)
-                        .attr("dx", -40)
-                        .attr("color", "rgb(255,255,254)")
-                        .style("font-size", 12)
-                        .style("text-anchor", "end");
-                    draw_area
-                        .selectAll("rect")
-                        .data(dataset)
-                        .enter()
-                        .append("rect")
-                        .attr("class", "monthly_graph")
-                        .attr("x", function (d, i) {
-                            return xScale(d[0]);
-                        })
-                        .attr("y", function (d) {
-                            return yScale(d[1]);
-                        })
-                        .attr("width", xScale.bandwidth())
-                        .attr("height", function (d) {
-                            return height - yScale(d[1]);
-                        })
-                        .attr("fill", "#C1CBCE")
+                        })]);
 
-                        .attr("stroke", "grey")
-                        .attr("stroke-width", "2");
-                </script>
+                        xAxis.call(d3.axisBottom(xScale));
+                        yAxis.call(d3.axisLeft(yScale));
+
+                        svg.selectAll("rect")
+                            .transition()
+                            .duration(500)
+                            .remove();
 
 
 
-            </div>
-            <div class="revenue_comparison">
-                <div id = "pie-title">
-                <h3 style = "font-size:25px;" id="revenue_comparison">Compare Revenue Source</h3>
-            </div>
-                <div id = "pie_area">
-                <div class = "pie">
-                    <h5 style = "color:white;font-size:18px;">Last Month</h5>
-                <div id = "m_pie_graph"></div>
-                </div>
-                <div class = "pie">
-                    <h5 style = "color:white;font-size:18px;">Last Year</h5>
-                <div id="pie_graph"></div>
-                </div>
-            </div>
-            
 
-                <script>
-                        var data = {{year_pie | tojson}};
-                        var data_m = {{month_pie|tojson}};
-                        draw_pie(data,"#pie_graph");
-                        draw_pie(data_m,"#m_pie_graph");
-                        function draw_pie(data, div_id){
-                        var width = 180;
-                        var height = 180;
-                        var thinkness = 40;
-                        var duration = 750;
-                        var padding = 10;
-                        opacity = 0.8;
-                        var OpacityOnHover = 1;
-                       
-                        var tooltipMargin = 13;     
-                        var radius = Math.min(width-padding,height-padding)/2;
-                        var color = d3.scaleOrdinal(d3.schemeCategory10);
-        
-        
-                       
-                        // append the svg object to the div called 'my_dataviz'
-                        var svg = d3.select(div_id)
-                            .append("svg")
-                            .attr('class', 'pie')
-                            .attr('width', width)
-                            .attr('height', height);
-        
-                        var g = svg.append('g')
-                        .attr('transform', 'translate(' + (width/2) + ',' + (height/2) + ')');
-        
-                        var arc = d3.arc()
-                            .innerRadius(0)
-                            .outerRadius(radius);
-        
-                        var pie = d3.pie()
-                            .value(function(d) { return d.value; })
-                            .sort(null);
-                        var path = g.selectAll('path')
-                            .data(pie(data))
+                        svg.append('g')
+
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                            .attr("width", width)
+                            .attr("height", height)
+
+                            .selectAll("rect")
+                            .data(monthly)
                             .enter()
-                            .append("g")
-                            .append("path")
-                            .attr("d",arc)
-                            .attr("fill",(d,i)=> color(i))
-                            .style('opacity', opacity)
-                            .style('stroke', 'white')
-                            .on("mouseover", function(d) {
-            
-                                d3.select(this) 
-                            .style("opacity", OpacityOnHover);
-        
-              
+
+                            .append("rect")
+                            .transition()
+
+                            .delay(function (d, i) {
+                                return i * 300 + 500;
                             })
-                             .on("mouseout",function(d){
-                             d3.select(this)
-                             .style("opacity",opacity);
-                                });
-         
-        // #draw the legend color to indicate the value and category
-                    let legend = d3.select(div_id).append('div')
-                            .attr('class', 'legend')
-                            .style('margin-top', '30px');
-        
-                    let keys = legend.selectAll('.key')
-                        .data(data)
-                        .enter().append('div')
-                        .attr('class', 'key')
-                        .style('display', 'flex')
-                        .style('align-items', 'center')
-                        .style('margin-right', '20px');
-        
+
+                            .duration(500)
+                            .attr("x", function (d, i) {
+                                return xScale(d[0]);
+                            })
+                            .attr("y", function (d) {
+                                return yScale(d[1]);
+                            })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", function (d) {
+                                return height - yScale(d[1]);
+                            })
+                            .attr("fill", "#C1CBCE")
+
+                            .attr("stroke", "grey")
+                            .attr("stroke-width", "2");
+
+
+
+                    })
+            };
+        </script>
+        <script>
+            document.getElementById('ly_sales').onclick = last_year_sale;
+
+            function last_year_sale() {
+                fetch("/UpdateReportLastYear", {
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        method: 'POST',
+                        body: JSON.stringify("asf")
+                    })
+                    .then(resp => resp.json())
+                    .then(result => {
+                        var total = result['total'];
+                        var monthly = result['monthly']
+                        document.getElementById('total_sale').innerHTML = 'Total Sale  :' + total.toString() +
+                            ' Tickets';
+                        console.log(monthly);
+                        // redraw the monthly_spending graph
+                        xScale.domain(monthly.map(function (d) {
+                            return d[0];
+                        }));
+
+                        yScale.domain([0, d3.max(monthly, function (d) {
+                            return d[1];
+                        })]);
+
+                        xAxis.call(d3.axisBottom(xScale));
+                        yAxis.call(d3.axisLeft(yScale));
+
+                        svg.selectAll("rect")
+                            .transition()
+                            .duration(500)
+                            .remove();
+
+
+
+
+                        svg.append('g')
+
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                            .attr("width", width)
+                            .attr("height", height)
+
+                            .selectAll("rect")
+                            .data(monthly)
+                            .enter()
+
+                            .append("rect")
+                            .transition()
+
+                            .delay(function (d, i) {
+                                return i * 300 + 500;
+                            })
+
+                            .duration(500)
+                            .attr("x", function (d, i) {
+                                return xScale(d[0]);
+                            })
+                            .attr("y", function (d) {
+                                return yScale(d[1]);
+                            })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", function (d) {
+                                return height - yScale(d[1]);
+                            })
+                            .attr("fill", "#C1CBCE")
+
+                            .attr("stroke", "grey")
+                            .attr("stroke-width", "2");
+
+
+
+
+
+
+
+                    })
+            }
+            // ##last month button triggered
+            document.getElementById('lm_sales').onclick = last_month_sale;
+
+            function last_month_sale() {
+                fetch("/UpdateReportLastMonth", {
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        method: 'POST',
+                        body: JSON.stringify("asf")
+                    })
+                    .then(resp => resp.json())
+                    .then(result => {
+                        var total = result['total'];
+                        var monthly = result['monthly']
+                        document.getElementById('total_sale').innerHTML = 'Total Sale  :' + total.toString() +
+                            ' Tickets';
+                        console.log(monthly);
+                        // redraw the monthly_spending graph
+                        xScale.domain(monthly.map(function (d) {
+                            return d[0];
+                        }));
+
+                        yScale.domain([0, d3.max(monthly, function (d) {
+                            return d[1];
+                        })]);
+
+                        xAxis.call(d3.axisBottom(xScale));
+                        yAxis.call(d3.axisLeft(yScale));
+
+                        svg.selectAll("rect")
+                            .transition()
+                            .duration(500)
+                            .remove();
+
+
+
+
+                        svg.append('g')
+
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                            .attr("width", width)
+                            .attr("height", height)
+
+                            .selectAll("rect")
+                            .data(monthly)
+                            .enter()
+
+                            .append("rect")
+                            .transition()
+
+                            .delay(function (d, i) {
+                                return i * 300 + 500;
+                            })
+
+                            .duration(500)
+                            .attr("x", function (d, i) {
+                                return xScale(d[0]);
+                            })
+                            .attr("y", function (d) {
+                                return yScale(d[1]);
+                            })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", function (d) {
+                                return height - yScale(d[1]);
+                            })
+                            .attr("fill", "#C1CBCE")
+
+                            .attr("stroke", "grey")
+                            .attr("stroke-width", "2");
+
+
+
+
+
+
+
+                    })
+
+            }
+        </script>
+
+
+
+    
+    <div class="revenue_comparison">
+        <div id="pie-title">
+            <h3 style="font-size:25px;" id="revenue_comparison">Compare Revenue Source</h3>
+        </div>
+        <div id="pie_area">
+            <div class="pie">
+                <h5 style="color:white;font-size:18px;">Last Month</h5>
+                <div id="m_pie_graph"></div>
+            </div>
+            <div class="pie">
+                <h5 style="color:white;font-size:18px;">Last Year</h5>
+                <div id="pie_graph"></div>
+            </div>
+        </div>
+
+
+        <script>
+            var data = {{ year_pie | tojson }};
+            var data_m = {{month_pie | tojson}};
+            draw_pie(data, "#pie_graph");
+            draw_pie(data_m, "#m_pie_graph");
+
+            function draw_pie(data, div_id) {
+                var width = 180;
+                var height = 180;
+                var thinkness = 40;
+                var duration = 750;
+                var padding = 10;
+                opacity = 0.8;
+                var OpacityOnHover = 1;
+
+                var tooltipMargin = 13;
+                var radius = Math.min(width - padding, height - padding) / 2;
+                var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+
+
+                // append the svg object to the div called 'my_dataviz'
+                var svg = d3.select(div_id)
+                    .append("svg")
+                    .attr('class', 'pie')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                var g = svg.append('g')
+                    .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
+                var arc = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(radius);
+
+                var pie = d3.pie()
+                    .value(function (d) {
+                        return d.value;
+                    })
+                    .sort(null);
+                var path = g.selectAll('path')
+                    .data(pie(data))
+                    .enter()
+                    .append("g")
+                    .append("path")
+                    .attr("d", arc)
+                    .attr("fill", (d, i) => color(i))
+                    .style('opacity', opacity)
+                    .style('stroke', 'white')
+                    .on("mouseover", function (d) {
+
+                        d3.select(this)
+                            .style("opacity", OpacityOnHover);
+
+
+                    })
+                    .on("mouseout", function (d) {
+                        d3.select(this)
+                            .style("opacity", opacity);
+                    });
+
+                // #draw the legend color to indicate the value and category
+                let legend = d3.select(div_id).append('div')
+                    .attr('class', 'legend')
+                    .style('margin-top', '30px');
+
+                let keys = legend.selectAll('.key')
+                    .data(data)
+                    .enter().append('div')
+                    .attr('class', 'key')
+                    .style('display', 'flex')
+                    .style('align-items', 'center')
+                    .style('margin-right', '20px');
+
                 keys.append('div')
                     .attr('class', 'symbol')
                     .style('height', '10px')
                     .style('width', '10px')
                     .style('margin', '5px 5px')
                     .style('background-color', (d, i) => color(i));
-        
+
                 keys.append('div')
                     .attr('class', 'name')
-                    .text(d => `${d.name} (${d.value})`);}
-        
-                // keys.exit().remove();
-        
-        
-        
-                       
-                    </script>
+                    .text(d => `${d.name} (${d.value})`);
+            }
+
+            // keys.exit().remove();
+        </script>
 
 
-            </div>
-            
-            <div class="top_destination">
-                <div id = "top_dest_title">
-                <h3 style = "font-size:25px;" id="top_destination">View Top Destination</h3>
-            </div>
-                <div class = "table_dest" id = "m_des">
-                    <h4 style = "color:#FFC107;font-size:18px;">Most Popular In last 3 Months</h4>
-                   
-                    <table >
-                        <th>City Name</th>
-                        <th>Ticket Sold</th>
-                        {% for line in m_des %}
-                    <tr>
-                        <td>{{line[0]}}</td>
-                        <td>{{line[1]}}</td>
-                        
-                    </tr>
-                    {% endfor %}
-                        
+    </div>
+
+    <div class="top_destination">
+        <div id="top_dest_title">
+            <h3 style="font-size:25px;" id="top_destination">View Top Destination</h3>
+        </div>
+        <div class="table_dest" id="m_des">
+            <h4 style="color:#FFC107;font-size:18px;">Most Popular In last 3 Months</h4>
+
+            <table>
+                <th>City Name</th>
+                <th>Ticket Sold</th>
+                {% for line in m_des %}
+                <tr>
+                    <td>{{line[0]}}</td>
+                    <td>{{line[1]}}</td>
+
+                </tr>
+                {% endfor %}
 
 
-                    </table>
 
-                </div>
-                <div class = "table_dest" id = "y_des">
-                    <h4 style = "color:#FFC107;font-size:18px;">Most Popular In last Year</h4>
-                    <table>
-                        <th>City Name</th>
-                        <th>Ticket Sold</th>
-                        {% for line in y_des %}
-                        <tr>
-                            <td>{{line[0]}}</td>
-                            <td>{{line[1]}}</td>
-                            
-                        </tr>
-                        {% endfor %}
-                    </table>
-
-                </div>
-
-            </div>
-
+            </table>
 
         </div>
-        
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />
+        <div class="table_dest" id="y_des">
+            <h4 style="color:#FFC107;font-size:18px;">Most Popular In last Year</h4>
+            <table>
+                <th>City Name</th>
+                <th>Ticket Sold</th>
+                {% for line in y_des %}
+                <tr>
+                    <td>{{line[0]}}</td>
+                    <td>{{line[1]}}</td>
 
-        <!-- <script src="/static/js/jquery-ui.js"></script> -->
-        <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
-        <script>
-            $(function () {
-                $("#datepicker1,#datepicker2,#datepicker3,#datepicker4").datepicker();
-            });
-        </script>
-        <!-- //Calendar -->
-        <!--quantity-->
-        <script>
-            $('.value-plus').on('click', function () {
-                var divUpd = $(this).parent().find('.value'),
-                    newVal = parseInt(divUpd.text(), 10) + 1;
-                divUpd.text(newVal);
-            });
+                </tr>
+                {% endfor %}
+            </table>
 
-            $('.value-minus').on('click', function () {
-                var divUpd = $(this).parent().find('.value'),
-                    newVal = parseInt(divUpd.text(), 10) - 1;
-                if (newVal >= 1) divUpd.text(newVal);
-            });
-        </script>
-        <!--//quantity-->
-        <!--load more-->
-        <script>
-            $(document).ready(function () {
-                size_li = $("#myList li").size();
-                x = 1;
+        </div>
+
+    </div>
+
+</div>
+    </div>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}" />
+
+    <!-- <script src="/static/js/jquery-ui.js"></script> -->
+    <script src="{{url_for('static', filename='js/jquery-ui.js')}}"></script>
+    <script>
+        $(function () {
+            $("#datepicker1,#datepicker2,#datepicker3,#datepicker4").datepicker();
+        });
+    </script>
+    <!-- //Calendar -->
+    <!--quantity-->
+    <script>
+        $('.value-plus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) + 1;
+            divUpd.text(newVal);
+        });
+
+        $('.value-minus').on('click', function () {
+            var divUpd = $(this).parent().find('.value'),
+                newVal = parseInt(divUpd.text(), 10) - 1;
+            if (newVal >= 1) divUpd.text(newVal);
+        });
+    </script>
+    <!--//quantity-->
+    <!--load more-->
+    <script>
+        $(document).ready(function () {
+            size_li = $("#myList li").size();
+            x = 1;
+            $('#myList li:lt(' + x + ')').show();
+            $('#loadMore').click(function () {
+                x = (x + 1 <= size_li) ? x + 1 : size_li;
                 $('#myList li:lt(' + x + ')').show();
-                $('#loadMore').click(function () {
-                    x = (x + 1 <= size_li) ? x + 1 : size_li;
-                    $('#myList li:lt(' + x + ')').show();
-                });
-                $('#showLess').click(function () {
-                    x = (x - 1 < 0) ? 1 : x - 1;
-                    $('#myList li').not(':lt(' + x + ')').hide();
-                });
             });
-        </script>
-  
+            $('#showLess').click(function () {
+                x = (x - 1 < 0) ? 1 : x - 1;
+                $('#myList li').not(':lt(' + x + ')').hide();
+            });
+        });
+    </script>
+
 
 
 </body>

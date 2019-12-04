@@ -61,21 +61,20 @@ def searchTicket():
             cursor.close()
         elif dep_city == '' and arrive_city != '':
             cursor = conn.cursor()
-            query = query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.arrival_airport and flight.departure_airport = \'{}\'  and flight.arrival_airport = \'{}\' and A.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
+            query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.arrival_airport and flight.departure_airport = \'{}\'  and flight.arrival_airport = \'{}\' and A.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
             cursor.execute(query.format(dep_air,arrive_air, arrive_city,date))
             data = cursor.fetchall()
             cursor.close()
-  
-    elif dep_city != "" and arrive_city != "":
-        if dep_air == '' and arrive_air == '':
+        else:
             cursor = conn.cursor()
-            query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A, airport AS B   WHERE A.airport_name = flight.departure_airport and B.airport_name = flight.arrival_airport and A.airport_city = \'{}\' and B.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
-            cursor.execute(query.format(dep_city,arrive_city, date))
-   
+            query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A, airport AS B  WHERE A.airport_name = flight.departure_airport and B.airport_name = flight.arrival_airport and flight.departure_airport = \'{}\' and A.airport_city =  \'{}\' and flight.arrival_airport = \'{}\' and B.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
+            cursor.execute(query.format(dep_air,dep_city,arrive_air, arrive_city,date))
             data = cursor.fetchall()
-   
             cursor.close()
-        elif dep_air != '' and arrive_air == '':
+
+  
+    elif dep_air !='' and arrive_air == '':
+        if dep_city != "" and arrive_city != "":
             cursor = conn.cursor()
             query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A, airport AS B   WHERE A.airport_name = flight.departure_airport and B.airport_name = flight.arrival_airport and A.airport_city = \'{}\' and flight.departure_airport = \'{}\' and B.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
             cursor.execute(query.format(dep_city,dep_air,arrive_city, date))
@@ -83,7 +82,18 @@ def searchTicket():
             data = cursor.fetchall()
    
             cursor.close()
-        elif dep_air =='' and arrive_air !='':
+        elif dep_city == "" and arrive_city != "":
+            cursor = conn.cursor()
+            query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.arrival_airport  and A.airport_city = \'{}\' and flight.departure_airport = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
+            cursor.execute(query.format(arrive_city,dep_air, date))
+  
+            data = cursor.fetchall()
+   
+            cursor.close()
+
+        
+    elif dep_air == '' and arrive_air != '':
+        if dep_city != "" and arrive_city != "":
             cursor = conn.cursor()
             query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A, airport AS B   WHERE A.airport_name = flight.departure_airport and B.airport_name = flight.arrival_airport and A.airport_city = \'{}\'  and B.airport_city = \'{}\' and flight.arrival_airport = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
             cursor.execute(query.format(dep_city,arrive_city,arrive_air, date))
@@ -91,24 +101,29 @@ def searchTicket():
             data = cursor.fetchall()
    
             cursor.close()
+        elif dep_city != "" and arrive_city == "":
+            cursor = conn.cursor()
+            query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.departure_airport  and A.airport_city = \'{}\' and flight.arrival_airport = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
+            cursor.execute(query.format(dep_city,arrive_air, date))
+   
+            data = cursor.fetchall()
+  
+            cursor.close()
+
+
+    else:
+        cursor = conn.cursor()
+        query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A, airport AS B   WHERE A.airport_name = flight.departure_airport and B.airport_name = flight.arrival_airport and A.airport_city = \'{}\' and B.airport_city = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
+        cursor.execute(query.format(dep_city,arrive_city, date))
+   
+        data = cursor.fetchall()
+   
+        cursor.close()
+
+           
 
     
-    elif dep_city != "" and arrive_air != "":
-        cursor = conn.cursor()
-        query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.departure_airport  and A.airport_city = \'{}\' and flight.arrival_airport = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
-        cursor.execute(query.format(dep_city,arrive_air, date))
-    #stores the results in a variable
-        data = cursor.fetchall()
-    #use fetchall() if you are expecting more than 1 data row
-        cursor.close()
-    elif dep_air != "" and arrive_city != "":
-        cursor = conn.cursor()
-        query = "SELECT flight.airline_name, flight.flight_num, flight.departure_airport, flight.arrival_airport, flight.departure_time, flight.arrival_time, flight.price FROM flight,airport AS A  WHERE A.airport_name = flight.arrival_airport  and A.airport_city = \'{}\' and flight.departure_airport = \'{}\' and CAST(flight.departure_time AS DATE) =\'{}\'"
-        cursor.execute(query.format(arrive_city,dep_air, date))
-    #stores the results in a variable
-        data = cursor.fetchall()
-    #use fetchall() if you are expecting more than 1 data row
-        cursor.close()
+
 
     
 
@@ -922,7 +937,7 @@ def StaffHome():
     username = session['username']
     airline = session["airline"]
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
 
     # view my flights by default
     thirty_future_day = (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d")
@@ -954,20 +969,26 @@ def StaffHome():
     cursor.close()
 
     # view the most frequent customer and his/her flights
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
     query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
     cursor.execute(query4.format(airline))
     mf_customer = cursor.fetchone() 
     cursor.close() 
+    if mf_customer:
+         # view the most frequent customer's flights 
+        cursor = conn.cursor()
+        query5 = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
+        cursor.execute(query5.format(mf_customer[0], airline))
+        c_flights = cursor.fetchall()
+        cursor.close() 
+
+    else:
+        mf_customer = ('N/A','N/A', 0)
+        c_flights = ()
+
     print("our most frequent customers are  ",mf_customer)  
 
-    # view the most frequent customer's flights 
-    cursor = conn.cursor()
-    query5 = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
-    cursor.execute(query5.format(mf_customer[0], airline))
-    c_flights = cursor.fetchall()
-    cursor.close() 
-
+   
     # view reports of last year
     cursor = conn.cursor()
     query6 = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month"
@@ -1136,21 +1157,7 @@ def CheckCustomerForFlight_interaction():
     return jsonify(data)
 
 
-@app.route('/ViewReportByDates')
-def ViewReportByDates():
-	username = session['username']
-	airline = session['airline']
 
-	req = json.loads(request.data)
-	start_date = req['start_date']
-	end_date = req['end_date']
-	cursor = conn.cursor
-	query = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases WHERE airline_name = \'{}\' AND departure_time BETWEEN \'{}\' AND \'{}\' GROUP BY month ORDER BY month'
-	cursor.execute(query.format(airline, start_date, end_date))
-	data = cursor.fetchall()
-	cursor.close()
-
-	return jsonify(data)
 
 
 @app.route('/AuthorizeNewFlight', methods = ["GET",'POST'])
@@ -1272,11 +1279,62 @@ def AuthorizeAddAirport():
 
     print(state)
     return jsonify(state)
+
+
+
 @app.route("/UpdateReportByDate",methods = ['POST'])
 def UpdateReportByDate():
+    airline = session['airline']
     req = json.loads(request.data)
+    start_date = req['date_start']
+    start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    end_date = req['date_end']
+    end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    cursor = conn.cursor()
+    query = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND purchase_date BETWEEN \'{}\' AND \'{}\' GROUP BY month ORDER BY month'
+    cursor.execute(query.format(airline, start_date, end_date))
+    data = cursor.fetchall()
+    cursor.close()
+    total_sale = 0
+    monthly = []
+    if (data):
+        total_sale = sum([int(i[1]) for i in data ])
+        monthly = data
+
+
+
     print(req)
-    return([1,2,3])
+    return (jsonify({'total':total_sale,"monthly":monthly}))
+
+@app.route('/UpdateReportLastYear',methods = ['POST'])
+def UpdateReportLastYear():
+    req = json.loads(request.data)
+    airline = session["airline"]
+      # view reports of last year
+    cursor = conn.cursor()
+    query6 = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month"
+    cursor.execute(query6.format(airline))
+    year_sales = cursor.fetchall()
+    cursor.close()
+    year_sales = [[int(j[0]),int(j[1])] for j in year_sales]
+    print("Our last year sale is ", year_sales)
+    total_sale_ly = sum([int(i[1]) for i in year_sales])
+    return (jsonify({'total':total_sale_ly,'monthly':year_sales}))
+
+@app.route('/UpdateReportLastMonth',methods = ['POST'])
+def UpdateReportLastMonth():
+    # view reports of last month
+    cursor = conn.cursor()
+    airline = session['airline']
+    query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
+    cursor.execute(query7.format(airline))
+    month_sales = cursor.fetchall()
+    total_sale = 0
+    if (month_sales):
+        total_sale = int(month_sales[0][1])
+   
+    cursor.close()
+    return (jsonify({'total':total_sale,'monthly':month_sales}))
 # *****************************************************
 
 
