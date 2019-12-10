@@ -229,10 +229,8 @@
                 </div>
                 <div class="modal-body">
                     <form id="message_box">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Customer to Book:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
+                       
+                        
                         <!-- <div class="form-group">
             <label for="message-text" class="col-form-label">Message:</label>
             <textarea class="form-control" id="message-text"></textarea>
@@ -279,6 +277,10 @@
                     alert("Please log in first for purchasing");
                 }
                 else {
+                    // #REFRESH THE CONTENT OF EVERY NEW CLICK
+                    var refresh = "Confirm Your Purchase of the Ticket";
+                    document.getElementById("confirmation_message").innerHTML =refresh ; 
+
                 console.log(type, i);
                 document.getElementById("ConfirmButton").onclick = Confirm_on_click;
 
@@ -324,6 +326,9 @@
                     alert("Please log in first for purchasing");
                 }
                 else{
+                    // refresh the book confirmation content on every click
+                    var refresh = '<div class="form-group"><label for="recipient-name" class="col-form-label">Customer to Book:</label><input type="text" class="form-control" id="recipient-name"></div>';
+                    document.getElementById("message_box").innerHTML =refresh ; 
                 console.log(type, i);
                 document.getElementById("BookingConfirmButton").onclick = booking_onfirm_on_click;
 

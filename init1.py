@@ -201,7 +201,7 @@ def ConfirmTicketPurchase():
     if total_seat > taken_seat:
         #current total tickets
         cursor = conn.cursor()
-        query = "SELECT count(ticket_id) FROM ticket"
+        query = "SELECT max(ticket_id) FROM ticket"
         cursor.execute(query)
         total_ticket = int(cursor.fetchone()[0])
         cursor.close()
@@ -365,18 +365,13 @@ def CustomerHome():
     six_month_ago = (datetime.datetime.now() - datetime.timedelta(days=0.5*365)).strftime("%Y-%m-%d")
     today2 = datetime.datetime.now().strftime("%Y-%m-%d")
 
-
-    
-    # hold in the backend
-    
-    
     username = session['username']
     today1 = datetime.datetime.now()
     # hold in the backend
     cursor = conn.cursor()
     query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND purchase_date  > \'{}\' ORDER BY purchase_date  DESC"
     query2 = "SELECT SUM(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
-    cursor.execute(query.format(username,today1))
+    cursor.execute(query.format(username,six_month_ago,today1))
     data1 = cursor.fetchall() 
     cursor.close()
     cursor = conn.cursor()
@@ -453,6 +448,7 @@ def searchPurchase():
     start_airport = req["Source_Airport"] 
     arrive_city =  req["Dest_City"] 
     arrive_airport =  req["Dest_Airport"]
+    print(req)
     ret =[]
     data = None
     if start_date != 'mm/dd/yyyy' and end_date !='mm/dd/yyyy':
@@ -752,7 +748,7 @@ def BookingConfirmTicketPurchase():
     if total_seat > taken_seat:
         #current total tickets
         cursor = conn.cursor()
-        query = "SELECT count(ticket_id) FROM ticket"
+        query = "SELECT max(ticket_id) FROM ticket"
         cursor.execute(query)
         total_ticket = int(cursor.fetchone()[0])
         cursor.close()
@@ -788,24 +784,31 @@ def searchComission():
     cursor = conn.cursor()
     query = "SELECT sum(price)*0.1 FROM purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
     cursor.execute(query.format(username, day_start,day_end ))
-    total_commission = float(cursor.fetchone()[0])
- 
+    data = cursor.fetchone()[0]
+    print(data)
     cursor.close()
+    total_commission = 0
+    if data:
+    
+        total_commission = float(data)
+ 
+    
     # get the total number of ticket
     cursor = conn.cursor()
     query = "SELECT count(ticket_id) FROM purchases WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
     cursor.execute(query.format(username, day_start,day_end ))
     total_ticket = cursor.fetchone()[0]
-    average_commison =0
+    average_commission =0
     cursor.close()
+  
     try:
         average_commission = total_commission / total_ticket
     except:
-        average_commison = 0
+        average_commission = 0
+
+    print(total_commission,average_commission)
 
 
-
-    print(req)
 
     return jsonify({"total_commission":total_commission,
                     "total_ticket":total_ticket,
@@ -980,7 +983,7 @@ def StaffHome():
     query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
     cursor.execute(query4.format(airline))
     mf_customer = cursor.fetchone() 
-    cursor.close() 
+    cursor.close()
     if mf_customer:
          # view the most frequent customer's flights 
         cursor = conn.cursor()
@@ -1029,7 +1032,7 @@ def StaffHome():
     cursor.close()
     dire = 0
     if direct:
-        dire = direct
+        dire = int(direct)
     else:
         dire = 0
     
@@ -1048,7 +1051,8 @@ def StaffHome():
         idr = 0
     
     year_pie = [{"name":"Direct","value":dire},{"name":"Indirect","value":idr}]
-    print(year_pie)
+    # print(year_pie)
+    # print(json.dumps(year_pie))
 
 	# view comparison of revenue for last month
     cursor = conn.cursor()

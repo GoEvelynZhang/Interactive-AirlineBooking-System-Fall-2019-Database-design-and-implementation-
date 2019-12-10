@@ -46,6 +46,7 @@
         #title_purchase_ticket {
             position: relative;
             left: 17%;
+            top:20px;
             color: #FFC107;
         }
 
@@ -170,14 +171,14 @@
         <div class="date">
             <div id="choose_day_start">
                 <h5>Day Start</h5>
-                <input id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                <input autocomplete="off" id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
                     onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
             </div>
         </div>
         <div class="date">
             <div id="choose_day_end">
                 <h5>Day End</h5>
-                <input id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                <input autocomplete="off" id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
                     onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
             </div>
         </div>
@@ -217,7 +218,7 @@
                 <tr>
                     <td>{{line[0]}}</td>
                     <td>{{line[1]}}</td>
-                    <td>10000{{line[2]}}</td>
+                    <td>{{line[2]}}</td>
                     <td>{{line[3]}}</td>
 
                 </tr>
@@ -234,7 +235,7 @@
             <div class="date1">
                 <div id="choose_day_start">
                     <h5 style="color: #FFC107;">Day Start</h5>
-                    <input id="date_start" size='10' name="Text1" type="text" value="mm/dd/yyyy"
+                    <input autocomplete="off" id="date_start" size='10' name="Text1" type="text" value="mm/dd/yyyy"
                         onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
                         required="">
                 </div>
@@ -242,7 +243,7 @@
             <div class="date1">
                 <div id="choose_day_end">
                     <h5 style="color: #FFC107;">Day End</h5>
-                    <input id="date_end" size='10' name="Text2" type="text" value="mm/dd/yyyy"
+                    <input autocomplete="off" id="date_end" size='10' name="Text2" type="text" value="mm/dd/yyyy"
                         onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
                         required="">
                 </div>
@@ -392,9 +393,9 @@
             .attr("height", function (d) {
                 return height - yScale(d[1]);
             })
-            .attr("fill", "#C1CBCE")
+            .attr("fill", "#B3E5FC")
 
-            .attr("stroke", "grey")
+            .attr("stroke", "white")
             .attr("stroke-width", "2");
     </script>
 
@@ -470,9 +471,9 @@
                         .attr("height", function (d) {
                             return height - yScale(d[1]);
                         })
-                        .attr("fill", "#C1CBCE")
+                        .attr("fill", "#B3E5FC")
 
-                        .attr("stroke", "grey")
+                        .attr("stroke", "white")
                         .attr("stroke-width", "2");
 
 

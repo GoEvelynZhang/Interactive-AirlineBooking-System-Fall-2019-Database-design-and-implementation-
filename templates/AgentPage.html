@@ -165,14 +165,14 @@
         <div class="date">
             <div id="choose_day_start">
                 <h5>Day Start</h5>
-                <input id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                <input autocomplete="off" id="datepicker1" size='10' name="Text1" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
                     onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
             </div>
         </div>
         <div class="date">
             <div id="choose_day_end">
                 <h5>Day End</h5>
-                <input id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                <input autocomplete="off" id="datepicker2" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
                     onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
             </div>
         </div>
@@ -227,7 +227,7 @@
             <div class="date1">
                 <div id="choose_day_start">
                     <h5>Day Start</h5>
-                    <input id="day_start" size='10' name="Text1" type="text" value="mm/dd/yyyy"
+                    <input autocomplete="off" id="day_start" size='10' name="Text1" type="text" value="mm/dd/yyyy"
                         onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
                         required="">
                 </div>
@@ -235,7 +235,7 @@
             <div class="date1">
                 <div id="choose_day_end">
                     <h5>Day End</h5>
-                    <input id="day_end" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
+                    <input autocomplete="off" id="day_end" size='10' name="Text2" type="text" value="mm/dd/yyyy" onfocus="this.value = '';"
                         onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}" required="">
                 </div>
             </div>
@@ -248,12 +248,12 @@
                 <h3 id="TopCustomer">View Top Customers</h3>
                 <div id="top_cus">
                     <div class="top_cus">
-                        <h4>By Number of Tickets: </h4>
+                        <h4>By Number of Tickets(Last Six Months): </h4>
 
                         <div id="top_cus_ticket"></div>
                     </div>
                     <div class="top_cus">
-                        <h4>By Commission Made: </h4>
+                        <h4>By Commission Made(Last Year): </h4>
                         <div id="top_cus_commission"></div>
                     </div>
                 </div>
@@ -329,11 +329,7 @@
                 .attr("stroke-width", "2");
         </script>
         <script>
-            var dataset = {
-                {
-                    top_cus[1] | tojson
-                }
-            };
+            var dataset = {{top_cus[1]| tojson}};
             console.log(dataset);
             var width = 300;
             var height = 300;
@@ -475,7 +471,7 @@
                         })
                         .then(resp => resp.json())
                         .then(result => {
-                            // console.log(result);
+                            console.log(result);
 
                             //                 "place_total_commission">Total Commission :  {{commission[0]}} RMB</h4>
                             // <h4 id = "place_average_commission">Commision / Ticket :  {{commission[1]}} RMB</h4>
