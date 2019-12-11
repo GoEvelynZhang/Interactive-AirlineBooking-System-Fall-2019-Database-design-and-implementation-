@@ -116,11 +116,11 @@
         }
 
         #month_num {
-            left: 23%;
+            left: 18%;
         }
 
         #year_num {
-            left: 30%;
+            left: 22%;
         }
 
 
@@ -337,17 +337,18 @@
             </div>
             <div class="date">
                 <div id="chose_day_end">
+                    <h5 style="font-size:16px;">Dest City</h5>
+                    <input type="text" size="10" id="Dest_City" name="DestinationAirport" placeholder="Dest City" />
+                </div>
+            </div>
+            <div class="date">
+                <div id="chose_day_end">
                     <h5 style="font-size:16px;">Depart Air</h5>
                     <input type="text" size="10" id="Source_Airport" name="SourceAirport"
                         placeholder="Source Airport" />
                 </div>
             </div>
-            <div class="date">
-                <div id="chose_day_end">
-                    <h5 style="font-size:16px;">Dest City</h5>
-                    <input type="text" size="10" id="Dest_City" name="DestinationAirport" placeholder="Dest City" />
-                </div>
-            </div>
+           
             <div class="date">
                 <div id="chose_day_end">
                     <h5 style="font-size:16px;">Dest Air</h5>
@@ -1156,8 +1157,8 @@
                 .attr("height", function (d) {
                     return height - yScale(d[1]);
                 })
-                .attr("fill", "#C1CBCE")
-                .attr("stroke", "grey")
+                .attr("fill", "#B3E5FC")
+                .attr("stroke", "white")
                 .attr("stroke-width", "2");
             // select the date range
             document.getElementById("datepicker4").onchange = update_report;
@@ -1232,9 +1233,9 @@
                             .attr("height", function (d) {
                                 return height - yScale(d[1]);
                             })
-                            .attr("fill", "#C1CBCE")
+                            .attr("fill", "#B3E5FC")
 
-                            .attr("stroke", "grey")
+                            .attr("stroke", "white")
                             .attr("stroke-width", "2");
 
 
@@ -1308,9 +1309,9 @@
                             .attr("height", function (d) {
                                 return height - yScale(d[1]);
                             })
-                            .attr("fill", "#C1CBCE")
+                            .attr("fill", "#B3E5FC")
 
-                            .attr("stroke", "grey")
+                            .attr("stroke", "white")
                             .attr("stroke-width", "2");
 
 
@@ -1387,9 +1388,9 @@
                             .attr("height", function (d) {
                                 return height - yScale(d[1]);
                             })
-                            .attr("fill", "#C1CBCE")
+                            .attr("fill", "#B3E5FC")
 
-                            .attr("stroke", "grey")
+                            .attr("stroke", "white")
                             .attr("stroke-width", "2");
 
 
