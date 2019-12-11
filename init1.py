@@ -1180,17 +1180,84 @@ def ViewFlightsByDates():
 
     req = json.loads(request.data)
     
+    
     start_date = req["datepicker1"]
-    start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    
     end_date = req["datepicker2"]
-    end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-    print(start_date,end_date)
-    cursor = conn.cursor()
-    query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND CAST(departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
-    cursor.execute(query.format(airline, start_date, end_date))
-    data = cursor.fetchall()
-    cursor.close()
-    print(data)
+    # Source_City"] = document.getElementById("Source_City").value;
+    #             data["Source_Airport"] = document.getElementById("Source_Airport").value;
+    #             data["Dest_City"] = document.getElementById("Dest_City").value;
+    #             data["Dest_Airport"]
+    start_city = req["Source_City"]
+    arrive_city = req["Dest_City"]
+    start_airport= req["Source_Airport"]
+    arrive_airport = req["Dest_Airport"]
+    
+
+   
+    # query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND CAST(departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
+    # cursor.execute(query.format(airline, start_date, end_date))
+    # data = cursor.fetchall()
+    # cursor.close()
+    # print(data)
+    ret = []
+    if start_date != 'mm/dd/yyyy' and end_date !='mm/dd/yyyy':
+        start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+        if start_city == '' and arrive_city == '':
+            if start_airport == '' and arrive_airport == '':
+                
+                cursor = conn.cursor()
+                query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND CAST(departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
+                cursor.execute(query.format(airline, start_date, end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+               
+                cursor = conn.cursor()
+                query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' AND CAST(departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
+                cursor.execute(query.format(airline, start_airport,arrive_airport,start_date, end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+        else:
+            if start_airport == '' and arrive_airport == '':
+                cursor = conn.cursor()
+                query = "SELECT A.airline_name, A.flight_num, A.departure_airport, A.departure_time, A.arrival_airport, A.arrival_time, A.status FROM flight as A, airport as B, airport as C WHERE A.departure_airport = B.airport_name AND A.arrival_airport = C.airport_name AND A.airline_name = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND CAST(A.departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
+                cursor.execute(query.format(airline, start_city, arrive_city, start_date,end_date))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+                cursor = conn.cursor()
+                query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\'"
+                cursor.execute(query.format(airline, start_airport,arrive_airport))
+                data = cursor.fetchall() 
+                cursor.close()
+
+    else:
+        
+        
+    # if the input is the start and the destination airport  
+        if start_city != '' and arrive_city != '':
+            if start_airport == '' and arrive_airport == '':
+                cursor = conn.cursor()
+                query = "SELECT A.airline_name, A.flight_num, A.departure_airport, A.departure_time, A.arrival_airport, A.arrival_time, A.status FROM flight as A, airport as B, airport as C WHERE A.departure_airport = B.airport_name AND A.arrival_airport = C.airport_name AND A.airline_name = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' "
+        
+                cursor.execute(query.format(airline, start_city, arrive_city))
+                data = cursor.fetchall() 
+                cursor.close()
+            else:
+                cursor = conn.cursor()
+                query = "SELECT A.airline_name, A.flight_num, A.departure_airport, A.departure_time, A.arrival_airport, A.arrival_time, A.status FROM flight as A, airport as B, airport as C WHERE A.departure_airport = B.airport_name AND A.arrival_airport = C.airport_name AND A.airline_name = \'{}\' AND B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND A.departure_airport = \'{}\' AND A.arrival_airport = \'{}\'"
+                cursor.execute(query.format(airline, start_city, arrive_city,start_airport,arrive_airport))
+                data = cursor.fetchall() 
+                cursor.close()
+        # if the user input are the two airport
+        else:
+            cursor = conn.cursor()
+            query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' "
+            cursor.execute(query.format(username, start_airport, arrive_airport))
+            data = cursor.fetchall() 
+            cursor.close()
    
 
     return jsonify(data)

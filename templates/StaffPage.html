@@ -459,9 +459,10 @@
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
+        // only allow the in pair check and update
             document.getElementById("datepicker2").onchange = renew_flight;
-            document.getElementById("Source_City").onchange = renew_flight;
-            document.getElementById("Source_Airport").onchange = renew_flight;
+        
+           
             document.getElementById("Dest_City").onchange = renew_flight;
             document.getElementById("Dest_Airport").onchange = renew_flight;
 
