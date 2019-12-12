@@ -253,7 +253,7 @@
         .revenue_comparison,
         .top_destination {
             position: relative;
-            top: 90px;
+            top: 100px;
         }
 
         h3 {
@@ -274,7 +274,7 @@
         #by_commission {
             color: #FFC107;
             position: relative;
-            left: 18%;
+            left: 14%;
             font-size: 20px;
         }
     </style>
@@ -746,7 +746,7 @@
 
                     data.push(document.getElementById("flight_num1").value);
 
-                    data.push(document.getElementById("status").value);
+                    data.push(document.getElementById("status1").value);
 
                     console.log(data);
                     fetch("/AuthorizeChangeStatus", {

@@ -20,7 +20,9 @@
         .tick {
             stroke: rgb(255, 255, 254);
         }
-
+th,td{
+    text-align:center;
+}
         path,
         line {
             stroke: rgb(255, 255, 254);
@@ -288,7 +290,7 @@
                     var data = result.data;
 
                     var inner_html =
-                        "<style>th,td{padding-left: 30px;padding-right :30px; padding-top : 15px;padding-bottom : 15px;}</style><th>Ticket ID</th><th>Airline Name</th><th>Booking Agent ID</th><th>Date</th>";
+                        "<style>th,td{text-align:center;padding-left: 30px;padding-right :30px; padding-top : 15px;padding-bottom : 15px;}</style><th>Ticket ID</th><th>Airline Name</th><th>Booking Agent ID</th><th>Date</th>";
                     // for (i)
                     console.log(result);
                     for (var i = 0; i < data.length; i++) {
@@ -328,8 +330,8 @@
         var width = 300;
         var height = 300;
         var margin = {
-            'left': 50,
-            'right': 50,
+            'left': 60,
+            'right': 60,
             'top': 50,
             'bottom': 50
         };

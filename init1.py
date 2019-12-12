@@ -834,9 +834,10 @@ def BookingConfirmTicketPurchase():
         cursor = conn.cursor()
         query = "INSERT INTO purchases(ticket_id, customer_email,booking_agent_id, purchase_date) VALUES (\'{}\',\'{}\',\'{}\',\'{}\')"
         cursor.execute(query.format(current_ticket_id,customer,username,datetime.datetime.now().strftime("%Y-%m-%d") ))
-       
+        conn.commit()
         cursor.close()
         state = "Successfully Purchased"
+        
         
     else:
         state = "OOPS, this flight already fully booked"
@@ -1353,8 +1354,10 @@ def AuthorizeChangeStatus():
     airline = session['airline']
 
     req = json.loads(request.data)
+    print(req)
     flight_num = req[0]
     status = req[1]
+    # print(status)
     cursor = conn.cursor()
     query = 'SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' '
     cursor.execute(query.format(airline, flight_num))
