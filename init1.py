@@ -41,6 +41,13 @@ def searchTicket():
     arrive_city = req["to"]
     arrive_air = req["toa"]
     date = req["flightdate"]
+    ###prevent the database injection
+    dep_city = dep_city.replace("'","")
+    dep_air = dep_air.replace("'","")
+    arrive_city = arrive_city.replace("'","")
+    arrive_air = arrive_air.replace("'","")
+    date = date.replace("'","")
+
     date = datetime.datetime.strptime(date, '%m/%d/%Y').date()
     data = ""
     ##input two airports
@@ -179,6 +186,15 @@ def ConfirmTicketPurchase():
     depart_time = req[4]
     arrive_time = req[5]
     price = req[6]
+    airline = airline.replace("'","")
+    flight_num = flight_num.replace("'","")
+    depart_air = depart_air.replace("'","")
+    arrive_air = arrive_air.replace("'","")
+    depart_time = depart_time.replace("'","")
+    arrive_time = arrive_time.replace("'","")
+    price = price.replace("'","")
+    airline = airline.replace("'","")
+
     ##get the availabel seat number
     cursor = conn.cursor()
     query = "SELECT seats FROM airplane NATURAL JOIN flight  WHERE airline_name =  \'{}\' and flight_num = \'{}\' "
@@ -234,10 +250,11 @@ def ConfirmTicketPurchase():
 @app.route('/searchFlightStatus',methods = ["POST"])
 def searchFlightStatus():
     req = json.loads(request.data)
-    flight_num = int(req['flight_num'])
-    depart_date = req['depart_date']
+    flight_num = int(req['flight_num'].replace("'",""))
+    depart_date = req['depart_date'].replace("'","")
     
-    arrive_date = req["arrive_date"]
+    arrive_date = req["arrive_date"].replace("'","")
+
     
     ##only the flight_num
     data = None
@@ -283,8 +300,8 @@ def login():
 
 @app.route('/CustomerAuth', methods=['GET', 'POST'])
 def loginAuth():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.form['username'].replace("'","")
+    password = request.form['password'].replace("'","")
     cursor = conn.cursor()
     query = "SELECT * FROM customer WHERE email = \'{}\' and password = MD5(\'{}\')"
     cursor.execute(query.format(username,password))
@@ -315,19 +332,19 @@ def CustomerRegister():
 @app.route('/CusRegisterAuth', methods=['GET', 'POST'])
 def registerAuth():
     #grabs information from the forms
-    email = request.form['email']
-    password = request.form['password']
-    state = request.form['state']
-    name = request.form['name']
-    city = request.form['city']
-    street = request.form['street']
-    building = request.form['building']
-    phone_number = request.form['phone_number']
-    passport_number = request.form['passport_number']
-    passport_expiration = request.form['passport_expiration']
+    email = request.form['email'].replace("'","")
+    password = request.form['password'].replace("'","")
+    state = request.form['state'].replace("'","")
+    name = request.form['name'].replace("'","")
+    city = request.form['city'].replace("'","")
+    street = request.form['street'].replace("'","")
+    building = request.form['building'].replace("'","")
+    phone_number = request.form['phone_number'].replace("'","")
+    passport_number = request.form['passport_number'].replace("'","")
+    passport_expiration = request.form['passport_expiration'].replace("'","")
     passport_expiration = datetime.datetime.strptime(passport_expiration, "%m/%d/%Y").strftime("%Y-%m-%d")
-    passport_country = request.form['passport_country']
-    date_of_birth = request.form['date_of_birth']
+    passport_country = request.form['passport_country'].replace("'","")
+    date_of_birth = request.form['date_of_birth'].replace("'","")
     date_of_birth = datetime.datetime.strptime(date_of_birth, "%m/%d/%Y").strftime("%Y-%m-%d")
 
 #    if not len(password) >= 4:
@@ -359,58 +376,62 @@ def registerAuth():
 
 @app.route('/CustomerHome', methods = ["GET",'POST'])
 def CustomerHome():
-    # session is for controlling the user participating
-    #so that user only see posts belonging to them
-    one_year_ago = (datetime.datetime.now() - datetime.timedelta(days=1*365)).strftime("%Y-%m-%d")
-    six_month_ago = (datetime.datetime.now() - datetime.timedelta(days=0.5*365)).strftime("%Y-%m-%d")
-    today2 = datetime.datetime.now().strftime("%Y-%m-%d")
+    try:
 
-    username = session['username']
-    today1 = datetime.datetime.now()
-    # hold in the backend
-    cursor = conn.cursor()
-    query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND purchase_date  > \'{}\' ORDER BY purchase_date  DESC"
-    query2 = "SELECT SUM(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
-    cursor.execute(query.format(username,six_month_ago,today1))
-    data1 = cursor.fetchall() 
-    cursor.close()
-    cursor = conn.cursor()
-    cursor.execute(query2.format(username,one_year_ago,today2))
-    total_spending = cursor.fetchone() 
-    cursor.close()
-    cursor = conn.cursor()
-    query3 = "SELECT  MONTH(purchase_date),sum(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY MONTH(purchase_date) ORDER BY MONTH(purchase_date) "
-    cursor.execute(query3.format(username,six_month_ago,today2))
-    data2 = cursor.fetchall() 
-    cursor.close()
-    
+        # session is for controlling the user participating
+        #so that user only see posts belonging to them
+        one_year_ago = (datetime.datetime.now() - datetime.timedelta(days=1*365)).strftime("%Y-%m-%d")
+        six_month_ago = (datetime.datetime.now() - datetime.timedelta(days=0.5*365)).strftime("%Y-%m-%d")
+        today2 = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    total_spending = total_spending[0]
-    
-    if total_spending:
-        pass
-    else:
-        total_spending= 0
-    # print("success in rendering total_spending")
-    monthly_spending =[[int(i[0]),int(i[1])] for i in data2]
-    
-    month_with_data = [j[0] for j in monthly_spending]
-    # print(today1.month)
-    month_six = []
-    if today1.month >= 6 :
-        month_six = [today1.month-(5-i) for i in range(6)]
-    elif today1.month <6 :
-        month_six = [(12-(6-today1.month-1-i)) for i in range(6-today1.month)]+[j for j in range(1,today1.month+1)]
-    six_output = []
-    for k in range(6):
-        if month_six[k] not in month_with_data:
-            six_output.append([month_six[k],0])
+        username = session['username']
+        today1 = datetime.datetime.now()
+        # hold in the backend
+        cursor = conn.cursor()
+        query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND purchase_date  > \'{}\' ORDER BY purchase_date  DESC"
+        query2 = "SELECT SUM(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
+        cursor.execute(query.format(username,six_month_ago,today1))
+        data1 = cursor.fetchall() 
+        cursor.close()
+        cursor = conn.cursor()
+        cursor.execute(query2.format(username,one_year_ago,today2))
+        total_spending = cursor.fetchone() 
+        cursor.close()
+        cursor = conn.cursor()
+        query3 = "SELECT  MONTH(purchase_date),sum(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY MONTH(purchase_date) ORDER BY MONTH(purchase_date) "
+        cursor.execute(query3.format(username,six_month_ago,today2))
+        data2 = cursor.fetchall() 
+        cursor.close()
+        
+
+        total_spending = total_spending[0]
+        
+        if total_spending:
+            pass
         else:
-            six_output.append(monthly_spending[month_with_data.index(month_six[k])])
-            
- 
-    return render_template('CustomerPage.html', username=username, posts=data1, total_spending = total_spending, monthly_spending = six_output)
+            total_spending= 0
+        # print("success in rendering total_spending")
+        monthly_spending =[[int(i[0]),int(i[1])] for i in data2]
+        
+        month_with_data = [j[0] for j in monthly_spending]
+        # print(today1.month)
+        month_six = []
+        if today1.month >= 6 :
+            month_six = [today1.month-(5-i) for i in range(6)]
+        elif today1.month <6 :
+            month_six = [(12-(6-today1.month-1-i)) for i in range(6-today1.month)]+[j for j in range(1,today1.month+1)]
+        six_output = []
+        for k in range(6):
+            if month_six[k] not in month_with_data:
+                six_output.append([month_six[k],0])
+            else:
+                six_output.append(monthly_spending[month_with_data.index(month_six[k])])
+                
+    
+        return render_template('CustomerPage.html', username=username, posts=data1, total_spending = total_spending, monthly_spending = six_output)
 
+    except:
+        return render_template('index.html')
 @app.route("/CustomeHomeLogOut")
 def CustomeHomeLogOut():
     session.pop('username')
@@ -440,14 +461,14 @@ def Customerpurchase():
 def searchPurchase():
     username = session["username"]
     req = json.loads(request.data)  
-    start_date = req["datepicker1"] 
+    start_date = req["datepicker1"] .replace("'","")
     
-    end_date = req["datepicker2"]
+    end_date = req["datepicker2"].replace("'","")
     
-    start_city =  req["Source_City"]
-    start_airport = req["Source_Airport"] 
-    arrive_city =  req["Dest_City"] 
-    arrive_airport =  req["Dest_Airport"]
+    start_city =  req["Source_City"].replace("'","")
+    start_airport = req["Source_Airport"].replace("'","")
+    arrive_city =  req["Dest_City"].replace("'","")
+    arrive_airport =  req["Dest_Airport"].replace("'","")
     print(req)
     ret =[]
     data = None
@@ -532,9 +553,9 @@ def searchSpending():
     username = session["username"]
     req = json.loads(request.data) 
     print(req) 
-    start_date = req["date_start"] 
+    start_date = req["date_start"].replace("'","")
     start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-    end_date = req["date_end"]
+    end_date = req["date_end"].replace("'","")
     end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
     
     cursor = conn.cursor()
@@ -565,9 +586,9 @@ def AgentLogin():
     return render_template('AgentLogIn.html')
 @app.route("/AgentAuth",methods=['GET', 'POST'])
 def AgentAuth():
-    email = request.form['username']
-    agent_id = request.form['Agent_id']
-    password = request.form['password']
+    email = request.form['username'].replace("'","")
+    agent_id = request.form['Agent_id'].replace("'","")
+    password = request.form['password'].replace("'","")
     cursor = conn.cursor()
     query = "SELECT * FROM booking_agent WHERE email =\'{}\' and booking_agent_id = \'{}\' and password = MD5(\'{}\')"
     cursor.execute(query.format(email,agent_id,password))
@@ -589,59 +610,62 @@ def AgentAuth():
 
 @app.route("/AgentHome") 
 def AgentHome():
-    #view the flight
-    username = session['username']
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-
-    cursor = conn.cursor()
-    query = "SELECT ticket_id, airline_name,customer_email,purchase_date FROM ticket NATURAL JOIN purchases WHERE booking_agent_id = \'{}\' AND purchase_date > \'{}\' ORDER BY purchase_date DESC"
-
-    cursor.execute(query.format(username,today))
-    data = cursor.fetchall() 
-    cursor.close()
-    #view the commission [total commission, commision per ticket, total number of ticket]
-    thirty_day = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
-    cursor = conn.cursor()
-    query1 = "SELECT sum(price)*0.1 FROM purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
-
-    cursor.execute(query1.format(username,thirty_day,today))
-    total_commission = cursor.fetchone()[0]
-    
-    cursor.close()
-    cursor = conn.cursor()
-    query1 = "SELECT count(*) FROM purchases WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
-
-    cursor.execute(query1.format(username,thirty_day,today))
-    total_ticket = cursor.fetchone()[0]
-
-    cursor.close()
-    average_price = 0
     try:
-        average_price = total_commission/total_ticket
+        #view the flight
+        username = session['username']
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        cursor = conn.cursor()
+        query = "SELECT ticket_id, airline_name,customer_email,purchase_date FROM ticket NATURAL JOIN purchases WHERE booking_agent_id = \'{}\' AND purchase_date > \'{}\' ORDER BY purchase_date DESC"
+
+        cursor.execute(query.format(username,today))
+        data = cursor.fetchall() 
+        cursor.close()
+        #view the commission [total commission, commision per ticket, total number of ticket]
+        thirty_day = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
+        cursor = conn.cursor()
+        query1 = "SELECT sum(price)*0.1 FROM purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
+
+        cursor.execute(query1.format(username,thirty_day,today))
+        total_commission = cursor.fetchone()[0]
+        
+        cursor.close()
+        cursor = conn.cursor()
+        query1 = "SELECT count(*) FROM purchases WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
+
+        cursor.execute(query1.format(username,thirty_day,today))
+        total_ticket = cursor.fetchone()[0]
+
+        cursor.close()
+        average_price = 0
+        try:
+            average_price = total_commission/total_ticket
+        except:
+            pass
+
+        ##top customers(number of ticket, number of commisions)
+        six_month_ago = (datetime.datetime.now() - datetime.timedelta(days=0.5*365)).strftime("%Y-%m-%d")
+        cursor = conn.cursor()
+        query2 = "SELECT customer_email,count(ticket_id) FROM purchases WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY customer_email ORDER BY count(ticket_id) DESC"
+
+        cursor.execute(query2.format(username,six_month_ago,today))
+        by_number = cursor.fetchall()
+        cursor.close()
+        cursor = conn.cursor()
+        query3 = "SELECT customer_email,sum(price)*0.1 FROM purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY customer_email ORDER BY sum(price) DESC"
+
+        cursor.execute(query3.format(username,six_month_ago,today))
+        by_commission = cursor.fetchall()
+        commission = [[str(by_commission[i][0]),float(by_commission[i][1])] for i in range(len(by_commission))]
+        cursor.close()
+
+        print(by_number,by_commission)
+        top_cus = [by_number,commission]
+
+
+        return render_template('AgentPage.html', username = username,posts=data, commission = [total_commission,average_price,total_ticket],top_cus = top_cus )
     except:
-        pass
-
-    ##top customers(number of ticket, number of commisions)
-    six_month_ago = (datetime.datetime.now() - datetime.timedelta(days=0.5*365)).strftime("%Y-%m-%d")
-    cursor = conn.cursor()
-    query2 = "SELECT customer_email,count(ticket_id) FROM purchases WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY customer_email ORDER BY count(ticket_id) DESC"
-
-    cursor.execute(query2.format(username,six_month_ago,today))
-    by_number = cursor.fetchall()
-    cursor.close()
-    cursor = conn.cursor()
-    query3 = "SELECT customer_email,sum(price)*0.1 FROM purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\' GROUP BY customer_email ORDER BY sum(price) DESC"
-
-    cursor.execute(query3.format(username,six_month_ago,today))
-    by_commission = cursor.fetchall()
-    commission = [[str(by_commission[i][0]),float(by_commission[i][1])] for i in range(len(by_commission))]
-    cursor.close()
-
-    print(by_number,by_commission)
-    top_cus = [by_number,commission]
-
-
-    return render_template('AgentPage.html', username = username,posts=data, commission = [total_commission,average_price,total_ticket],top_cus = top_cus )
+        return render_template('index.html')
 @app.route("/AgentHomeLogOut")
 def AgentHomeLogOut():
     session.pop('username')
@@ -653,14 +677,14 @@ def AgentHomeLogOut():
 def searchBooking():
     username = session['username']
     req = json.loads(request.data)
-    start_date = req["datepicker1"]
+    start_date = req["datepicker1"].replace("'","")
     # begin_date = datetime.datetime.strptime(begin_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-    end_date = req["datepicker2"]
+    end_date = req["datepicker2"].replace("'","")
     # end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-    start_city = req["Source_City"]
-    start_airport = req["Source_Airport"]
-    arrive_city = req['Dest_City']
-    arrive_airport = req['Dest_Airport']
+    start_city = req["Source_City"].replace("'","")
+    start_airport = req["Source_Airport"].replace("'","")
+    arrive_city = req['Dest_City'].replace("'","")
+    arrive_airport = req['Dest_Airport'].replace("'","")
     print(req)
     ret = []
     if start_date != 'mm/dd/yyyy' and end_date !='mm/dd/yyyy':
@@ -789,14 +813,14 @@ def ConfirmAgentLog():
 def BookingConfirmTicketPurchase():
     username = session['username']
     req = json.loads(request.data)
-    airline = req[0]
-    flight_num = req[1]
-    depart_air = req[2]
-    arrive_air = req[3]
-    depart_time = req[4]
-    arrive_time = req[5]
-    price = req[6]
-    customer = req[7]
+    airline = req[0].replace("'","")
+    flight_num = req[1].replace("'","")
+    depart_air = req[2].replace("'","")
+    arrive_air = req[3].replace("'","")
+    depart_time = req[4].replace("'","")
+    arrive_time = req[5].replace("'","")
+    price = req[6].replace("'","")
+    customer = req[7].replace("'","")
     ##get the availabel seat number
     cursor = conn.cursor()
     query = "SELECT seats FROM airplane NATURAL JOIN flight  WHERE airline_name =  \'{}\' and flight_num = \'{}\' "
@@ -847,9 +871,9 @@ def BookingConfirmTicketPurchase():
 def searchComission():
     username = session['username']
     req = json.loads(request.data)
-    day_start = req["day_start"]
+    day_start = req["day_start"].replace("'","")
     day_start = datetime.datetime.strptime(day_start, "%m/%d/%Y").strftime("%Y-%m-%d")
-    day_end = req["day_end"]
+    day_end = req["day_end"].replace("'","")
     day_end = datetime.datetime.strptime(day_end, "%m/%d/%Y").strftime("%Y-%m-%d")
     #get the total commison fee
     cursor = conn.cursor()
@@ -892,8 +916,8 @@ def AgentRegister():
     return render_template('AgentRegister.html')    
 @app.route("/AgentRegisterAuth", methods = ["GET","POST"])
 def AgentRegisterAuth():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.form['username'].replace("'","")
+    password = request.form['password'].replace("'","")
 
 #    if not len(password) >= 4:
 #                flash("Password length must be at least 4 characters")
@@ -941,9 +965,9 @@ def StaffLogIn():
     return render_template('StaffLogIn.html')
 @app.route("/StaffAuth",methods=['GET', 'POST'])
 def StaffAuth():
-    username = request.form['username']
-    password = request.form['password']
-    airline = request.form['airline']
+    username = request.form['username'].replace("'","")
+    password = request.form['password'].replace("'","")
+    airline = request.form['airline'].replace("'","")
     cursor = conn.cursor()
     query = "SELECT * FROM airline_staff WHERE username = \'{}\' and password = MD5(\'{}\') and airline_name = \'{}\'"
     cursor.execute(query.format(username,password, airline))
@@ -980,12 +1004,12 @@ def StaffRegister():
 
 @app.route("/StaffRegisterAuth", methods = ["GET","POST"])
 def StaffRegisterAuth():
-    username = request.form['username']
-    password = request.form['password']
-    airline = request.form['airline']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    date_of_birth = request.form['date_of_birth']
+    username = request.form['username'].replace("'","")
+    password = request.form['password'].replace("'","")
+    airline = request.form['airline'].replace("'","")
+    first_name = request.form['first_name'].replace("'","")
+    last_name = request.form['last_name'].replace("'","")
+    date_of_birth = request.form['date_of_birth'].replace("'","")
    
 
     date_of_birth =  datetime.datetime.strptime(date_of_birth, "%m/%d/%Y").strftime("%Y-%m-%d")
@@ -1015,162 +1039,166 @@ def StaffRegisterAuth():
 def StaffHome():
 	# session for staffs to do basic operations 
 	# staffs will be able to view charts and tables
-    username = session['username']
-    airline = session["airline"]
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    cursor = conn.cursor(buffered=True)
+    try:
+        username = session['username']
+        airline = session["airline"]
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
+        cursor = conn.cursor(buffered=True)
 
-    # view my flights by default
-    thirty_future_day = (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d")
-    query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND status = 'upcoming' AND CAST(departure_time AS DATE) BETWEEN  \'{}\' AND \'{}\' ORDER BY departure_time DESC"
-    cursor.execute(query.format(airline,today,thirty_future_day))
-    dafault_flights = cursor.fetchall() 
-    cursor.close()
-    print(dafault_flights)
+        # view my flights by default
+        thirty_future_day = (datetime.datetime.now() + datetime.timedelta(days=30)).strftime("%Y-%m-%d")
+        query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND status = 'upcoming' AND CAST(departure_time AS DATE) BETWEEN  \'{}\' AND \'{}\' ORDER BY departure_time DESC"
+        cursor.execute(query.format(airline,today,thirty_future_day))
+        dafault_flights = cursor.fetchall() 
+        cursor.close()
+        print(dafault_flights)
     # view top 5 booking agents by last month ticket sales
-    cursor = conn.cursor()
-    query1 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent  WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
-    cursor.execute(query1.format(airline))
-    agents_month = cursor.fetchall() 
-    cursor.close()
+        cursor = conn.cursor()
+        query1 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent  WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
+        cursor.execute(query1.format(airline))
+        agents_month = cursor.fetchall() 
+        cursor.close()
 
 
     # # view top 5 booking agents by last year ticket sales
-    cursor = conn.cursor()
-    query2 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
-    cursor.execute(query2.format(airline))
-    agents_year = cursor.fetchall() 
-    cursor.close()
+        cursor = conn.cursor()
+        query2 = "SELECT email, booking_agent_id, count(ticket_id) as total FROM purchases NATURAL JOIN ticket NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY count(ticket_id) DESC LIMIT 5"
+        cursor.execute(query2.format(airline))
+        agents_year = cursor.fetchall() 
+        cursor.close()
 
     # view top 5 booking agents by last year commission
-    cursor = conn.cursor()
-    query3 = "SELECT email, booking_agent_id, sum(price) * 0.1 as commission FROM ticket NATURAL JOIN flight NATURAL JOIN purchases NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY sum(price) * 0.1 DESC LIMIT 5"
-    cursor.execute(query3.format(airline))
-    agents_comm = cursor.fetchall() 
-    cursor.close()
+        cursor = conn.cursor()
+        query3 = "SELECT email, booking_agent_id, sum(price) * 0.1 as commission FROM ticket NATURAL JOIN flight NATURAL JOIN purchases NATURAL JOIN booking_agent WHERE (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\' GROUP BY email  ORDER BY sum(price) * 0.1 DESC LIMIT 5"
+        airline.replace("'", "")
+        cursor.execute(query3.format(airline))
+        agents_comm = cursor.fetchall() 
+        cursor.close()
 
     # view the most frequent customer and his/her flights
-    cursor = conn.cursor(buffered=True)
-    query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
-    cursor.execute(query4.format(airline))
-    mf_customer = cursor.fetchone() 
-    cursor.close()
-    if mf_customer:
+        cursor = conn.cursor(buffered=True)
+        query4 = "SELECT email, name, count(ticket_id) as total FROM ticket NATURAL JOIN purchases as T, customer WHERE airline_name = \'{}\' AND T.customer_email = customer.email AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY email  ORDER BY count(ticket_id) DESC"
+        cursor.execute(query4.format(airline))
+        mf_customer = cursor.fetchone() 
+        cursor.close()
+        if mf_customer:
          # view the most frequent customer's flights 
-        cursor = conn.cursor()
-        query5 = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
-        cursor.execute(query5.format(mf_customer[0], airline))
-        c_flights = cursor.fetchall()
-        cursor.close() 
+            cursor = conn.cursor()
+            query5 = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, price FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND airline_name = \'{}\'"
+            cursor.execute(query5.format(mf_customer[0], airline))
+            c_flights = cursor.fetchall()
+            cursor.close() 
 
-    else:
-        mf_customer = ('N/A','N/A', 0)
-        c_flights = ()
+        else:
+            mf_customer = ('N/A','N/A', 0)
+            c_flights = ()
 
-    print("our most frequent customers are  ",mf_customer)  
+        print("our most frequent customers are  ",mf_customer)  
 
    
-    # view reports of last year
-    cursor = conn.cursor()
-    query6 = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month"
-    cursor.execute(query6.format(airline))
-    year_sales = cursor.fetchall()
-    cursor.close()
-    year_sales = [[int(j[0]),int(j[1])] for j in year_sales]
-    print("Our last year sale is ", year_sales)
-    total_sale_ly = sum([int(i[1]) for i in year_sales])
+        # view reports of last year
+        cursor = conn.cursor()
+        query6 = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month"
+        cursor.execute(query6.format(airline))
+        year_sales = cursor.fetchall()
+        cursor.close()
+        year_sales = [[int(j[0]),int(j[1])] for j in year_sales]
+        print("Our last year sale is ", year_sales)
+        total_sale_ly = sum([int(i[1]) for i in year_sales])
 
     # view reports of last month
-    cursor = conn.cursor()
-    query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
-    cursor.execute(query7.format(airline))
-    month_sales = cursor.fetchall()
-    if (month_sales):
-        month_sales = int(month_sales[0][1])
-    else:
-        month_sales = "N/A"
-    cursor.close()
+        cursor = conn.cursor()
+        query7 = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE() AND airline_name = \'{}\' GROUP BY month ORDER BY month'
+        cursor.execute(query7.format(airline))
+        month_sales = cursor.fetchall()
+        if (month_sales):
+            month_sales = int(month_sales[0][1])
+        else:
+            month_sales = "N/A"
+        cursor.close()
   
 
     # view comparison of revenue for last year
-    cursor = conn.cursor()
-    query8 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
-    cursor.execute(query8.format(airline))
-    testdata = cursor.fetchone()
-    direct = None
-    if (testdata is not None):
-        direct = testdata[0]
-    cursor.close()
-    dire = 0
-    if direct:
-        dire = int(direct)
-    else:
+        cursor = conn.cursor()
+        query8 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+        cursor.execute(query8.format(airline))
+        testdata = cursor.fetchone()
+        direct = None
+        if (testdata is not None):
+            direct = testdata[0]
+        cursor.close()
         dire = 0
+        if direct:
+            dire = int(direct)
+        else:
+            dire = 0
     
-    cursor = conn.cursor()
-    query9 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
-    cursor.execute(query9.format(airline))
-    testdata = cursor.fetchone()
-    indirect = None
-    if (testdata is not None):
-        indirect = testdata[0]
-    cursor.close()
-    idr = 0
-    if indirect:
-        idr = int(indirect)
-    else:
+        cursor = conn.cursor()
+        query9 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+        cursor.execute(query9.format(airline))
+        testdata = cursor.fetchone()
+        indirect = None
+        if (testdata is not None):
+            indirect = testdata[0]
+        cursor.close()
         idr = 0
+        if indirect:
+            idr = int(indirect)
+        else:
+            idr = 0
     
-    year_pie = [{"name":"Direct","value":dire},{"name":"Indirect","value":idr}]
+        year_pie = [{"name":"Direct","value":dire},{"name":"Indirect","value":idr}]
     # print(year_pie)
     # print(json.dumps(year_pie))
 
 	# view comparison of revenue for last month
-    cursor = conn.cursor()
-    query10 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
-    cursor.execute(query10.format(airline))
-    testdata = cursor.fetchone()
-    m_direct = None
-    if (testdata is not None):
-        m_direct =testdata[0]
-    cursor.close()
-    m_dire = 0
-    if m_direct:
-        m_dire = int(m_direct)
-    else:
+        cursor = conn.cursor()
+        query10 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+        cursor.execute(query10.format(airline))
+        testdata = cursor.fetchone()
+        m_direct = None
+        if (testdata is not None):
+            m_direct =testdata[0]
+        cursor.close()
         m_dire = 0
-    m_idr = 0
-    cursor = conn.cursor()
-    query11 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
-    cursor.execute(query11.format(airline))
-    testdata = cursor.fetchone()
-    m_indirect = None
-    if (testdata is not None):
-        m_indirect = testdata[0]
-    cursor.close()
-    m_idr = 0
-    if m_indirect:
-        m_idr = int(m_indirect)
-    else:
+        if m_direct:
+            m_dire = int(m_direct)
+        else:
+            m_dire = 0
         m_idr = 0
-    month_pie = [{"name":"Direct","value":m_dire},{"name":"Indirect","value":m_idr}]
+        cursor = conn.cursor()
+        query11 = "SELECT sum(price) FROM flight NATURAL JOIN ticket NATURAL JOIN purchases WHERE booking_agent_id is not null AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 MONTH) AND CURRENT_DATE()) AND airline_name = \'{}\'"
+        cursor.execute(query11.format(airline))
+        testdata = cursor.fetchone()
+        m_indirect = None
+        if (testdata is not None):
+            m_indirect = testdata[0]
+        cursor.close()
+        m_idr = 0
+        if m_indirect:
+            m_idr = int(m_indirect)
+        else:
+            m_idr = 0
+        month_pie = [{"name":"Direct","value":m_dire},{"name":"Indirect","value":m_idr}]
    
     # view top 3 destinations over the last 3 months
-    cursor = conn.cursor()
-    query12 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 3 MONTH) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
-    cursor.execute(query12.format(airline))
-    m_des = cursor.fetchall()
-    cursor.close()
+        cursor = conn.cursor()
+        query12 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 3 MONTH) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
+        cursor.execute(query12.format(airline))
+        m_des = cursor.fetchall()
+        cursor.close()
 
-    # view top 3 destinations over the last year
-    cursor = conn.cursor()
-    query13 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
-    cursor.execute(query13.format(airline))
-    y_des = cursor.fetchall()
-    cursor.close()
- 
+        # view top 3 destinations over the last year
+        cursor = conn.cursor()
+        query13 = "SELECT airport_city, count(ticket_id) as num FROM purchases NATURAL JOIN ticket NATURAL JOIN flight, airport WHERE airport_name = arrival_airport AND airline_name = \'{}\' AND (purchase_date BETWEEN DATE_SUB(CURRENT_DATE(),INTERVAL 1 YEAR) AND CURRENT_DATE()) GROUP BY airport_city ORDER BY count(ticket_id) DESC LIMIT 3"
+        cursor.execute(query13.format(airline))
+        y_des = cursor.fetchall()
+        cursor.close()
+    
 
-    return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie,month_pie=month_pie,m_des = m_des,y_des=y_des )
+        return render_template("StaffPage.html",username = username, airline = airline, default_flights = dafault_flights,agents_month = agents_month,agents_year=agents_year,agents_comm=agents_comm,mf_customer=mf_customer,c_flights=c_flights,year_sales =year_sales,total_sale_ly=total_sale_ly,month_sales=month_sales,year_pie=year_pie,month_pie=month_pie,m_des = m_des,y_des=y_des )
+    except:
+        return render_template("index.html")
 
 
 @app.route('/ViewFlightsByDates',methods = ["POST"])
@@ -1182,17 +1210,17 @@ def ViewFlightsByDates():
     req = json.loads(request.data)
     
     
-    start_date = req["datepicker1"]
+    start_date = req["datepicker1"].replace("'","")
     
-    end_date = req["datepicker2"]
+    end_date = req["datepicker2"].replace("'","")
     # Source_City"] = document.getElementById("Source_City").value;
     #             data["Source_Airport"] = document.getElementById("Source_Airport").value;
     #             data["Dest_City"] = document.getElementById("Dest_City").value;
     #             data["Dest_Airport"]
-    start_city = req["Source_City"]
-    arrive_city = req["Dest_City"]
-    start_airport= req["Source_Airport"]
-    arrive_airport = req["Dest_Airport"]
+    start_city = req["Source_City"].replace("'","")
+    arrive_city = req["Dest_City"].replace("'","")
+    start_airport= req["Source_Airport"].replace("'","")
+    arrive_airport = req["Dest_Airport"].replace("'","")
     
 
    
@@ -1271,7 +1299,7 @@ def CheckCustomerForFlight():
 
     req = json.loads(request.data)
     data = req[1:-1].split(",")
-    flight_num = int(data[1].strip())
+    flight_num = int(data[1].strip().replace("'",""))
    
    
     
@@ -1291,7 +1319,7 @@ def CheckCustomerForFlight_interaction():
 
     req = json.loads(request.data)
    
-    flight_num = req[1]
+    flight_num = req[1].replace("'","")
    
    
     
@@ -1316,18 +1344,18 @@ def AuthorizeNewFlight():
     
     req = json.loads(request.data)
     print(req)
-    flight_num = req[0]
-    departure_airport = req[1]
-    departure_time = req[2]
+    flight_num = req[0].replace("'","")
+    departure_airport = req[1].replace("'","")
+    departure_time = req[2].replace("'","")
     departure_time  = datetime.datetime.strptime(departure_time,'%m/%d/%y %H:%M:%S')
-    arrival_airport = req[3]
+    arrival_airport = req[3].replace("'","")
     
-    arrival_time = req[4]
+    arrival_time = req[4].replace("'","")
     
     arrival_time  = datetime.datetime.strptime(arrival_time,'%m/%d/%y %H:%M:%S')
-    price = req[5]
-    status = req[6]
-    airplane_id = req[7]
+    price = req[5].replace("'","")
+    status = req[6].replace("'","")
+    airplane_id = req[7].replace("'","")
 
     cursor = conn.cursor()
     query = "SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' "
@@ -1355,11 +1383,11 @@ def AuthorizeChangeStatus():
 
     req = json.loads(request.data)
     print(req)
-    flight_num = req[0]
-    status = req[1]
+    flight_num = req[0].replace("'","")
+    status = req[1].replace("'","")
     # print(status)
     cursor = conn.cursor()
-    query = 'SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' '
+    query = "SELECT * FROM flight WHERE airline_name = \'{}\' AND flight_num = \'{}\' "
     cursor.execute(query.format(airline, flight_num))
     data = cursor.fetchall()
     cursor.close()
@@ -1383,8 +1411,8 @@ def AuthorizeAddPlane():
     airline = session['airline']
 
     req = json.loads(request.data)
-    airplane_id = req[0]
-    seats = req[1]
+    airplane_id = req[0].replace("'","")
+    seats = req[1].replace("'","")
     cursor = conn.cursor()
     query = 'SELECT * FROM airplane WHERE airline_name = \'{}\' AND airplane_id = \'{}\' '
     cursor.execute(query.format(airline, airplane_id))
@@ -1410,8 +1438,8 @@ def AuthorizeAddAirport():
     airline = session['airline']
 
     req = json.loads(request.data)
-    airport_name = req[0]
-    airport_city = req[1]
+    airport_name = req[0].replace("'","")
+    airport_city = req[1].replace("'","")
     cursor = conn.cursor()
     query = "SELECT * FROM airport WHERE airport_name = \'{}\'"
     cursor.execute(query.format(airport_name))
@@ -1437,12 +1465,12 @@ def AuthorizeAddAirport():
 def UpdateReportByDate():
     airline = session['airline']
     req = json.loads(request.data)
-    start_date = req['date_start']
+    start_date = req['date_start'].replace("'","")
     start_date = datetime.datetime.strptime(start_date, "%m/%d/%Y").strftime("%Y-%m-%d")
-    end_date = req['date_end']
+    end_date = req['date_end'].replace("'","")
     end_date = datetime.datetime.strptime(end_date, "%m/%d/%Y").strftime("%Y-%m-%d")
     cursor = conn.cursor()
-    query = 'SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND purchase_date BETWEEN \'{}\' AND \'{}\' GROUP BY month ORDER BY month'
+    query = "SELECT month(purchase_date) as month, count(ticket_id) as num FROM purchases NATURAL JOIN ticket WHERE airline_name = \'{}\' AND purchase_date BETWEEN \'{}\' AND \'{}\' GROUP BY month ORDER BY month"
     cursor.execute(query.format(airline, start_date, end_date))
     data = cursor.fetchall()
     cursor.close()
