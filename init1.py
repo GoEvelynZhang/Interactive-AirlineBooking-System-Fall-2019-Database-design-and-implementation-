@@ -388,9 +388,9 @@ def CustomerHome():
         today1 = datetime.datetime.now()
         # hold in the backend
         cursor = conn.cursor()
-        query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases WHERE customer_email = \'{}\' AND purchase_date  > \'{}\' ORDER BY purchase_date  DESC"
+        query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE status = 'upcoming' AND customer_email = \'{}\'  ORDER BY purchase_date  DESC"
         query2 = "SELECT SUM(price) FROM purchases NATURAL JOIN flight WHERE customer_email  = \'{}\' AND purchase_date  BETWEEN  \'{}\' AND \'{}\'"
-        cursor.execute(query.format(username,six_month_ago,today1))
+        cursor.execute(query.format(username))
         data1 = cursor.fetchall() 
         cursor.close()
         cursor = conn.cursor()
