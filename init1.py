@@ -1283,8 +1283,8 @@ def ViewFlightsByDates():
         # if the user input are the two airport
         else:
             cursor = conn.cursor()
-            query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' "
-            cursor.execute(query.format(username, start_airport, arrive_airport))
+            query = "SELECT ticket_id, airline_name,booking_agent_id,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE airline_name = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\' "
+            cursor.execute(query.format(airline, start_airport, arrive_airport))
             data = cursor.fetchall() 
             cursor.close()
    
