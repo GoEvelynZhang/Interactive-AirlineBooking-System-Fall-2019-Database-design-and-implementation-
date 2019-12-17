@@ -1257,8 +1257,8 @@ def ViewFlightsByDates():
                 cursor.close()
             else:
                 cursor = conn.cursor()
-                query = "SELECT airline_name, flight_num, departure_airport, departure_time, arrival_airport, arrival_time, status FROM flight WHERE airline_name = \'{}\' AND departure_airport = \'{}\' AND arrival_airport = \'{}\'"
-                cursor.execute(query.format(airline, start_airport,arrive_airport))
+                query = "SELECT A.airline_name, A.flight_num, A.departure_airport, A.departure_time, A.arrival_airport, A.arrival_time, A.status FROM flight as A, airport as B, airport as C WHERE A.departure_airport = B.airport_name AND A.arrival_airport = C.airport_name AND A.airline_name = \'{}\' AND A.departure_airport = \'{}\' and A.arrival_airport = \'{}\' AND  B.airport_city = \'{}\' AND C.airport_city = \'{}\' AND CAST(A.departure_time AS DATE) BETWEEN \'{}\' AND \'{}\'"
+                cursor.execute(query.format(airline, start_airport,arrive_airport,start_city, arrive_city,start_date,end_date))
                 data = cursor.fetchall() 
                 cursor.close()
 
