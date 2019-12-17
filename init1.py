@@ -616,9 +616,9 @@ def AgentHome():
         today = datetime.datetime.now().strftime("%Y-%m-%d")
 
         cursor = conn.cursor()
-        query = "SELECT ticket_id, airline_name,customer_email,purchase_date FROM ticket NATURAL JOIN purchases WHERE booking_agent_id = \'{}\' AND purchase_date > \'{}\' ORDER BY purchase_date DESC"
+        query = "SELECT ticket_id, airline_name,customer_email,purchase_date FROM ticket NATURAL JOIN purchases NATURAL JOIN flight WHERE booking_agent_id = \'{}\' AND status = 'upcoming' ORDER BY purchase_date DESC"
 
-        cursor.execute(query.format(username,today))
+        cursor.execute(query.format(username))
         data = cursor.fetchall() 
         cursor.close()
         #view the commission [total commission, commision per ticket, total number of ticket]
